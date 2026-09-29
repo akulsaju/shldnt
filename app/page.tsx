@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#fbfcfe] text-[#0b192c]">
+    <main className="modern-shell min-h-screen text-[#0b192c]">
       <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white/95 shadow-[0_1px_12px_rgba(11,25,44,0.05)] backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
           <a href="#top" aria-label="World Hackathon Federation home" className="shrink-0">

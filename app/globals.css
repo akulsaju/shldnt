@@ -154,14 +154,25 @@
 }
 
 .modern-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 8% 0%, rgba(78, 190, 255, 0.16), transparent 30rem),
-    radial-gradient(circle at 96% 22%, rgba(132, 98, 255, 0.13), transparent 34rem),
+    radial-gradient(circle at 8% 0%, rgba(78, 190, 255, 0.2), transparent 30rem),
+    radial-gradient(circle at 96% 22%, rgba(132, 98, 255, 0.18), transparent 34rem),
     linear-gradient(145deg, #f8fbff 0%, #eef5ff 48%, #f9f7ff 100%);
+  background-size: 130% 130%;
+  animation: gradient-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes gradient-drift {
+  from { background-position: 0% 0%; }
+  to { background-position: 100% 100%; }
 }
 
 .modern-shell > header {
-  box-shadow: 0 8px 32px rgba(22, 55, 110, 0.06);
+  box-shadow: 0 8px 32px rgba(22, 55, 110, 0.08);
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(232,245,255,0.72), rgba(245,240,255,0.85));
 }
 
 @keyframes rise-in {
@@ -265,7 +276,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-rise, .soft-lift, .glow-button { animation: none; transition: none; }
+  .animate-rise, .soft-lift, .glow-button, .modern-shell { animation: none; transition: none; }
   .hero-grid::after { animation: none; }
 }
 
