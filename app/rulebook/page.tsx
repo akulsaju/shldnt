@@ -52,15 +52,15 @@ const sections = [
 
 export default function RulebookPage() {
   return (
-    <main className="min-h-screen bg-[#f7f8fa] text-[#0b192c]">
-      <header className="border-b border-slate-200 bg-white">
+    <main className="modern-shell min-h-screen text-[#0b192c]">
+      <header className="sticky top-0 z-40 border-b border-white/60 bg-white/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5 lg:px-8">
           <a href="/" className="text-center text-[9px] font-bold leading-[0.9] tracking-[0.16em] text-[#17376e]">WORLD<br />HACKATHON<br />FEDERATION</a>
           <a href="/" className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 hover:text-[#0b192c]">Back to WHF</a>
         </div>
       </header>
       <div className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
-        <div className="border-b border-[#0b192c] pb-10">
+        <div className="animate-rise rounded-3xl border border-white/70 bg-white/70 p-7 shadow-xl shadow-blue-950/5 backdrop-blur-xl sm:p-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Official document · Version 4.0</p>
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">World Hackathon Federation</h1>
           <p className="mt-4 text-xl text-slate-600">Comprehensive statutes, governance, and competition rulebook</p>

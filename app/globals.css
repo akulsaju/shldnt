@@ -153,6 +153,17 @@
   }
 }
 
+.modern-shell {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(78, 190, 255, 0.16), transparent 30rem),
+    radial-gradient(circle at 96% 22%, rgba(132, 98, 255, 0.13), transparent 34rem),
+    linear-gradient(145deg, #f8fbff 0%, #eef5ff 48%, #f9f7ff 100%);
+}
+
+.modern-shell > header {
+  box-shadow: 0 8px 32px rgba(22, 55, 110, 0.06);
+}
+
 @keyframes rise-in {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
