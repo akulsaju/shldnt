@@ -204,6 +204,13 @@
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
+.rounded-panel {
+  border-radius: 1.25rem;
+  border: 1px solid #dbe3ee;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(11, 25, 44, 0.06);
+}
+
 .soft-lift:hover {
   transform: translateY(-4px);
   box-shadow: 0 18px 40px rgba(11, 25, 44, 0.1);
