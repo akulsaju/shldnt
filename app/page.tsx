@@ -9,7 +9,7 @@ export default function Page() {
           <nav aria-label="Primary navigation" className="hidden items-center gap-8 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600 lg:flex">
             <a href="#governance" className="transition-colors hover:text-[#0b192c]">Governance</a>
             <a href="#charter" className="transition-colors hover:text-[#0b192c]">The Charter</a>
-            <a href="#nations" className="transition-colors hover:text-[#0b192c]">Member Nations</a>
+            <a href="/members" className="transition-colors hover:text-[#0b192c]">Member Nations</a>
             <a href="#cah" className="transition-colors hover:text-[#0b192c]">CAH (Arbitration)</a>
           </nav>
           <a href="/portal" className="border border-[#0b192c] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.13em] text-[#0b192c] transition-colors hover:bg-[#0b192c] hover:text-white">NHA Portal</a>
