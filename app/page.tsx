@@ -16,15 +16,15 @@ export default function Page() {
         </div>
       </header>
 
-      <section id="top" className="border-b border-slate-200 bg-[#0b192c]">
+      <section id="top" className="hero-grid border-b border-slate-200 bg-[#0b192c]">
         <div className="mx-auto grid max-w-7xl items-end gap-14 px-5 py-24 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-32">
-          <div>
+          <div className="animate-rise">
             <p className="mb-8 text-[11px] font-bold uppercase tracking-[0.25em] text-[#b4c7e8]">International non-governmental organization · Founded 2024</p>
             <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:text-7xl lg:text-[86px]">A non-governmental organization for fair, open hackathons.</h1>
             <p className="mt-9 max-w-xl text-lg leading-8 text-slate-300">The WHF supports digital access, ethical competition, open-source collaboration, and transparent standards across national hackathon associations.</p>
             <a href="/rulebook" target="_blank" rel="noreferrer" className="mt-10 inline-flex bg-white px-6 py-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[#0b192c] transition-colors hover:bg-[#dbe7f8]">Read the statutes and rulebook <span className="ml-7">v4.0 ↗</span></a>
           </div>
-          <div className="border-l border-white/20 pl-7 lg:mb-2">
+          <div className="animate-rise delay-150 border-l border-white/20 pl-7 lg:mb-2">
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#b4c7e8]">Our mandate</p>
             <p className="mt-5 text-2xl font-medium leading-snug text-white">A single, trusted standard for the world&apos;s most demanding technical competitions.</p>
             <div className="mt-10 grid grid-cols-2 gap-5 border-t border-white/20 pt-5 text-[11px] uppercase tracking-[0.14em] text-slate-400"><span>64-team WHC final phase</span><span>6 recognized confederations</span></div>
@@ -39,7 +39,7 @@ export default function Page() {
       <section id="governance" className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
         <div className="grid gap-14 lg:grid-cols-[0.55fr_1.45fr]"><div><p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">01 / The federation</p><h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em]">Built on standards, not spectacle.</h2></div><p className="max-w-xl text-lg leading-8 text-slate-600">The WHF protects the integrity of competitive engineering by making every event comparable, every rule transparent, and every participant accountable.</p></div>
         <div className="mt-20 grid border-t border-slate-200 md:grid-cols-3">
-          {[['01', 'Global decentralization', 'Operating via a globally distributed network to ensure administrative equity.'], ['02', 'Uncompromising integrity', 'Strict AI usage guidelines, anti-plagiarism laws, and standardized infrastructure.'], ['03', 'Athlete welfare', 'Enforcing cognitive anti-doping policies and mandatory screen-dark rest intervals.']].map(([number, title, body]) => <article key={number} className="border-b border-slate-200 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0"><span className="text-sm font-semibold text-[#34537e]">{number}</span><h3 className="mt-12 text-xl font-semibold capitalize">{title}</h3><p className="mt-4 max-w-xs text-sm leading-7 text-slate-600">{body}</p></article>)}
+          {[['01', 'Global decentralization', 'Operating via a globally distributed network to ensure administrative equity.'], ['02', 'Uncompromising integrity', 'Strict AI usage guidelines, anti-plagiarism laws, and standardized infrastructure.'], ['03', 'Athlete welfare', 'Enforcing cognitive anti-doping policies and mandatory screen-dark rest intervals.']].map(([number, title, body]) => <article key={number} className="soft-lift border-b border-slate-200 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0"><span className="text-sm font-semibold text-[#34537e]">{number}</span><h3 className="mt-12 text-xl font-semibold capitalize">{title}</h3><p className="mt-4 max-w-xs text-sm leading-7 text-slate-600">{body}</p></article>)}
         </div>
       </section>
 
