@@ -23,10 +23,14 @@ const participantNames: Record<string, [string, string]> = {
 }
 
 const fallbackNames = (country: string, seed: number): [string, string] => {
-  const first = ['Alex', 'Sam', 'Jordan', 'Taylor', 'Chris', 'Morgan'][seed % 6]
-  const second = ['Amina', 'Leila', 'Maya', 'Nadia', 'Sara', 'Lina'][(seed + country.length) % 6]
-  return [`${first} ${country}`, `${second} ${country}`]
+  const localMen = ['Aarav', 'Mateo', 'Hiro', 'Omar', 'Luka', 'Kwame', 'Arjun', 'Noah', 'Youssef', 'Davit']
+  const localWomen = ['Anaya', 'Lucía', 'Yuna', 'Mariam', 'Mila', 'Ama', 'Isha', 'Sofia', 'Salma', 'Nino']
+  const familyNames = ['Rahman', 'Silva', 'Tanaka', 'Haddad', 'Petrov', 'Mensah', 'Mehta', 'Morgan', 'Bennani', 'Khan']
+  const offset = (seed + country.length) % familyNames.length
+  return [`${localMen[seed % localMen.length]} ${familyNames[offset]}`, `${localWomen[(seed + 3) % localWomen.length]} ${familyNames[(offset + 4) % familyNames.length]}`]
 }
+
+const under19NamesFor = (country: string, seed: number): [string, string] => participantNames[country] ?? fallbackNames(country, seed)
 
 const buildCategories = (names: [string, string]) => {
   const [menFirst, ...menLastParts] = names[0].split(' ')
@@ -56,8 +60,8 @@ export default function AssociationRecordPage() {
       founded: 2020 + (seed % 6),
       secretary: ['National Secretariat', 'Founding Committee', 'Executive Office'][seed % 3],
       championship: country === 'United Arab Emirates' ? 'Qualified' : 'Qualification ongoing',
-      under19Participants: participantNames[country] ?? fallbackNames(country, seed),
-      categories: buildCategories(participantNames[country] ?? fallbackNames(country, seed)),
+      under19Participants: under19NamesFor(country, seed),
+      categories: buildCategories(under19NamesFor(country, seed)),
     }
   }, [country])
 
