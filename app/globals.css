@@ -165,6 +165,24 @@
 .delay-150 { animation-delay: 150ms; }
 .delay-300 { animation-delay: 300ms; }
 
+.section-rule {
+  position: relative;
+}
+
+.section-rule::before {
+  content: '';
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  top: 0;
+  height: 1px;
+  background: #dbe3ee;
+}
+
+@media (min-width: 1024px) {
+  .section-rule::before { left: 2rem; right: 2rem; }
+}
+
 .hero-grid {
   position: relative;
   isolation: isolate;
