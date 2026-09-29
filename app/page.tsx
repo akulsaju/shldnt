@@ -12,7 +12,7 @@ export default function Page() {
             <a href="#nations" className="transition-colors hover:text-[#0b192c]">Member Nations</a>
             <a href="#cah" className="transition-colors hover:text-[#0b192c]">CAH (Arbitration)</a>
           </nav>
-          <a href="#membership" className="border border-[#0b192c] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.13em] text-[#0b192c] transition-colors hover:bg-[#0b192c] hover:text-white">NHA membership</a>
+          <a href="/portal" className="border border-[#0b192c] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.13em] text-[#0b192c] transition-colors hover:bg-[#0b192c] hover:text-white">NHA Portal</a>
         </div>
       </header>
 
@@ -43,7 +43,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="membership" className="border-y border-slate-200 bg-slate-50"><div className="mx-auto max-w-7xl px-5 py-20 lg:px-8"><p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Member associations</p><h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em]">National Hackathon Associations</h2><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">The WHF recognizes one National Hackathon Association per sovereign nation or recognized territory, subject to the admission process in Article 5.</p><a href="/rulebook" target="_blank" rel="noreferrer" className="mt-8 inline-block border border-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] hover:bg-[#0b192c] hover:text-white">Read membership requirements ↗</a></div></section>
+      <section id="membership" className="border-y border-slate-200 bg-slate-50"><div className="mx-auto max-w-7xl px-5 py-20 lg:px-8"><p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Member associations</p><h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em]">National Hackathon Associations</h2><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">The WHF recognizes one National Hackathon Association per sovereign nation or recognized territory, subject to the admission process in Article 5.</p><a href="/members" className="mt-8 inline-block border border-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] hover:bg-[#0b192c] hover:text-white">Browse member associations ↗</a></div></section>
 
       <section id="cah" className="mx-auto max-w-7xl px-5 py-20 lg:px-8"><p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Independent process</p><h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em]">Court of Arbitration for Hackathons</h2><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">The CAH is the arbitration body referenced by the WHF statutes for disputes arising under sanctioned competitions and member obligations.</p><a href="/rulebook" target="_blank" rel="noreferrer" className="mt-8 inline-block border border-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] hover:bg-[#0b192c] hover:text-white">View the governing articles ↗</a></section>
 
