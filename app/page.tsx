@@ -32,8 +32,7 @@ export default function Page() {
       <section id="top" className="hero-grid relative overflow-hidden text-white">
         <div className="mx-auto grid max-w-7xl gap-16 px-5 pb-24 pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-32 lg:pt-28">
           <div className="animate-rise relative z-10">
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-cyan-200/25 bg-white/10 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-100 backdrop-blur"><span className="size-1.5 rounded-full bg-cyan-300 shadow-[0_0_14px_#67e8f9]" /> Founded 2024 · Independent federation</div>
-            <h1 className="max-w-4xl text-5xl font-semibold leading-[0.93] tracking-[-0.06em] sm:text-7xl lg:text-[96px]">The world&apos;s<br /><span className="gradient-text">fair playbook</span><br />for builders.</h1>
+                      <h1 className="max-w-4xl text-5xl font-semibold leading-[0.93] tracking-[-0.06em] sm:text-7xl lg:text-[96px]">The world&apos;s<br /><span className="gradient-text">fair playbook</span><br />for builders.</h1>
             <p className="mt-8 max-w-xl text-lg leading-8 text-blue-100/80">The World Hackathon Federation gives every national association a trusted standard for open, ethical, and technically ambitious competition.</p>
             <div className="mt-10 flex flex-wrap gap-3"><a href="/members" className="glow-button rounded-full bg-gradient-to-r from-cyan-200 to-violet-200 px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#071426]">Explore the federation <span className="ml-7">↗</span></a><a href="#pathway" className="rounded-full border border-white/25 bg-white/5 px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-white backdrop-blur hover:bg-white/10">How it works <span className="ml-7">↓</span></a></div>
           </div>
