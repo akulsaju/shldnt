@@ -4,7 +4,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'World Hackathon Federation',
-  description: 'The global authority on competitive engineering.',
+  description: 'The World Hackathon Federation creates a fair, open, and globally connected standard for hackathons.',
   generator: 'World Hackathon Federation',
   icons: {
     icon: [
