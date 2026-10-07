@@ -192,6 +192,21 @@
   line-height: 1.35;
 }
 
+/* Keep the site chrome visible while long directory and profile pages scroll. */
+main > header,
+.modern-shell > header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+main > header + section,
+main > header + div,
+.modern-shell > header + section,
+.modern-shell > header + div {
+  scroll-margin-top: 130px;
+}
+
 @media (max-width: 640px) {
   .maintenance-notice {
     top: 64px;
@@ -209,7 +224,7 @@
 .modern-shell {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  overflow-x: clip;
   background:
     radial-gradient(circle at 8% 0%, rgba(78, 190, 255, 0.2), transparent 30rem),
     radial-gradient(circle at 96% 22%, rgba(132, 98, 255, 0.18), transparent 34rem),
