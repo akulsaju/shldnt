@@ -20,8 +20,32 @@ export default function PortalPage() {
   const [participantCountry, setParticipantCountry] = useState('United Arab Emirates')
   const [participantCategory, setParticipantCategory] = useState('Under-19')
   const [participants, setParticipants] = useState<Participant[]>([
-    { name: 'Akul Saju', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
-    { name: 'Saiqua Kazimi', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
+    { name: 'Zayed Al-Maktoum', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
+    { name: 'Fatima Al-Nuaimi', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
+    { name: 'Mohammad Rahimi', country: 'Afghanistan', category: 'Under-19', status: 'Qualified' },
+    { name: 'Fatima Ahmadi', country: 'Afghanistan', category: 'Under-19', status: 'Qualified' },
+    { name: 'Liam Tremblay', country: 'Canada', category: 'Under-19', status: 'Qualified' },
+    { name: 'Maya Bouchard', country: 'Canada', category: 'Under-19', status: 'Qualified' },
+    { name: 'Wei Zhang', country: 'China', category: 'Under-19', status: 'Qualified' },
+    { name: 'Xiaoming Li', country: 'China', category: 'Under-19', status: 'Qualified' },
+    { name: 'Lucas Dubois', country: 'France', category: 'Under-19', status: 'Qualified' },
+    { name: 'Chloé Laurent', country: 'France', category: 'Under-19', status: 'Qualified' },
+    { name: 'Maximilian Weber', country: 'Germany', category: 'Under-19', status: 'Qualified' },
+    { name: 'Hannah Schmidt', country: 'Germany', category: 'Under-19', status: 'Qualified' },
+    { name: 'Aarav Sharma', country: 'India', category: 'Under-19', status: 'Qualified' },
+    { name: 'Ananya Patel', country: 'India', category: 'Under-19', status: 'Qualified' },
+    { name: 'Haruto Tanaka', country: 'Japan', category: 'Under-19', status: 'Qualified' },
+    { name: 'Yui Takahashi', country: 'Japan', category: 'Under-19', status: 'Qualified' },
+    { name: 'Hamza Khan', country: 'Pakistan', category: 'Under-19', status: 'Qualified' },
+    { name: 'Fatima Ahmed', country: 'Pakistan', category: 'Under-19', status: 'Qualified' },
+    { name: 'Jun Wei Tan', country: 'Singapore', category: 'Under-19', status: 'Qualified' },
+    { name: 'Cheryl Lim', country: 'Singapore', category: 'Under-19', status: 'Qualified' },
+    { name: 'Sipho Dlamini', country: 'South Africa', category: 'Under-19', status: 'Qualified' },
+    { name: 'Chloe van der Merwe', country: 'South Africa', category: 'Under-19', status: 'Qualified' },
+    { name: 'James Davies', country: 'United Kingdom', category: 'Under-19', status: 'Qualified' },
+    { name: 'Charlotte Evans', country: 'United Kingdom', category: 'Under-19', status: 'Qualified' },
+    { name: 'Alexander Wright', country: 'United States', category: 'Under-19', status: 'Qualified' },
+    { name: 'Emily Chen', country: 'United States', category: 'Under-19', status: 'Qualified' },
   ])
   const [accounts, setAccounts] = useState<Account[]>([])
   const [accountEmail, setAccountEmail] = useState('')
