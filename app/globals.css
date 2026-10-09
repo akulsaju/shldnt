@@ -239,12 +239,16 @@ main > header + div,
 }
 
 .modern-shell .group[data-flag]::before {
-  content: attr(data-flag);
+  content: '';
   display: block;
-  width: fit-content;
+  width: 2.25rem;
+  height: 1.5rem;
   margin-bottom: 0.85rem;
-  font-size: 1.75rem;
-  line-height: 1;
+  border-radius: 0.35rem;
+  background-image: var(--flag-image);
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 3px 10px rgba(15, 35, 70, 0.16);
 }
 
 .modern-shell > header {
