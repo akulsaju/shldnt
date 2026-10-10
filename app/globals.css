@@ -358,3 +358,14 @@ main > header + div,
     @apply bg-background text-foreground;
   }
 }
+
+/* Hacklanta-inspired federation theme */
+.modern-shell { background: #f7f5ef; font-family: Arial, Helvetica, sans-serif; }
+.modern-shell > header { position: sticky; top: 0; z-index: 50; border-bottom: 2px solid #f7b718; background: #050711 !important; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+.hero-grid { background-color: #050711 !important; background-image: radial-gradient(circle at 50% 15%, rgba(32,114,255,.35), transparent 32rem), repeating-linear-gradient(168deg, transparent 0 110px, rgba(18,118,255,.85) 112px 125px, rgba(248,59,65,.9) 128px 145px, rgba(255,190,37,.9) 148px 160px, transparent 164px 250px); }
+.hero-grid h1 { font-weight: 900; letter-spacing: -.075em; text-transform: uppercase; }
+.gradient-text { background-image: linear-gradient(90deg,#ffe65c,#ff5c85,#6ae3ff) !important; }
+.glow-button { border-radius: .45rem !important; box-shadow: 4px 4px 0 #f7b718; }
+.modern-shell section:not(.hero-grid) h2, .modern-shell section:not(.hero-grid) h3 { text-transform: uppercase; font-weight: 900; }
+.modern-shell footer { border-top: 8px solid #ef3a35; }
+.modern-shell footer img { object-fit: contain; }

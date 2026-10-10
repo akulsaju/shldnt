@@ -20,12 +20,12 @@ export default function Page() {
             <span className="hidden text-[10px] font-bold leading-tight tracking-[0.16em] sm:block">WORLD<br />HACKATHON FEDERATION</span>
           </a>
           <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 lg:flex">
-            <a href="#mission" className="transition-colors hover:text-cyan-200">Mission</a>
-            <a href="#standards" className="transition-colors hover:text-cyan-200">Standards</a>
-            <a href="#pathway" className="transition-colors hover:text-cyan-200">Pathway</a>
-            <a href="/members" className="transition-colors hover:text-cyan-200">Member nations</a>
+            <a href="#mission" className="transition-colors hover:text-cyan-200">What is WHF?</a>
+            <a href="#standards" className="transition-colors hover:text-cyan-200">Tracks</a>
+            <a href="#pathway" className="transition-colors hover:text-cyan-200">Sponsors</a>
+            <a href="/members" className="transition-colors hover:text-cyan-200">Members</a>
           </nav>
-          <a href="/portal" className="glow-button rounded-full border border-cyan-200/50 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 hover:from-cyan-300/35 hover:to-violet-300/35">NHA Portal <span className="ml-2">↗</span></a>
+          <a href="/portal" className="glow-button rounded-full border border-cyan-200/50 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 hover:from-cyan-300/35 hover:to-violet-300/35">APPLY NOW <span className="ml-2">✦</span></a>
         </div>
       </header>
 
@@ -55,7 +55,7 @@ export default function Page() {
 
       <section className="relative overflow-hidden bg-gradient-to-r from-cyan-200 via-blue-200 to-violet-200 px-5 py-24 text-[#071426] lg:px-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-900/65">04 / Join the network</p><h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">Make your country part of the standard.</h2></div><a href="/portal" className="glow-button inline-flex shrink-0 rounded-full bg-[#071426] px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-white">Open the NHA Portal <span className="ml-7">↗</span></a></div></section>
 
-      <footer className="bg-[#071426] px-5 py-14 text-white lg:px-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 md:flex-row"><div><div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-[#071426]">W</span><span className="text-[10px] font-bold leading-tight tracking-[0.16em]">WORLD<br />HACKATHON FEDERATION</span></div><p className="mt-6 max-w-sm text-sm leading-6 text-blue-100/55">An independent framework for fair, open, and globally connected hackathons.</p></div><div className="flex flex-wrap gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-[0.15em] text-blue-100/65"><a href="#mission" className="hover:text-white">Mission</a><a href="/members" className="hover:text-white">Members</a><a href="/rulebook" className="hover:text-white">Rulebook</a><a href="/portal" className="hover:text-white">NHA Portal</a></div></div><div className="mx-auto mt-14 max-w-7xl border-t border-white/10 pt-5 text-[10px] uppercase tracking-[0.15em] text-blue-100/35">© 2026 World Hackathon Federation · Statutes v4.0</div></footer>
+      <footer className="bg-[#050711] px-5 py-14 text-white lg:px-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 md:flex-row"><div><div className="flex items-center gap-5"><span className="grid size-11 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-[#071426]">W</span><span className="text-[10px] font-bold leading-tight tracking-[0.16em]">WORLD<br />HACKATHON FEDERATION</span><span className="h-10 w-px bg-white/20" /><img src="/mlh-logo-color.png" alt="Major League Hacking" className="w-28 rounded bg-white p-1.5" /></div><p className="mt-6 max-w-sm text-sm leading-6 text-blue-100/55">An independent framework for fair, open, and globally connected hackathons.</p></div><div className="flex flex-wrap gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-[0.15em] text-blue-100/65"><a href="#mission" className="hover:text-white">Mission</a><a href="/members" className="hover:text-white">Members</a><a href="/rulebook" className="hover:text-white">Rulebook</a><a href="/portal" className="hover:text-white">NHA Portal</a></div></div><div className="mx-auto mt-14 max-w-7xl border-t border-white/10 pt-5 text-[10px] uppercase tracking-[0.15em] text-blue-100/35">© 2026 World Hackathon Federation · Statutes v4.0</div></footer>
     </main>
   )
 }
