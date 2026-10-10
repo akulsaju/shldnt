@@ -208,7 +208,31 @@ main > header + div,
 }
 
 @media (max-width: 640px) {
-  .maintenance-notice {
+.mlh-trust-badge {
+  position: fixed;
+  top: 0;
+  right: 50px;
+  z-index: 10000;
+  display: block;
+  width: 10%;
+  min-width: 60px;
+  max-width: 100px;
+}
+
+.mlh-trust-badge img {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .mlh-trust-badge {
+    right: 12px;
+    width: 64px;
+  }
+}
+
+.maintenance-notice {
+
     top: 64px;
   }
 

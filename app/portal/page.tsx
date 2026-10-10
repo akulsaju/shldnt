@@ -22,6 +22,7 @@ export default function PortalPage() {
   const [participants, setParticipants] = useState<Participant[]>([
     { name: 'Zayed Al-Maktoum', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
     { name: 'Fatima Al-Nuaimi', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
+    { name: 'Rashid Al-Ali', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
     { name: 'Mohammad Rahimi', country: 'Afghanistan', category: 'Under-19', status: 'Qualified' },
     { name: 'Fatima Ahmadi', country: 'Afghanistan', category: 'Under-19', status: 'Qualified' },
     { name: 'Liam Tremblay', country: 'Canada', category: 'Under-19', status: 'Qualified' },
