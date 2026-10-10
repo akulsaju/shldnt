@@ -207,27 +207,25 @@ main > header + div,
   scroll-margin-top: 130px;
 }
 
-@media (max-width: 640px) {
 .mlh-trust-badge {
   position: fixed;
-  top: 42%;
-  right: 0;
+  top: 86px;
+  left: 18px;
   z-index: 10000;
   display: block;
-  width: 84px;
-  padding: 0.65rem 0.55rem 0.65rem 0.7rem;
+  width: 138px;
+  padding: 0.55rem;
   border: 1px solid rgba(165, 243, 252, 0.35);
-  border-right: 0;
-  border-radius: 1rem 0 0 1rem;
-  background: linear-gradient(180deg, #172f5d 0%, #261850 100%);
-  box-shadow: 0 12px 28px rgba(4, 16, 42, 0.32);
+  border-radius: 0.35rem;
+  background: #f8fafc;
+  box-shadow: 0 16px 30px rgba(4, 16, 42, 0.34);
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .mlh-trust-badge:hover,
 .mlh-trust-badge:focus-visible {
-  transform: translateX(-5px);
-  box-shadow: 0 16px 34px rgba(4, 16, 42, 0.42);
+  transform: translateY(4px) rotate(-1deg);
+  box-shadow: 0 20px 38px rgba(4, 16, 42, 0.44);
 }
 
 .mlh-trust-badge img {
@@ -237,25 +235,9 @@ main > header + div,
 
 @media (max-width: 640px) {
   .mlh-trust-badge {
-    top: auto;
-    right: 0;
-    bottom: 1.5rem;
-    width: 68px;
-    padding: 0.5rem 0.4rem 0.5rem 0.55rem;
-  }
-}
-
-.maintenance-notice {
-
-    top: 64px;
-  }
-
-  .maintenance-notice__inner {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 0.55rem 1rem;
-    text-align: left;
+    top: 124px;
+    left: 10px;
+    width: 94px;
   }
 }
 
