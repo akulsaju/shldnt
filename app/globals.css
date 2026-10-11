@@ -201,11 +201,19 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
   min-height: 680px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 70% 20%, rgba(25,104,220,.32), transparent 28rem),
-    radial-gradient(circle at 15% 80%, rgba(124,58,237,.24), transparent 25rem),
-    linear-gradient(135deg, #071426, #102d59 52%, #1d1745);
+    radial-gradient(circle at 78% 12%, rgba(103,232,249,.22), transparent 24rem),
+    radial-gradient(circle at 12% 78%, rgba(167,139,250,.2), transparent 25rem),
+    linear-gradient(135deg, #061226 0%, #0b2347 52%, #17143f 100%);
 }
-.hero-grid::before, .hero-grid::after { opacity: .8; }
+.hero-grid::before, .hero-grid::after { opacity: .65; }
+.hero-grid .text-blue-100\/80 { color: #c7dcf8 !important; }
+.hero-grid .text-blue-200\/60 { color: #9bb5d8 !important; }
+.modern-shell > section:not(.hero-grid) { color: #0b1c35; }
+.modern-shell > section#mission { background: linear-gradient(135deg, rgba(245,250,255,.95), rgba(232,243,255,.86)) !important; }
+.modern-shell > section#standards { background: linear-gradient(135deg, #e8f5ff 0%, #f7fbff 48%, #f1edff 100%) !important; }
+.modern-shell > section#standards article { background: rgba(255,255,255,.72) !important; border-color: rgba(255,255,255,.9) !important; }
+.modern-shell > section#pathway { background: linear-gradient(135deg, #071426 0%, #102d59 62%, #1d1745 100%) !important; }
+.modern-shell > section.bg-gradient-to-r { background: linear-gradient(100deg, #a5f3fc 0%, #bfdbfe 48%, #ddd6fe 100%) !important; }
 
 .modern-shell footer {
   background: linear-gradient(145deg, #071426, #111b3a) !important;
@@ -235,8 +243,8 @@ body:has(.members-release-screen) {
 
 .members-release-card {
   position: relative;
-  width: min(100%, 680px);
-  padding: clamp(2rem, 6vw, 5rem);
+  width: min(100%, 540px);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
   overflow: hidden;
   border: 1px solid rgba(255,255,255,.2);
   border-radius: 2rem;
@@ -266,18 +274,18 @@ body:has(.members-release-screen) {
 }
 
 .members-release-mark {
-  margin-top: 2.5rem;
-  color: rgba(255,255,255,.18);
-  font-size: clamp(3.5rem, 12vw, 8rem);
+  margin-top: 1rem;
+  color: rgba(255,255,255,.16);
+  font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 900;
   letter-spacing: -.12em;
   line-height: .8;
 }
 
 .members-release-card h1 {
-  margin-top: 1.8rem;
+  margin-top: 1rem;
   color: white;
-  font-size: clamp(2.7rem, 7vw, 5.8rem);
+  font-size: clamp(2.15rem, 5.5vw, 4.25rem);
   font-weight: 700;
   letter-spacing: -.07em;
   line-height: .95;
