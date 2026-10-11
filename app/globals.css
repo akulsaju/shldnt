@@ -213,6 +213,77 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
 
+.members-release-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 7rem 1.25rem 3rem;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(103,232,249,.18), transparent 23rem),
+    radial-gradient(circle at 82% 74%, rgba(167,139,250,.2), transparent 28rem),
+    linear-gradient(135deg, rgba(7,20,38,.97), rgba(16,45,89,.97) 54%, rgba(29,23,69,.97));
+  backdrop-filter: blur(18px) saturate(125%);
+}
+
+.members-release-card {
+  position: relative;
+  width: min(100%, 680px);
+  padding: clamp(2rem, 6vw, 5rem);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 2rem;
+  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+  box-shadow: 0 30px 100px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.16);
+  color: #f8fbff;
+  backdrop-filter: blur(28px) saturate(145%);
+}
+
+.members-release-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 14%;
+  width: 10rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #67e8f9, transparent);
+  box-shadow: 0 0 32px 8px rgba(103,232,249,.3);
+}
+
+.members-release-kicker {
+  color: #a5f3fc;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.members-release-mark {
+  margin-top: 2.5rem;
+  color: rgba(255,255,255,.18);
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -.12em;
+  line-height: .8;
+}
+
+.members-release-card h1 {
+  margin-top: 1.8rem;
+  color: white;
+  font-size: clamp(2.7rem, 7vw, 5.8rem);
+  font-weight: 700;
+  letter-spacing: -.07em;
+  line-height: .95;
+}
+
+.members-release-card h1 em { color: #67e8f9; font-style: normal; }
+.members-release-card p { max-width: 32rem; margin-top: 1.5rem; color: #c5d7f2; font-size: 1rem; line-height: 1.8; }
+.members-release-contact { color: #e9d5ff !important; }
+.members-release-link { display: inline-flex; gap: .75rem; align-items: center; margin-top: 2rem; border-bottom: 1px solid #67e8f9; padding-bottom: .45rem; color: #a5f3fc !important; font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.members-release-link:hover { color: white !important; transform: translateX(4px); }
+
 main:not(:has(.hero-grid)) {
   min-height: 100vh;
   color: #dbeafe;
