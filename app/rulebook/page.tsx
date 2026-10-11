@@ -2,9 +2,9 @@ const sections = [
   {
     title: 'Preamble & definitions',
     items: [
-      ['1.1 Preamble', 'The World Hackathon Federation (WHF) is an international non-governmental organization founded on technological equity, global collaboration, human ingenuity, and decentralized governance. The WHF seeks to standardize, regulate, and elevate competitive hackathons worldwide.'],
-      ['1.2 Mission statement', 'To foster global technological advancement through structured, fair, and rigorously governed competitive engineering, ensuring talent from every nation has an equal opportunity to compete, innovate, and be recognized, while upholding digital ethics and open-source collaboration.'],
-      ['1.3 Definitions', 'WHF means World Hackathon Federation. NHA means National Hackathon Association. WHC means World Hackathon Championship. CAH means Court of Arbitration for Hackathons. A sanctioned event operates under the direct jurisdiction and rules of the WHF.'],
+      ['0.1 Preamble', 'The World Hackathon Federation (WHF) is an international non-governmental organization founded on technological equity, global collaboration, human ingenuity, and decentralized governance. The WHF seeks to standardize, regulate, and elevate competitive hackathons worldwide.'],
+      ['0.2 Mission statement', 'To foster global technological advancement through structured, fair, and rigorously governed competitive engineering, ensuring talent from every nation has an equal opportunity to compete, innovate, and be recognized, while upholding digital ethics and open-source collaboration.'],
+      ['0.3 Definitions', 'WHF means World Hackathon Federation. NHA means National Hackathon Association. WHC means World Hackathon Championship. CAH means Court of Arbitration for Hackathons. A sanctioned event operates under the direct jurisdiction and rules of the WHF.'],
     ],
   },
   {
@@ -52,24 +52,47 @@ const sections = [
 
 export default function RulebookPage() {
   return (
-    <main className="modern-shell min-h-screen text-[#0b192c]">
-      <header className="sticky top-0 z-40 border-b border-white/60 bg-white/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5 lg:px-8">
-          <a href="/" className="text-center text-[9px] font-bold leading-[0.9] tracking-[0.16em] text-[#17376e]">WORLD<br />HACKATHON<br />FEDERATION</a>
-          <a href="/" className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 hover:text-[#0b192c]">Back to WHF</a>
+    <main className="rulebook-page min-h-screen overflow-x-hidden bg-[#071426] text-slate-900">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#071426]/90 text-white backdrop-blur-2xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10">
+          <a href="/" className="text-[9px] font-bold leading-[0.9] tracking-[0.18em] text-cyan-200">WORLD<br />HACKATHON<br />FEDERATION</a>
+          <div className="flex items-center gap-4">
+            <span className="hidden rounded-full border border-cyan-200/20 bg-cyan-200/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-100 sm:inline-flex">Official rules</span>
+            <a href="/" className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-300 hover:text-white">Back to WHF</a>
+          </div>
         </div>
       </header>
-      <div className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
-        <div className="animate-rise rounded-3xl border border-white/70 bg-white/70 p-7 shadow-xl shadow-blue-950/5 backdrop-blur-xl sm:p-10">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Official document · Version 4.0</p>
-          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">World Hackathon Federation</h1>
-          <p className="mt-4 text-xl text-slate-600">Comprehensive statutes, governance, and competition rulebook</p>
-          <dl className="mt-10 grid gap-5 border-t border-slate-200 pt-6 text-sm sm:grid-cols-3"><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Effective date</dt><dd className="mt-2 font-medium">January 1, 2027</dd></div><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Form</dt><dd className="mt-2 font-medium">International NGO</dd></div><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Administration</dt><dd className="mt-2 font-medium">Globally decentralized</dd></div></dl>
+
+      <section className="rulebook-hero relative overflow-hidden border-b border-white/10 text-white">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[1fr_280px] lg:px-10 lg:py-24">
+          <div>
+            <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-200">WHF / Rulebook / Version 4.0</p>
+            <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.055em] sm:text-6xl lg:text-7xl">The rules behind a fairer world of competition.</h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100">The comprehensive statutes, governance framework, and competition standards of the World Hackathon Federation.</p>
+            <div className="mt-9 flex flex-wrap gap-3 text-[10px] font-bold uppercase tracking-[0.16em]"><a href="#contents" className="rounded-full bg-cyan-200 px-5 py-3 text-[#071426] hover:bg-white">Explore the rulebook</a></div>
+          </div>
+          <aside className="self-end rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-200">Document status</p>
+            <p className="mt-5 text-4xl font-semibold tracking-[-0.06em]">4.0</p>
+            <p className="mt-1 text-sm text-blue-100">Current public edition</p>
+            <div className="mt-6 h-px bg-white/15" />
+            <dl className="mt-5 grid grid-cols-2 gap-4 text-sm"><div><dt className="text-[10px] uppercase tracking-[0.15em] text-blue-200">Books</dt><dd className="mt-1 font-semibold">04</dd></div><div><dt className="text-[10px] uppercase tracking-[0.15em] text-blue-200">Articles</dt><dd className="mt-1 font-semibold">21</dd></div></dl>
+          </aside>
         </div>
-        <div className="divide-y divide-slate-200">
-          {sections.map((section) => <section key={section.title} className="py-12"><h2 className="text-2xl font-semibold tracking-[-0.025em] sm:text-3xl">{section.title}</h2><div className="mt-8 space-y-8">{section.items.map(([title, body]) => <article key={title} className="grid gap-3 sm:grid-cols-[240px_1fr]"><h3 className="text-sm font-bold leading-6 text-[#34537e]">{title}</h3><p className="max-w-2xl text-[15px] leading-7 text-slate-700">{body}</p></article>)}</div></section>)}
+      </section>
+
+      <div id="contents" className="scroll-mt-28 mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-[220px_1fr] lg:px-10 lg:py-20">
+        <aside className="lg:sticky lg:top-28 lg:self-start">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4266b3]">Contents</p>
+          <nav className="mt-5 space-y-2 rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-[0_10px_30px_rgba(30,58,95,0.05)]">{sections.map((section, index) => <a key={section.title} href={`#book-${index + 1}`} className="block rounded-xl px-3 py-2 leading-5 transition-colors hover:bg-[#eef4fc] hover:text-[#163c78]"><span className="mr-2 font-mono text-xs text-slate-400">{index === 0 ? '00' : String(index).padStart(2, '0')}</span>{section.title.replace(/^Book [IVX]+ · /, '')}</a>)}</nav>
+        </aside>
+        <div className="min-w-0">
+          {sections.map((section, index) => <section id={`book-${index + 1}`} key={section.title} className="scroll-mt-28 border-t border-slate-300 py-12 first:border-t-0 first:pt-0 sm:py-16">
+            <div className="flex items-start gap-4 rounded-[1.25rem] border border-[#d8e3f2] bg-[#eef4fc] px-5 py-5 sm:px-6"><span className="font-mono text-xs font-bold text-[#4266b3]">{index === 0 ? '00' : String(index).padStart(2, '0')}</span><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#4266b3]">{index === 0 ? 'Introduction' : `Book ${index}`}</p><h2 className="mt-2 text-3xl font-semibold tracking-[-0.05em] text-[#10233f] sm:text-4xl">{section.title.replace(/^Book [IVX]+ · /, '')}</h2></div></div>
+            <div className="mt-10 space-y-4">{section.items.map(([title, body], itemIndex) => <article key={title} className="grid gap-5 rounded-[1.35rem] border border-slate-200 bg-white px-5 py-6 shadow-[0_10px_30px_rgba(30,58,95,0.06)] transition-shadow hover:shadow-[0_16px_40px_rgba(30,58,95,0.1)] sm:grid-cols-[210px_1fr] sm:gap-10 sm:px-7 sm:py-8"><h3 className="text-sm font-bold leading-6 text-[#234d86]">{title}</h3><div><span className="mb-3 block font-mono text-[10px] font-bold tracking-[0.15em] text-[#6b85aa]">{String(itemIndex + 1).padStart(2, '0')}</span><p className="max-w-3xl text-[15px] leading-7 text-slate-700">{body}</p></div></article>)}</div>
+          </section>)}
+          <footer className="border-t-2 border-[#10233f] pt-8 text-sm leading-7 text-slate-600"><p>This page presents the WHF statutes and competition framework as a readable web document. It is not a download attachment.</p><a href="/" className="mt-4 inline-block font-bold text-[#163c78] underline underline-offset-4">Return to the WHF homepage</a></footer>
         </div>
-        <div className="border-t border-[#0b192c] pt-8 text-sm leading-7 text-slate-600"><p>This page presents the WHF statutes and competition framework as a readable web document. It is not a download attachment.</p><a href="/" className="mt-4 inline-block font-bold text-[#0b192c] underline underline-offset-4">Return to the WHF homepage</a></div>
       </div>
     </main>
   )

@@ -220,8 +220,31 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
 #standards article:nth-child(2) { transform: translateY(1.5rem); }
 #standards article:nth-child(3) { transform: translateY(3rem); }
 @media (max-width: 767px) { #standards article:nth-child(2), #standards article:nth-child(3) { transform: none; } }
-.hero-grid .text-blue-100\/80 { color: #c7dcf8 !important; }
-.hero-grid .text-blue-200\/60 { color: #9bb5d8 !important; }
+.hero-grid .text-blue-100\/80 { color: #dbeafe !important; }
+.hero-grid .text-blue-200\/60 { color: #c3d7f2 !important; }
+.hero-brief .text-cyan-100 { color: #d9faff !important; }
+.hero-brief .text-emerald-200 { color: #b8f3d2 !important; }
+.hero-brief .text-blue-200\/60 { color: #d1e1f5 !important; }
+.hero-brief > div:last-child { color: #f8fbff !important; background: linear-gradient(110deg, rgba(125,211,252,.25), rgba(196,181,253,.25)) !important; border: 1px solid rgba(255,255,255,.3); }
+.rulebook-page { color: #10233f !important; background: #f7f9ff !important; }
+.rulebook-page .rulebook-hero { background-color: #071426 !important; background-image: radial-gradient(circle at 80% 10%, rgba(103,232,249,.2), transparent 24rem), linear-gradient(135deg, #071426 0%, #102d59 60%, #17143f 100%) !important; }
+.rulebook-page > section { background: radial-gradient(circle at 80% 10%, rgba(103,232,249,.2), transparent 24rem), linear-gradient(135deg, #071426 0%, #102d59 60%, #17143f 100%) !important; color: #fff !important; }
+.rulebook-page > section h1 { color: #fff !important; }
+.rulebook-page > section p { color: #dbeafe !important; }
+.rulebook-page > section a { color: #071426 !important; }
+.rulebook-page > section aside { color: #fff !important; background: rgba(255,255,255,.1) !important; border-color: rgba(255,255,255,.15) !important; }
+.rulebook-page > section aside p { color: #dbeafe !important; }
+.rulebook-page > section aside p:first-child { color: #a5f3fc !important; }
+.rulebook-page > header { background: rgba(7,20,38,.9) !important; border-bottom-color: rgba(255,255,255,.1) !important; box-shadow: 0 14px 45px rgba(4,16,42,.2) !important; }
+.rulebook-page > header::before { background: linear-gradient(110deg, rgba(103,232,249,.14), transparent 38%, rgba(167,139,250,.16)); }
+.rulebook-page header { color: #fff; }
+.rulebook-page header a:first-child { color: #a5f3fc !important; }
+.rulebook-page header a:last-child { color: #cbd5e1 !important; }
+.rulebook-page .text-slate-600 { color: #304866 !important; }
+.rulebook-page .text-slate-700 { color: #1e3654 !important; }
+.rulebook-page .divide-slate-200 { border-color: #d5deea !important; }
+.rulebook-page .border-slate-200 { border-color: #d5deea !important; }
+.rulebook-page article h3 { color: #234d86 !important; }
 .modern-shell > section:not(.hero-grid) { color: #0b1c35; }
 .modern-shell > section#mission { background: linear-gradient(135deg, rgba(245,250,255,.95), rgba(232,243,255,.86)) !important; }
 .modern-shell > section#standards { background: linear-gradient(135deg, #e8f5ff 0%, #f7fbff 48%, #f1edff 100%) !important; }
