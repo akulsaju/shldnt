@@ -213,19 +213,24 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
 
+body:has(.members-release-screen) {
+  overflow: hidden;
+}
+
 .members-release-screen {
   position: fixed;
   inset: 0;
   z-index: 80;
+  isolation: isolate;
   display: grid;
   place-items: center;
   overflow: auto;
   padding: 7rem 1.25rem 3rem;
   background:
-    radial-gradient(circle at 18% 18%, rgba(103,232,249,.18), transparent 23rem),
-    radial-gradient(circle at 82% 74%, rgba(167,139,250,.2), transparent 28rem),
-    linear-gradient(135deg, rgba(7,20,38,.97), rgba(16,45,89,.97) 54%, rgba(29,23,69,.97));
-  backdrop-filter: blur(18px) saturate(125%);
+    radial-gradient(circle at 18% 18%, rgba(103,232,249,.22), transparent 23rem),
+    radial-gradient(circle at 82% 74%, rgba(167,139,250,.24), transparent 28rem),
+    linear-gradient(135deg, #071426 0%, #102d59 54%, #1d1745 100%);
+  backdrop-filter: blur(24px) saturate(135%);
 }
 
 .members-release-card {
@@ -235,8 +240,8 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
   overflow: hidden;
   border: 1px solid rgba(255,255,255,.2);
   border-radius: 2rem;
-  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-  box-shadow: 0 30px 100px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.16);
+  background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.07));
+  box-shadow: 0 30px 100px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.2), 0 0 80px rgba(103,232,249,.08);
   color: #f8fbff;
   backdrop-filter: blur(28px) saturate(145%);
 }
@@ -333,6 +338,24 @@ main:not(:has(.hero-grid)) a:not([class*="bg-"]) { color: #a5f3fc; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+.members-release-screen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 80 !important;
+  color: #f8fbff !important;
+  background: radial-gradient(circle at 18% 18%, rgba(103,232,249,.2), transparent 23rem), radial-gradient(circle at 82% 74%, rgba(167,139,250,.22), transparent 28rem), linear-gradient(135deg, #071426 0%, #102d59 54%, #1d1745 100%) !important;
+}
+
+.members-release-screen .members-release-card {
+  color: #f8fbff !important;
+  background: linear-gradient(145deg, rgba(20,48,92,.92), rgba(16,24,58,.88)) !important;
+  border-color: rgba(165,243,252,.35) !important;
+}
+
+.members-release-screen h1 { color: #ffffff !important; }
+.members-release-screen p { color: #c5d7f2 !important; }
+.members-release-screen .members-release-contact { color: #e9d5ff !important; }
 
 /* Keep the notice and navigation flush together with no empty strip above them. */
 .maintenance-notice {
