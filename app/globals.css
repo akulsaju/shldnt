@@ -210,7 +210,13 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
 .hero-grid > div:first-child::before { content: ''; position: absolute; top: 4rem; right: 2%; width: 18rem; height: 18rem; border: 1px solid rgba(103,232,249,.18); border-radius: 50%; box-shadow: 0 0 0 2.5rem rgba(103,232,249,.04), 0 0 0 5rem rgba(167,139,250,.035); pointer-events: none; }
 #mission { position: relative; overflow: hidden; }
 #mission::before { content: 'WHF'; position: absolute; right: 4%; bottom: -2rem; color: rgba(22,60,120,.05); font-size: 14rem; font-weight: 900; letter-spacing: -.14em; pointer-events: none; }
-#standards article { min-height: 19rem; }
+#standards { position: relative; overflow: hidden; }
+#standards::before { content: ''; position: absolute; top: 8rem; right: -7rem; width: 22rem; height: 22rem; border: 1px solid rgba(66,102,179,.1); border-radius: 50%; box-shadow: 0 0 0 3rem rgba(66,102,179,.035), 0 0 0 6rem rgba(167,139,250,.025); pointer-events: none; }
+#standards .standards-card { position: relative; min-height: 19rem; overflow: hidden; transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+#standards .standards-card::after { content: ''; position: absolute; right: -3rem; bottom: -4rem; width: 10rem; height: 10rem; border: 1px solid rgba(66,102,179,.1); border-radius: 50%; transition: transform .45s ease; }
+#standards .standards-card:hover { border-color: rgba(66,102,179,.3) !important; box-shadow: 0 24px 60px rgba(35,75,135,.16) !important; }
+#standards .standards-card:hover::after { transform: scale(1.35); }
+#standards .standards-card__line { height: 1px; width: 3rem; background: linear-gradient(90deg, #4266b3, transparent); }
 #standards article:nth-child(2) { transform: translateY(1.5rem); }
 #standards article:nth-child(3) { transform: translateY(3rem); }
 @media (max-width: 767px) { #standards article:nth-child(2), #standards article:nth-child(3) { transform: none; } }
