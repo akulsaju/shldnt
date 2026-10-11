@@ -334,6 +334,27 @@ main:not(:has(.hero-grid)) a:not([class*="bg-"]) { color: #a5f3fc; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
+/* Keep the notice and navigation flush together with no empty strip above them. */
+.maintenance-notice {
+  top: 0 !important;
+  z-index: 100 !important;
+}
+
+.modern-shell > header,
+main > header,
+body > div > header {
+  top: 42px !important;
+  z-index: 90 !important;
+}
+
+@media (max-width: 640px) {
+  .modern-shell > header,
+  main > header,
+  body > div > header {
+    top: 72px !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     color-scheme: dark;
