@@ -206,6 +206,14 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
     linear-gradient(135deg, #061226 0%, #0b2347 52%, #17143f 100%);
 }
 .hero-grid::before, .hero-grid::after { opacity: .65; }
+.hero-grid > div:first-child { position: relative; }
+.hero-grid > div:first-child::before { content: ''; position: absolute; top: 4rem; right: 2%; width: 18rem; height: 18rem; border: 1px solid rgba(103,232,249,.18); border-radius: 50%; box-shadow: 0 0 0 2.5rem rgba(103,232,249,.04), 0 0 0 5rem rgba(167,139,250,.035); pointer-events: none; }
+#mission { position: relative; overflow: hidden; }
+#mission::before { content: 'WHF'; position: absolute; right: 4%; bottom: -2rem; color: rgba(22,60,120,.05); font-size: 14rem; font-weight: 900; letter-spacing: -.14em; pointer-events: none; }
+#standards article { min-height: 19rem; }
+#standards article:nth-child(2) { transform: translateY(1.5rem); }
+#standards article:nth-child(3) { transform: translateY(3rem); }
+@media (max-width: 767px) { #standards article:nth-child(2), #standards article:nth-child(3) { transform: none; } }
 .hero-grid .text-blue-100\/80 { color: #c7dcf8 !important; }
 .hero-grid .text-blue-200\/60 { color: #9bb5d8 !important; }
 .modern-shell > section:not(.hero-grid) { color: #0b1c35; }
