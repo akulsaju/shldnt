@@ -451,8 +451,8 @@ main:not(:has(.hero-grid)):not(.country-record-page) {
     radial-gradient(circle at 90% 12%, rgba(167,139,250,.18), transparent 25rem),
     linear-gradient(135deg, #071426 0%, #102d59 58%, #1d1745 100%);
 }
-main:not(:has(.hero-grid)):not(.country-record-page) > section,
-main:not(:has(.hero-grid)):not(.country-record-page) > div {
+main:not(:has(.hero-grid)):not(.country-record-page):not(.rulebook-page) > section,
+main:not(:has(.hero-grid)):not(.country-record-page):not(.rulebook-page) > div {
   background: transparent !important;
 }
 main:not(:has(.hero-grid)):not(.country-record-page) h1,

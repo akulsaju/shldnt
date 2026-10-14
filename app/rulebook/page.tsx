@@ -35,7 +35,7 @@ const sections = [
     title: 'Book III · International eligibility and national teams',
     items: [
       ['Article 15 · Standard divisions', 'The divisions are Cadet (U-16), Junior (U-19), University/Collegiate (U-25), Senior (adult/pro), and Masters (O-40), with age-appropriate event durations and welfare requirements.'],
-      ['Article 16 · Eligibility for national teams', 'A person holding legal nationality verified by a government-issued passport may play for that country’s NHA. A competitor who has represented one NHA may not represent another except under the transfer provisions.'],
+      ['Article 16 · Eligibility for national teams', 'A person may represent the NHA of the country where they are a legal resident, verified through government-issued residency documentation; citizenship is not required. A competitor who has represented one NHA may not represent another except under the transfer provisions.'],
       ['Article 17 · Dual nationality and transfers', 'A competitor with more than one nationality chooses an NHA before their first international cap. A lifetime transfer is possible only when passport, residency, and recent senior championship requirements are met, followed by a mandatory 12-month cooling-off period.'],
       ['Article 18 · Stateless individuals and refugees', 'A recognized refugee or stateless person may represent the NHA of their country of asylum after two years of continuous residency, or compete under the WHF Independent Refugee Hackathon Team.'],
     ],
@@ -63,11 +63,11 @@ export default function RulebookPage() {
         </div>
       </header>
 
-      <section className="rulebook-hero relative overflow-hidden border-b border-white/10 text-white">
+      <section className="rulebook-hero relative overflow-hidden border-b border-white/10 bg-[#071426] text-white" style={{ backgroundColor: '#071426', backgroundImage: 'linear-gradient(135deg, #071426 0%, #102d59 60%, #17143f 100%)' }}>
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[1fr_280px] lg:px-10 lg:py-24">
           <div>
             <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-200">WHF / Rulebook / Version 4.0</p>
-            <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.055em] sm:text-6xl lg:text-7xl">The rules behind a fairer world of competition.</h1>
+            <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">The rules behind a fairer world of competition.</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100">The comprehensive statutes, governance framework, and competition standards of the World Hackathon Federation.</p>
             <div className="mt-9 flex flex-wrap gap-3 text-[10px] font-bold uppercase tracking-[0.16em]"><a href="#contents" className="rounded-full bg-cyan-200 px-5 py-3 text-[#071426] hover:bg-white">Explore the rulebook</a></div>
           </div>
