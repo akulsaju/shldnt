@@ -250,9 +250,24 @@ export default function PortalPage() {
       setSaved(error.message)
       return
     }
+    const emailResponse = await fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: accountEmail.trim(),
+        subject: `NHA Portal invitation for ${selectedOrganization?.country ?? 'your association'}`,
+        html: `<p>Hello ${accountContact.trim()},</p><p>You have been invited to manage the ${selectedOrganization?.country ?? ''} NHA workspace in the World Hackathon Federation portal.</p><p>Please contact the federation team to complete account activation.</p>`,
+      }),
+    })
+    if (!emailResponse.ok) {
+      const emailResult = await emailResponse.json().catch(() => null) as { error?: string } | null
+      setSaved(`Invitation recorded, but email was not sent: ${emailResult?.error ?? 'Resend request failed.'}`)
+      await loadWorkspace(userId, organizationId)
+      return
+    }
     setAccountEmail('')
     setAccountContact('')
-    setSaved(`NHA admin invitation recorded for ${selectedOrganization?.country}.`)
+    setSaved(`NHA admin invitation recorded and emailed for ${selectedOrganization?.country}.`)
     await loadWorkspace(userId, organizationId)
   }
 
