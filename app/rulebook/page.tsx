@@ -1,3 +1,5 @@
+import { SiteHeader } from '@/components/site-header'
+
 const sections = [
   {
     title: 'Preamble & definitions',
@@ -53,15 +55,7 @@ const sections = [
 export default function RulebookPage() {
   return (
     <main className="rulebook-page min-h-screen overflow-x-hidden bg-[#071426] text-slate-900">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#071426]/90 text-white backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10">
-          <a href="/" className="text-[9px] font-bold leading-[0.9] tracking-[0.18em] text-cyan-200">WORLD<br />HACKATHON<br />FEDERATION</a>
-          <div className="flex items-center gap-4">
-            <span className="hidden rounded-full border border-cyan-200/20 bg-cyan-200/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-100 sm:inline-flex">Official rules</span>
-            <a href="/" className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-300 hover:text-white">Back to WHF</a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader label="Official rules" />
 
       <section className="rulebook-hero relative overflow-hidden border-b border-white/10 bg-[#071426] text-white" style={{ backgroundColor: '#071426', backgroundImage: 'linear-gradient(135deg, #071426 0%, #102d59 60%, #17143f 100%)' }}>
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[1fr_280px] lg:px-10 lg:py-24">
