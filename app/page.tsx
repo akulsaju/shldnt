@@ -1,3 +1,5 @@
+import { SiteHeader } from '@/components/site-header'
+
 const pillars = [
   ['01', 'Open by design', 'Every sanctioned event publishes its rules, judging model, and participation path before the first commit.'],
   ['02', 'Fair by standard', 'A shared technical baseline makes competitions comparable across borders, time zones, and communities.'],
@@ -13,21 +15,7 @@ const pathway = [
 export default function Page() {
   return (
     <main className="modern-shell min-h-screen text-[#0b192c]">
-      <header className="sticky top-0 z-50 border-b border-cyan-200/20 bg-gradient-to-r from-[#071426]/95 via-[#102d59]/95 to-[#1d1745]/95 text-white shadow-lg shadow-blue-950/20 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-          <a href="#top" className="flex items-center gap-3" aria-label="World Hackathon Federation home">
-            <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-[#071426]">W</span>
-            <span className="hidden text-[10px] font-bold leading-tight tracking-[0.16em] sm:block">WORLD<br />HACKATHON FEDERATION</span>
-          </a>
-          <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 lg:flex">
-            <a href="#mission" className="transition-colors hover:text-cyan-200">Mission</a>
-            <a href="#standards" className="transition-colors hover:text-cyan-200">Standards</a>
-            <a href="#pathway" className="transition-colors hover:text-cyan-200">Pathway</a>
-            <a href="/members" className="transition-colors hover:text-cyan-200">Member nations</a>
-          </nav>
-          <a href="/portal" className="glow-button rounded-full border border-cyan-200/50 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 hover:from-cyan-300/35 hover:to-violet-300/35">NHA Portal <span className="ml-2">↗</span></a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section id="top" className="hero-grid relative overflow-hidden text-white">
         <div className="mx-auto grid max-w-7xl gap-16 px-5 pb-24 pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-32 lg:pt-28">

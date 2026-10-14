@@ -1,3 +1,5 @@
+import { SiteHeader } from '@/components/site-header'
+
 const principles = [
   ['Fairness by design', 'Transparent rules and consistent standards give builders from every member nation an equal shot at recognition.'],
   ['Real human craftsmanship', 'Modern development tools are welcome, while competition rules keep human engineering at the center of every project.'],
@@ -12,20 +14,7 @@ const regions = ['Asian Hackathon Confederation', 'Confederation of African Hack
 export default function AboutPage() {
   return (
     <main className="modern-shell min-h-screen text-[#0b192c]">
-      <header className="sticky top-0 z-40 border-b border-cyan-200/20 bg-gradient-to-r from-[#071426]/95 via-[#102d59]/95 to-[#1d1745]/95 text-white shadow-lg shadow-blue-950/20 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 lg:px-8">
-          <a href="/" className="flex items-center gap-3" aria-label="World Hackathon Federation home">
-            <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-[#071426]">W</span>
-            <span className="text-[10px] font-bold leading-tight tracking-[0.14em] text-cyan-50">WORLD<br />HACKATHON FEDERATION</span>
-          </a>
-          <nav aria-label="About navigation" className="hidden items-center gap-7 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 sm:flex">
-            <a href="/" className="hover:text-cyan-200">Home</a>
-            <a href="/members" className="hover:text-cyan-200">Member nations</a>
-            <a href="/rulebook" className="hover:text-cyan-200">Rulebook</a>
-          </nav>
-          <a href="/portal" className="rounded-full border border-cyan-200/50 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50">NHA Portal</a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="hero-grid text-white">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-28">
