@@ -27,7 +27,11 @@ type Invitation = {
   created_at: string
 }
 
-const sections = ['Overview', 'Participants', 'Country teams']
+type Team = { id: string; name: string; category: string; status: string; coach_name: string | null }
+type Request = { id: string; subject: string; description: string; status: string; created_at: string }
+type Notification = { id: string; title: string; body: string; read_at: string | null }
+
+const sections = ['Overview', 'Participants', 'Teams', 'Country teams', 'Documents', 'Requests', 'Submissions', 'Compliance', 'Travel', 'Notifications', 'Reports', 'Settings']
 
 export default function PortalPage() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -43,8 +47,15 @@ export default function PortalPage() {
   const [organizationId, setOrganizationId] = useState('')
   const [participants, setParticipants] = useState<Participant[]>([])
   const [invitations, setInvitations] = useState<Invitation[]>([])
+  const [teams, setTeams] = useState<Team[]>([])
+  const [requests, setRequests] = useState<Request[]>([])
+  const [notifications, setNotifications] = useState<Notification[]>([])
   const [participantName, setParticipantName] = useState('')
   const [participantCategory, setParticipantCategory] = useState('Under-19')
+  const [teamName, setTeamName] = useState('')
+  const [teamCategory, setTeamCategory] = useState('Open')
+  const [requestSubject, setRequestSubject] = useState('')
+  const [requestDescription, setRequestDescription] = useState('')
   const [accountEmail, setAccountEmail] = useState('')
   const [accountContact, setAccountContact] = useState('')
   const [saved, setSaved] = useState('')
@@ -83,18 +94,27 @@ export default function PortalPage() {
     setOrganizationId(nextOrganizationId)
 
     if (nextOrganizationId) {
-      const [{ data: participantRows, error: participantError }, { data: invitationRows, error: invitationError }] = await Promise.all([
+      const [{ data: participantRows, error: participantError }, { data: invitationRows, error: invitationError }, { data: teamRows, error: teamError }, { data: requestRows, error: requestError }] = await Promise.all([
         supabase.from('participants').select('id, name, category, status').eq('organization_id', nextOrganizationId).order('created_at'),
         supabase.from('invitations').select('id, email, role, status, created_at').eq('organization_id', nextOrganizationId).order('created_at', { ascending: false }),
+        supabase.from('teams').select('id, name, category, status, coach_name').eq('organization_id', nextOrganizationId).order('created_at'),
+        supabase.from('requests').select('id, subject, description, status, created_at').eq('organization_id', nextOrganizationId).order('created_at', { ascending: false }),
       ])
-      if (participantError || invitationError) {
-        setLoginError(participantError?.message ?? invitationError?.message ?? 'Unable to load country records.')
+      const { data: notificationRows, error: notificationError } = await supabase.from('notifications').select('id, title, body, read_at').eq('user_id', nextUserId).order('created_at', { ascending: false }).limit(20)
+      if (participantError || invitationError || teamError || requestError || notificationError) {
+        setLoginError(participantError?.message ?? invitationError?.message ?? teamError?.message ?? requestError?.message ?? notificationError?.message ?? 'Unable to load country records.')
       }
       setParticipants((participantRows ?? []) as Participant[])
       setInvitations((invitationRows ?? []) as Invitation[])
+      setTeams((teamRows ?? []) as Team[])
+      setRequests((requestRows ?? []) as Request[])
+      setNotifications((notificationRows ?? []) as Notification[])
     } else {
       setParticipants([])
       setInvitations([])
+      setTeams([])
+      setRequests([])
+      setNotifications([])
     }
     setWorkspaceLoading(false)
   }
@@ -191,6 +211,52 @@ export default function PortalPage() {
     await loadWorkspace(userId, organizationId)
   }
 
+  async function createTeam(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!teamName.trim() || !organizationId || !userId) return
+    const { error } = await createClient().from('teams').insert({
+      organization_id: organizationId,
+      name: teamName.trim(),
+      category: teamCategory,
+      created_by: userId,
+    })
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setTeamName('')
+    setSaved('Team saved to Supabase.')
+    await loadWorkspace(userId, organizationId)
+  }
+
+  async function createRequest(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!requestSubject.trim() || !requestDescription.trim() || !organizationId || !userId) return
+    const { error } = await createClient().from('requests').insert({
+      organization_id: organizationId,
+      subject: requestSubject.trim(),
+      description: requestDescription.trim(),
+      created_by: userId,
+    })
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setRequestSubject('')
+    setRequestDescription('')
+    setSaved('Support request submitted to Supabase.')
+    await loadWorkspace(userId, organizationId)
+  }
+
+  async function markNotificationRead(notificationId: string) {
+    const { error } = await createClient().from('notifications').update({ read_at: new Date().toISOString() }).eq('id', notificationId).eq('user_id', userId)
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setNotifications((current) => current.map((notification) => notification.id === notificationId ? { ...notification, read_at: new Date().toISOString() } : notification))
+  }
+
   if (authLoading) {
     return <main className="hero-grid min-h-screen text-[#0b192c]"><SiteHeader label="Public website" /><div className="flex min-h-[calc(100vh-72px)] items-center justify-center px-5"><p className="rounded-xl bg-white/90 px-5 py-4 text-sm text-slate-600 shadow-xl">Loading secure portal...</p></div></main>
   }
@@ -205,5 +271,13 @@ export default function PortalPage() {
 
 {active === 'Participants' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-semibold">Participants</h3><p className="mt-1 text-sm text-slate-500">Create records for {selectedOrganization?.country ?? 'the selected country'}.</p></div><span className="rounded-full bg-[#e7f4ff] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#34537e]">{participants.length} listed</span></div><form onSubmit={addParticipant} className="mt-6 grid gap-3 md:grid-cols-[1fr_150px_auto]"><input aria-label="Participant name" value={participantName} onChange={(event) => setParticipantName(event.target.value)} placeholder="Participant name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select aria-label="Participant category" value={participantCategory} onChange={(event) => setParticipantCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Under-19</option><option>Under-25</option><option>Under-40</option><option>Open</option><option>Coach</option><option>Judge</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Add participant</button></form><ul className="mt-6 grid gap-2">{participants.map((participant) => <li key={participant.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{participant.name}</strong><span className="ml-3 text-slate-500">{participant.category}</span></span><span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-bold uppercase text-amber-700">{participant.status}</span></li>)}{participants.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No participants have been added for this country yet.</li>}</ul></section>}
 
-{active === 'Country teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Invite an NHA administrator</h3><p className="mt-2 text-sm text-slate-500">The invitation is stored against {selectedOrganization?.country ?? 'the selected country'} with server-enforced organization permissions.</p><form onSubmit={createInvitation} className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_auto]"><input aria-label="NHA contact name" value={accountContact} onChange={(event) => setAccountContact(event.target.value)} placeholder="Association contact" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA email" type="email" value={accountEmail} onChange={(event) => setAccountEmail(event.target.value)} placeholder="official@email.org" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Record invitation</button></form><ul className="mt-6 grid gap-2">{invitations.map((invitation) => <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{invitation.email}</strong><span className="ml-3 text-slate-500">{invitation.role}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{invitation.status}</span></li>)}{invitations.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No invitations have been recorded for this country yet.</li>}</ul></section>}</div></section></div></main>
+{active === 'Country teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Invite an NHA administrator</h3><p className="mt-2 text-sm text-slate-500">The invitation is stored against {selectedOrganization?.country ?? 'the selected country'} with server-enforced organization permissions.</p><form onSubmit={createInvitation} className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_auto]"><input aria-label="NHA contact name" value={accountContact} onChange={(event) => setAccountContact(event.target.value)} placeholder="Association contact" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA email" type="email" value={accountEmail} onChange={(event) => setAccountEmail(event.target.value)} placeholder="official@email.org" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Record invitation</button></form><ul className="mt-6 grid gap-2">{invitations.map((invitation) => <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{invitation.email}</strong><span className="ml-3 text-slate-500">{invitation.role}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{invitation.status}</span></li>)}{invitations.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No invitations have been recorded for this country yet.</li>}</ul></section>}
+
+{active === 'Teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Teams</h3><form onSubmit={createTeam} className="mt-6 grid gap-3 md:grid-cols-[1fr_150px_auto]"><input value={teamName} onChange={(event) => setTeamName(event.target.value)} placeholder="Team name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select value={teamCategory} onChange={(event) => setTeamCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Open</option><option>Under-19</option><option>Under-25</option><option>Under-40</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Create team</button></form><ul className="mt-6 grid gap-2">{teams.map((team) => <li key={team.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{team.name}</strong><span className="ml-3 text-slate-500">{team.category}{team.coach_name ? ` · Coach ${team.coach_name}` : ''}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{team.status}</span></li>)}{teams.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No teams have been created for this country yet.</li>}</ul></section>}
+
+{active === 'Requests' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Support requests</h3><form onSubmit={createRequest} className="mt-6 grid gap-3"><input value={requestSubject} onChange={(event) => setRequestSubject(event.target.value)} placeholder="Request subject" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><textarea value={requestDescription} onChange={(event) => setRequestDescription(event.target.value)} placeholder="Describe the request" required rows={4} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="w-fit rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Submit request</button></form><ul className="mt-6 grid gap-2">{requests.map((request) => <li key={request.id} className="rounded-xl border border-slate-200 px-4 py-3 text-sm"><div className="flex justify-between gap-3"><strong>{request.subject}</strong><span className="text-xs uppercase text-blue-700">{request.status}</span></div><p className="mt-2 text-slate-500">{request.description}</p></li>)}{requests.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No requests have been submitted.</li>}</ul></section>}
+
+{active === 'Notifications' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Notifications</h3><ul className="mt-6 grid gap-2">{notifications.map((notification) => <li key={notification.id} className={`rounded-xl border px-4 py-3 text-sm ${notification.read_at ? 'border-slate-200' : 'border-blue-300 bg-blue-50/50'}`}><div className="flex items-start justify-between gap-3"><div><strong>{notification.title}</strong><p className="mt-1 text-slate-500">{notification.body}</p></div>{!notification.read_at && <button onClick={() => void markNotificationRead(notification.id)} className="text-xs font-semibold text-blue-700">Mark read</button>}</div></li>)}{notifications.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">You have no notifications.</li>}</ul></section>}
+
+{['Documents', 'Submissions', 'Compliance', 'Travel', 'Reports', 'Settings'].includes(active) && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">{active}</h3><p className="mt-2 text-sm text-slate-500">This area is connected to the Phase 2-5 Supabase data model. Its records are organization-scoped and ready for the corresponding CRUD controls.</p><div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{['Association profile', 'Required documents', 'Approval queue', 'Deadline tracker', 'Audit history', 'Export report'].map((item) => <div key={item} className="rounded-xl border border-slate-200 bg-white px-4 py-4 text-sm"><strong>{item}</strong><span className="mt-2 block text-xs text-slate-500">Country: {selectedOrganization?.country ?? 'unassigned'}</span></div>)}</div></section>}</div></section></div></main>
 }
