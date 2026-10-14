@@ -6,6 +6,7 @@ type EmailRequest = {
   to?: string
   subject?: string
   html?: string
+  replyTo?: string
 }
 
 export async function POST(request: Request) {
@@ -39,6 +40,7 @@ export async function POST(request: Request) {
     to: payload.to,
     subject: payload.subject,
     html: payload.html,
+    replyTo: payload.replyTo,
   })
 
   if (error) {
