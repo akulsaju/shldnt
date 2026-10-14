@@ -4,76 +4,126 @@ import { useEffect, useMemo, useState } from 'react'
 import { SiteHeader } from '@/components/site-header'
 import { createClient } from '@/lib/supabase/browser'
 
-const features = ['Association profile', 'Country representative', 'Secretariat contacts', 'Constitution upload', 'Proof of registration', 'Safeguarding policy', 'Code of conduct', 'Anti-plagiarism policy', 'AI usage policy', 'Competition calendar', 'Qualifier registration', 'Participant roster', 'Under-19 roster', 'Team manager details', 'Coach details', 'Emergency contact', 'Accessibility needs', 'Dietary requirements', 'Travel documents', 'Visa support letter', 'Guardian consent', 'Media consent', 'Photography consent', 'Code submission status', 'Technical requirements', 'Infrastructure request', 'Mentor directory', 'Judge nomination', 'Judge conflict check', 'Appeal submission', 'Dispute notice', 'Arbitration contact', 'Results submission', 'Certificate request', 'Badge request', 'Press contact', 'Brand asset request', 'Public announcement', 'Local sponsor record', 'Grant application', 'Volunteer register', 'Training attendance', 'Safeguarding report', 'Incident report', 'Data correction request', 'Privacy request', 'Portal permissions', 'Activity log', 'Submission checklist', 'Draft autosave', 'Support enquiry']
-const countries = ['United Arab Emirates', 'Afghanistan', 'Australia', 'Canada', 'China', 'France', 'Germany', 'India', 'Japan', 'Pakistan', 'Singapore', 'South Africa', 'United Kingdom', 'United States']
+type Organization = {
+  id: string
+  name: string
+  country: string
+  slug: string
+  status: string
+}
 
-type Participant = { name: string; country: string; category: string; status: string }
-type Account = { country: string; contact: string; email: string; status: string }
+type Participant = {
+  id: string
+  name: string
+  category: string
+  status: string
+}
+
+type Invitation = {
+  id: string
+  email: string
+  role: string
+  status: string
+  created_at: string
+}
+
+const sections = ['Overview', 'Participants', 'Country teams']
 
 export default function PortalPage() {
   const [loggedIn, setLoggedIn] = useState(false)
+  const [authLoading, setAuthLoading] = useState(true)
+  const [workspaceLoading, setWorkspaceLoading] = useState(false)
   const [loginId, setLoginId] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [loginError, setLoginError] = useState('')
   const [active, setActive] = useState('Overview')
-  const [country, setCountry] = useState('United Arab Emirates')
-  const [saved, setSaved] = useState('')
+  const [userId, setUserId] = useState('')
+  const [userRole, setUserRole] = useState('')
+  const [organizations, setOrganizations] = useState<Organization[]>([])
+  const [organizationId, setOrganizationId] = useState('')
+  const [participants, setParticipants] = useState<Participant[]>([])
+  const [invitations, setInvitations] = useState<Invitation[]>([])
   const [participantName, setParticipantName] = useState('')
-  const [participantCountry, setParticipantCountry] = useState('United Arab Emirates')
   const [participantCategory, setParticipantCategory] = useState('Under-19')
-  const [participants, setParticipants] = useState<Participant[]>([
-    { name: 'Zayed Al-Maktoum', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
-    { name: 'Fatima Al-Nuaimi', country: 'United Arab Emirates', category: 'Under-19', status: 'Qualified' },
-    { name: 'Mohammad Rahimi', country: 'Afghanistan', category: 'Under-19', status: 'Qualified' },
-    { name: 'Fatima Ahmadi', country: 'Afghanistan', category: 'Under-19', status: 'Qualified' },
-    { name: 'Liam Tremblay', country: 'Canada', category: 'Under-19', status: 'Qualified' },
-    { name: 'Maya Bouchard', country: 'Canada', category: 'Under-19', status: 'Qualified' },
-    { name: 'Wei Zhang', country: 'China', category: 'Under-19', status: 'Qualified' },
-    { name: 'Xiaoming Li', country: 'China', category: 'Under-19', status: 'Qualified' },
-    { name: 'Lucas Dubois', country: 'France', category: 'Under-19', status: 'Qualified' },
-    { name: 'Chloé Laurent', country: 'France', category: 'Under-19', status: 'Qualified' },
-    { name: 'Maximilian Weber', country: 'Germany', category: 'Under-19', status: 'Qualified' },
-    { name: 'Hannah Schmidt', country: 'Germany', category: 'Under-19', status: 'Qualified' },
-    { name: 'Aarav Sharma', country: 'India', category: 'Under-19', status: 'Qualified' },
-    { name: 'Ananya Patel', country: 'India', category: 'Under-19', status: 'Qualified' },
-    { name: 'Haruto Tanaka', country: 'Japan', category: 'Under-19', status: 'Qualified' },
-    { name: 'Yui Takahashi', country: 'Japan', category: 'Under-19', status: 'Qualified' },
-    { name: 'Hamza Khan', country: 'Pakistan', category: 'Under-19', status: 'Qualified' },
-    { name: 'Fatima Ahmed', country: 'Pakistan', category: 'Under-19', status: 'Qualified' },
-    { name: 'Jun Wei Tan', country: 'Singapore', category: 'Under-19', status: 'Qualified' },
-    { name: 'Cheryl Lim', country: 'Singapore', category: 'Under-19', status: 'Qualified' },
-    { name: 'Sipho Dlamini', country: 'South Africa', category: 'Under-19', status: 'Qualified' },
-    { name: 'Chloe van der Merwe', country: 'South Africa', category: 'Under-19', status: 'Qualified' },
-    { name: 'James Davies', country: 'United Kingdom', category: 'Under-19', status: 'Qualified' },
-    { name: 'Charlotte Evans', country: 'United Kingdom', category: 'Under-19', status: 'Qualified' },
-    { name: 'Alexander Wright', country: 'United States', category: 'Under-19', status: 'Qualified' },
-    { name: 'Emily Chen', country: 'United States', category: 'Under-19', status: 'Qualified' },
-  ])
-  const [accounts, setAccounts] = useState<Account[]>([])
   const [accountEmail, setAccountEmail] = useState('')
-  const [accountCountry, setAccountCountry] = useState('United Arab Emirates')
   const [accountContact, setAccountContact] = useState('')
-  const [authLoading, setAuthLoading] = useState(true)
+  const [saved, setSaved] = useState('')
 
-  const visibleParticipants = useMemo(() => participants.filter((item) => item.country === country), [participants, country])
+  const selectedOrganization = useMemo(
+    () => organizations.find((organization) => organization.id === organizationId),
+    [organizations, organizationId],
+  )
+
+  async function loadWorkspace(nextUserId: string, preferredOrganizationId?: string) {
+    setWorkspaceLoading(true)
+    const supabase = createClient()
+    const [{ data: memberships, error: membershipError }, { data: organizationRows, error: organizationError }] = await Promise.all([
+      supabase.from('organization_members').select('organization_id, role').eq('user_id', nextUserId),
+      supabase.from('organizations').select('id, name, country, slug, status').order('country'),
+    ])
+
+    if (membershipError || organizationError) {
+      setLoginError(membershipError?.message ?? organizationError?.message ?? 'Unable to load the portal workspace.')
+      setWorkspaceLoading(false)
+      return
+    }
+
+    const nextOrganizations = (organizationRows ?? []) as Organization[]
+    const firstMembership = memberships?.[0]
+    const nextOrganizationId =
+      preferredOrganizationId ??
+      organizationId ??
+      firstMembership?.organization_id ??
+      nextOrganizations.find((organization) => organization.country === 'United Arab Emirates')?.id ??
+      nextOrganizations[0]?.id ??
+      ''
+
+    setUserRole(firstMembership?.role ?? '')
+    setOrganizations(nextOrganizations)
+    setOrganizationId(nextOrganizationId)
+
+    if (nextOrganizationId) {
+      const [{ data: participantRows, error: participantError }, { data: invitationRows, error: invitationError }] = await Promise.all([
+        supabase.from('participants').select('id, name, category, status').eq('organization_id', nextOrganizationId).order('created_at'),
+        supabase.from('invitations').select('id, email, role, status, created_at').eq('organization_id', nextOrganizationId).order('created_at', { ascending: false }),
+      ])
+      if (participantError || invitationError) {
+        setLoginError(participantError?.message ?? invitationError?.message ?? 'Unable to load country records.')
+      }
+      setParticipants((participantRows ?? []) as Participant[])
+      setInvitations((invitationRows ?? []) as Invitation[])
+    } else {
+      setParticipants([])
+      setInvitations([])
+    }
+    setWorkspaceLoading(false)
+  }
 
   useEffect(() => {
     let supabase: ReturnType<typeof createClient>
     try {
       supabase = createClient()
     } catch {
-      setLoginError('Supabase is not configured. Add the public Supabase URL and anon key to the environment.')
+      setLoginError('Supabase is not configured. Add the public Supabase URL and publishable key to the environment.')
       setAuthLoading(false)
       return
     }
 
     supabase.auth.getUser().then(({ data: { user } }) => {
-      setLoggedIn(Boolean(user))
+      if (user) {
+        setLoggedIn(true)
+        setUserId(user.id)
+        void loadWorkspace(user.id)
+      }
       setAuthLoading(false)
     }).catch(() => setAuthLoading(false))
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setLoggedIn(Boolean(session?.user))
+      if (session?.user) {
+        setUserId(session.user.id)
+        void loadWorkspace(session.user.id)
+      }
       setAuthLoading(false)
     })
 
@@ -83,50 +133,77 @@ export default function PortalPage() {
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setLoginError('')
-    try {
-      const { error } = await createClient().auth.signInWithPassword({ email: loginId.trim(), password: loginPassword })
-      if (error) throw error
-    } catch (error) {
-      setLoginError(error instanceof Error ? error.message : 'Unable to sign in.')
-    }
+    const { error } = await createClient().auth.signInWithPassword({
+      email: loginId.trim(),
+      password: loginPassword,
+    })
+    if (error) setLoginError(error.message)
   }
 
   async function handleLogout() {
     await createClient().auth.signOut()
     setLoggedIn(false)
+    setUserId('')
+    setOrganizations([])
+    setOrganizationId('')
   }
 
-  function addParticipant(event: React.FormEvent<HTMLFormElement>) {
+  async function changeOrganization(nextOrganizationId: string) {
+    setOrganizationId(nextOrganizationId)
+    if (userId) await loadWorkspace(userId, nextOrganizationId)
+  }
+
+  async function addParticipant(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const normalizedCountry = participantCountry.trim()
-    if (!participantName.trim() || !normalizedCountry) return
-    setParticipants((current) => [...current, { name: participantName.trim(), country: normalizedCountry, category: participantCategory, status: 'Qualified' }])
-    setCountry(normalizedCountry)
-    setParticipantName(''); setSaved('Participant added to the selected country team.'); setActive('Participants')
+    if (!participantName.trim() || !organizationId || !userId) return
+    const { error } = await createClient().from('participants').insert({
+      organization_id: organizationId,
+      name: participantName.trim(),
+      category: participantCategory,
+      status: 'draft',
+      created_by: userId,
+    })
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setParticipantName('')
+    setSaved('Participant saved to Supabase.')
+    await loadWorkspace(userId, organizationId)
   }
 
-  function createAccount(event: React.FormEvent<HTMLFormElement>) {
+  async function createInvitation(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const normalizedCountry = accountCountry.trim()
-    if (!accountEmail || !accountContact || !normalizedCountry) return
-    setAccounts((current) => [...current, { country: normalizedCountry, contact: accountContact.trim(), email: accountEmail.trim(), status: 'Invitation ready' }])
-    setCountry(normalizedCountry)
-    setAccountEmail(''); setAccountContact(''); setSaved(`NHA account prepared for ${accountCountry}.`)
+    if (!accountEmail.trim() || !accountContact.trim() || !organizationId || !userId) return
+    const { error } = await createClient().from('invitations').insert({
+      organization_id: organizationId,
+      email: accountEmail.trim(),
+      role: 'nha_admin',
+      invited_by: userId,
+    })
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setAccountEmail('')
+    setAccountContact('')
+    setSaved(`NHA admin invitation recorded for ${selectedOrganization?.country}.`)
+    await loadWorkspace(userId, organizationId)
   }
 
-  function saveFeature() { setSaved(`${active} saved for ${country}.`) }
+  if (authLoading) {
+    return <main className="hero-grid min-h-screen text-[#0b192c]"><SiteHeader label="Public website" /><div className="flex min-h-[calc(100vh-72px)] items-center justify-center px-5"><p className="rounded-xl bg-white/90 px-5 py-4 text-sm text-slate-600 shadow-xl">Loading secure portal...</p></div></main>
+  }
 
-  if (authLoading) return <main className="hero-grid min-h-screen text-[#0b192c]"><SiteHeader label="Public website" /><div className="flex min-h-[calc(100vh-72px)] items-center justify-center px-5"><p className="rounded-xl bg-white/90 px-5 py-4 text-sm text-slate-600 shadow-xl">Loading secure portal...</p></div></main>
+  if (!loggedIn) {
+    return <main className="hero-grid min-h-screen text-[#0b192c]"><SiteHeader label="Public website" /><div className="flex min-h-[calc(100vh-72px)] items-center justify-center px-5"><section className="w-full max-w-md rounded-3xl border border-white/70 bg-white/90 p-8 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl sm:p-10"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Secure association access</p><h1 className="mt-3 text-3xl font-semibold tracking-tight">NHA Portal login</h1><p className="mt-4 text-sm leading-6 text-slate-500">Use the Supabase account assigned to your NHA organization.</p><form onSubmit={handleLogin} className="mt-8 space-y-5"><label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Email<input type="email" value={loginId} onChange={(event) => setLoginId(event.target.value)} autoComplete="username" required className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-sm outline-none focus:border-[#34537e]" /></label><label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Password<input type="password" value={loginPassword} onChange={(event) => setLoginPassword(event.target.value)} autoComplete="current-password" required className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-sm outline-none focus:border-[#34537e]" /></label>{loginError && <p role="alert" className="text-sm text-red-700">{loginError}</p>}<button type="submit" className="glow-button w-full rounded-xl bg-[#0b192c] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-white">Enter portal</button></form><a href="/" className="mt-7 block text-center text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500 hover:text-[#0b192c]">Return to public website</a></section></div></main>
+  }
 
-  if (!loggedIn) return <main className="hero-grid min-h-screen text-[#0b192c]"><SiteHeader label="Public website" /><div className="flex min-h-[calc(100vh-72px)] items-center justify-center px-5"><section className="w-full max-w-md rounded-3xl border border-white/70 bg-white/90 p-8 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl sm:p-10"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Secure association access</p><h1 className="mt-3 text-3xl font-semibold tracking-tight">NHA Portal login</h1><p className="mt-4 text-sm leading-6 text-slate-500">Use the Supabase account assigned to your NHA organization.</p><form onSubmit={handleLogin} className="mt-8 space-y-5"><label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Email<input type="email" value={loginId} onChange={(event) => setLoginId(event.target.value)} autoComplete="username" required className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-sm outline-none focus:border-[#34537e]" /></label><label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">Password<input type="password" value={loginPassword} onChange={(event) => setLoginPassword(event.target.value)} autoComplete="current-password" required className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-sm outline-none focus:border-[#34537e]" /></label>{loginError && <p role="alert" className="text-sm text-red-700">{loginError}</p>}<button type="submit" className="glow-button w-full rounded-xl bg-[#0b192c] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-white">Enter portal</button></form><a href="/" className="mt-7 block text-center text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500 hover:text-[#0b192c]">Return to public website</a></section></div></main>
+  return <main className="modern-shell min-h-screen text-[#0b192c]"><SiteHeader label="NHA Portal" action={<button onClick={handleLogout} className="shrink-0 rounded-full border border-cyan-200/60 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 transition hover:from-cyan-300/35 hover:to-violet-300/35">Log out</button>} /><div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[250px_1fr] lg:px-8 lg:py-14"><aside className="animate-rise"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Association workspace</p><h1 className="mt-4 text-3xl font-semibold tracking-tight">NHA Portal</h1><nav className="mt-8 grid gap-1" aria-label="Portal sections">{sections.map((item) => <button key={item} onClick={() => setActive(item)} className={`rounded-xl px-4 py-3 text-left text-sm transition-all ${active === item ? 'bg-[#0b192c] font-semibold text-white shadow-lg shadow-blue-950/20' : 'text-slate-600 hover:bg-white hover:text-[#0b192c]'}`}>{item}</button>)}</nav><div className="mt-8 rounded-2xl border border-white/80 bg-white/60 p-4 text-xs leading-5 text-slate-500">Role<br /><strong className="text-[#0b192c]">{userRole || 'member'}</strong><label className="mt-4 block text-[10px] font-bold uppercase tracking-[0.12em]">Working country<select value={organizationId} onChange={(event) => void changeOrganization(event.target.value)} disabled={workspaceLoading || organizations.length === 0} className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-2 py-2 text-xs text-[#0b192c]">{organizations.map((organization) => <option key={organization.id} value={organization.id}>{organization.country} ({organization.status})</option>)}</select></label></div></aside><section className="min-w-0"><div className="animate-rise rounded-3xl border border-white/70 bg-white/65 p-7 shadow-xl shadow-blue-950/5 backdrop-blur-xl sm:p-10"><p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">{selectedOrganization?.country ?? 'No assigned country'} team workspace</p><h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em]">{active}</h2><p className="mt-4 max-w-2xl text-slate-600">All records below are loaded from Supabase and scoped to the selected organization.</p>{saved && <p role="status" className="mt-5 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{saved}</p>}{workspaceLoading && <p className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-blue-800">Loading organization records...</p>}
 
-  return <main className="modern-shell min-h-screen text-[#0b192c]"><SiteHeader label="NHA Portal" action={<button onClick={handleLogout} className="shrink-0 rounded-full border border-cyan-200/60 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 transition hover:from-cyan-300/35 hover:to-violet-300/35">Log out</button>} /><div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[230px_1fr] lg:px-8 lg:py-14"><aside className="animate-rise"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#34537e]">Association workspace</p><h1 className="mt-4 text-3xl font-semibold tracking-tight">NHA Portal</h1><nav className="mt-8 grid gap-1" aria-label="Portal sections">{['Overview', 'Participants', 'Country teams', 'Documents', 'Qualification', 'Safeguarding', 'Submissions', 'Support'].map((item) => <button key={item} onClick={() => setActive(item)} className={`rounded-xl px-4 py-3 text-left text-sm transition-all ${active === item ? 'bg-[#0b192c] font-semibold text-white shadow-lg shadow-blue-950/20' : 'text-slate-600 hover:bg-white hover:text-[#0b192c]'}`}>{item}</button>)}</nav><div className="mt-8 rounded-2xl border border-white/80 bg-white/60 p-4 text-xs leading-5 text-slate-500">Logged in as<br /><strong className="text-[#0b192c]">WHF administrator</strong><label className="mt-4 block text-[10px] font-bold uppercase tracking-[0.12em]">Working country<input list="country-options" value={country} onChange={(event) => setCountry(event.target.value)} className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-2 py-2 text-xs text-[#0b192c]" /><datalist id="country-options">{countries.map((item) => <option key={item} value={item} />)}</datalist></label></div></aside><section className="min-w-0"><div className="animate-rise rounded-3xl border border-white/70 bg-white/65 p-7 shadow-xl shadow-blue-950/5 backdrop-blur-xl sm:p-10"><p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#34537e]">{country} team workspace</p><h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em]">{active}</h2><p className="mt-4 max-w-2xl text-slate-600">Every control below updates the selected country team instead of always writing to the UAE record.</p>{saved && <p role="status" className="mt-5 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{saved}</p>}
+{active === 'Overview' && <section className="mt-8 grid gap-4 sm:grid-cols-3"><div className="rounded-2xl border border-slate-200 bg-white/80 p-6"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Countries available</p><p className="mt-3 text-3xl font-semibold">{organizations.length}</p></div><div className="rounded-2xl border border-slate-200 bg-white/80 p-6"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Participants</p><p className="mt-3 text-3xl font-semibold">{participants.length}</p></div><div className="rounded-2xl border border-slate-200 bg-white/80 p-6"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Invitations</p><p className="mt-3 text-3xl font-semibold">{invitations.length}</p></div></section>}
 
-{active === 'Participants' || active === 'Overview' ? <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-semibold">Add country participant</h3><p className="mt-1 text-sm text-slate-500">The selected country is saved on every record.</p></div><span className="rounded-full bg-[#e7f4ff] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#34537e]">{visibleParticipants.length} listed</span></div><form onSubmit={addParticipant} className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_150px_auto]"><input aria-label="Participant name" value={participantName} onChange={(event) => setParticipantName(event.target.value)} placeholder="Participant name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="Participant country" list="country-options" value={participantCountry} onChange={(event) => { setParticipantCountry(event.target.value); setCountry(event.target.value) }} placeholder="Any country" className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select aria-label="Participant category" value={participantCategory} onChange={(event) => setParticipantCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Under-19</option><option>Open</option><option>Coach</option><option>Judge</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Add participant</button></form><ul className="mt-6 grid gap-2">{visibleParticipants.map((participant) => <li key={`${participant.country}-${participant.name}`} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{participant.name}</strong><span className="ml-3 text-slate-500">{participant.category}</span></span><span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase text-emerald-700">{participant.status}</span></li>)}{visibleParticipants.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No participants have been added for {country} yet.</li>}</ul></section> : null}
+{active === 'Participants' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-semibold">Participants</h3><p className="mt-1 text-sm text-slate-500">Create records for {selectedOrganization?.country ?? 'the selected country'}.</p></div><span className="rounded-full bg-[#e7f4ff] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#34537e]">{participants.length} listed</span></div><form onSubmit={addParticipant} className="mt-6 grid gap-3 md:grid-cols-[1fr_150px_auto]"><input aria-label="Participant name" value={participantName} onChange={(event) => setParticipantName(event.target.value)} placeholder="Participant name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select aria-label="Participant category" value={participantCategory} onChange={(event) => setParticipantCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Under-19</option><option>Under-25</option><option>Under-40</option><option>Open</option><option>Coach</option><option>Judge</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Add participant</button></form><ul className="mt-6 grid gap-2">{participants.map((participant) => <li key={participant.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{participant.name}</strong><span className="ml-3 text-slate-500">{participant.category}</span></span><span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-bold uppercase text-amber-700">{participant.status}</span></li>)}{participants.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No participants have been added for this country yet.</li>}</ul></section>}
 
-{active === 'Country teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Issue an NHA account</h3><p className="mt-2 text-sm text-slate-500">Prepare one country-specific account invitation for each National Hackathon Association.</p><form onSubmit={createAccount} className="mt-6 grid gap-3 md:grid-cols-3"><input aria-label="Account country" list="country-options" value={accountCountry} onChange={(event) => { setAccountCountry(event.target.value); setCountry(event.target.value) }} placeholder="Any country" className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA contact name" value={accountContact} onChange={(event) => setAccountContact(event.target.value)} placeholder="Association contact" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA email" type="email" value={accountEmail} onChange={(event) => setAccountEmail(event.target.value)} placeholder="official@email.org" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white md:col-span-3">Prepare account</button></form><ul className="mt-6 grid gap-2">{accounts.map((account) => <li key={`${account.country}-${account.email}`} className="rounded-xl border border-slate-200 px-4 py-3 text-sm"><strong>{account.country}</strong><span className="ml-3 text-slate-500">{account.contact} · {account.email}</span><span className="float-right text-emerald-700">{account.status}</span></li>)}{accounts.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No country accounts prepared yet.</li>}</ul></section>}
-
-{!['Overview', 'Participants', 'Country teams'].includes(active) && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">{active} controls</h3><p className="mt-2 text-sm text-slate-500">Manage this workflow for {country}. Changes remain scoped to the selected country team.</p><div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{features.filter((feature) => feature.toLowerCase().includes(active.toLowerCase().slice(0, -1)) || ['Documents', 'Qualification', 'Safeguarding', 'Submissions', 'Support'].includes(active)).slice(0, 9).map((feature) => <button key={feature} onClick={() => { setSaved(`${feature} opened for ${country}.`); setActive(active) }} className="rounded-xl border border-slate-200 bg-white px-4 py-4 text-left text-sm font-medium transition hover:-translate-y-0.5 hover:border-[#34537e] hover:shadow-md">{feature}<span className="mt-2 block text-[10px] uppercase tracking-[0.12em] text-[#34537e]">Open workflow →</span></button>)}</div><button onClick={saveFeature} className="mt-6 rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Save {active}</button></section>}
-
-<div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{features.slice(0, 50).map((feature, index) => <button key={feature} onClick={() => { setActive(feature); setSaved(`${feature} opened for ${country}.`) }} className="rounded-xl border border-white/80 bg-white/55 p-4 text-left text-xs text-slate-600 shadow-sm transition hover:-translate-y-1 hover:bg-white"><span className="mr-2 text-[10px] font-bold text-[#34537e]">{String(index + 1).padStart(2, '0')}</span>{feature}</button>)}</div></div></section></div></main>
+{active === 'Country teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Invite an NHA administrator</h3><p className="mt-2 text-sm text-slate-500">The invitation is stored against {selectedOrganization?.country ?? 'the selected country'} with server-enforced organization permissions.</p><form onSubmit={createInvitation} className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_auto]"><input aria-label="NHA contact name" value={accountContact} onChange={(event) => setAccountContact(event.target.value)} placeholder="Association contact" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA email" type="email" value={accountEmail} onChange={(event) => setAccountEmail(event.target.value)} placeholder="official@email.org" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Record invitation</button></form><ul className="mt-6 grid gap-2">{invitations.map((invitation) => <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{invitation.email}</strong><span className="ml-3 text-slate-500">{invitation.role}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{invitation.status}</span></li>)}{invitations.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No invitations have been recorded for this country yet.</li>}</ul></section>}</div></section></div></main>
 }
