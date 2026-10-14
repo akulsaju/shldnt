@@ -35,7 +35,7 @@ const sections = [
     title: 'Book III · International eligibility and national teams',
     items: [
       ['Article 15 · Standard divisions', 'The divisions are Cadet (U-16), Junior (U-19), University/Collegiate (U-25), Senior (adult/pro), and Masters (O-40), with age-appropriate event durations and welfare requirements.'],
-      ['Article 16 · Eligibility for national teams', 'A person holding legal nationality verified by a government-issued passport may play for that country’s NHA. A competitor who has represented one NHA may not represent another except under the transfer provisions.'],
+      ['Article 16 · Eligibility for national teams', 'A person may represent the NHA of the country where they are a legal resident, verified through government-issued residency documentation; citizenship is not required. A competitor who has represented one NHA may not represent another except under the transfer provisions.'],
       ['Article 17 · Dual nationality and transfers', 'A competitor with more than one nationality chooses an NHA before their first international cap. A lifetime transfer is possible only when passport, residency, and recent senior championship requirements are met, followed by a mandatory 12-month cooling-off period.'],
       ['Article 18 · Stateless individuals and refugees', 'A recognized refugee or stateless person may represent the NHA of their country of asylum after two years of continuous residency, or compete under the WHF Independent Refugee Hackathon Team.'],
     ],
