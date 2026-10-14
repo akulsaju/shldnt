@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { flagPath } from '@/lib/country-flags'
+import { directoryParticipantNames as pdfParticipantNames } from '@/lib/participant-names'
 
 const countryRegions: Record<string, string[]> = {
   Africa: ['Algeria', 'Angola', 'Botswana', 'Cameroon', 'Egypt', 'Ethiopia', 'Ghana', 'Kenya', 'Madagascar', 'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Nigeria', 'Rwanda', 'Senegal', 'Seychelles', 'South Africa', 'Sudan', 'Tanzania', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'],
@@ -30,7 +31,10 @@ const fallbackNames = (country: string, seed: number): [string, string] => {
   return [`${localMen[seed % localMen.length]} Rahman`, `${localWomen[(seed + 3) % localWomen.length]} ${familyNames[(offset + 4) % familyNames.length]}`]
 }
 
-const under19NamesFor = (country: string, seed: number): [string, string] => participantNames[country] ?? fallbackNames(country, seed)
+const under19NamesFor = (country: string, seed: number): [string, string] => {
+  const names = pdfParticipantNames[country] ?? participantNames[country]
+  return names?.length >= 2 ? [names[0], names[1]] : fallbackNames(country, seed)
+}
 
 const categoryNames: Record<string, { under25: [string, string]; under40: [string, string] }> = {
   'United Arab Emirates': { under25: ['Hamad Al-Mansoori', 'Salma Al-Nuaimi'], under40: ['Faisal Al-Mazrouei', 'Mariam Al-Hammadi'] },
