@@ -299,6 +299,12 @@ body:has(.members-release-screen) {
   top: 0;
 }
 
+.members-page input,
+.members-page input::placeholder { color: #10233f !important; }
+.members-page input::placeholder { color: #6b829d !important; }
+.members-page .members-count { color: #28496e !important; background: #ffffff !important; }
+.members-page header a:last-child { color: #31557f !important; border-color: #c8d7e8 !important; }
+
 main:has(#country-search) {
   color: #10233f !important;
   background: #f7f9ff !important;
