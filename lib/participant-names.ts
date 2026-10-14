@@ -32,10 +32,10 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Marta Vidal"
   ],
   "Angola": [
-    "o Mateus",
+    "João Mateus",
     "Beatriz Agostinho",
     "Domingos Manuel",
-    "sa Neto",
+    "Luísa Neto",
     "Fernandes Francisco",
     "Maria Capinha"
   ],
@@ -48,12 +48,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Latoya Bird"
   ],
   "Argentina": [
-    "Joaqu",
-    "n Ben",
-    "tez",
-    "Martina G",
-    "mez",
-    "Lucas Fern"
+    "Joaquín Benítez",
+    "Martina Gómez",
+    "Lucas Fernández",
+    "Lucía Rossi",
+    "Nicolás Díaz",
+    "Sofía Álvarez"
   ],
   "Armenia": [
     "Arman Sargsyan",
@@ -145,11 +145,11 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Benin": [
     "Dossou Adjovi",
-    "Hou",
-    "nou Soglo",
-    "Talon Kp",
+    "Houénou Soglo",
+    "Talon Kpèdé",
     "Bio Gounou",
-    "Hounkpatin"
+    "Kpèdé Hounkpatin",
+    "Aïchatou Lawson"
   ],
   "Bhutan": [
     "Karma Wangchuk",
@@ -163,17 +163,17 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Alejandro Mamani",
     "Nicole Quispe",
     "Mateo Condori",
-    "Luc",
-    "a Camacho",
-    "Diego Flores"
+    "Lucía Camacho",
+    "Diego Flores",
+    "Camila Mercado"
   ],
   "Bosnia and Herzegovina": [
-    "Amar Had",
-    "Amina Kova",
-    "evi",
-    "Edin Deli",
-    "Sarah Imamovi",
-    "Tarik Begi"
+    "Amar Hadžić",
+    "Amina Kovačević",
+    "Edin Delić",
+    "Sarah Imamović",
+    "Tarik Begić",
+    "Lejla Hodžić"
   ],
   "Botswana": [
     "Tebogo Molefe",
@@ -209,11 +209,11 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Burkina Faso": [
     "Wendyam Sawadogo",
-    "Fatoumata Ou",
-    "draogo",
-    "Yacouba Compaor",
+    "Fatoumata Ouédraogo",
+    "Yacouba Compaoré",
     "Aminata Diallo",
-    "Moussa Kabor"
+    "Moussa Kaboré",
+    "Salimata Zongo"
   ],
   "Burundi": [
     "Jean-Pierre Nkurunziza",
@@ -244,8 +244,8 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Carine Mbida",
     "Jean-Pierre Ndjo",
     "Mireille Abena",
-    "Dieudonn",
-    "Talla"
+    "Dieudonné Talla",
+    "Therese Nkolo"
   ],
   "Canada": [
     "Liam Tremblay",
@@ -273,11 +273,11 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Chile": [
     "Benjamin Tapia",
-    "Constanza Sep",
-    "lveda",
+    "Constanza Sepúlveda",
     "Ignacio Araya",
     "Catalina Fuentes",
-    "Sebasti"
+    "Sebastián Muñiz",
+    "Javiera Olivares"
   ],
   "China": [
     "Wei Zhang",
@@ -293,7 +293,7 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Mateo Jaramillo",
     "Camila Betancur",
     "Felipe Yepez",
-    "Isabella Aristiz"
+    "Isabella Aristizábal"
   ],
   "Comoros": [
     "Said Ali",
@@ -307,9 +307,9 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Jean-Pierre Makosso",
     "Grace Loubaki",
     "Kevin Ngouabi",
-    "Chim",
-    "ne Ntsiba",
-    "Brice Mabiala"
+    "Chimène Ntsiba",
+    "Brice Mabiala",
+    "Nadine Youlou"
   ],
   "Costa Rica": [
     "Esteban Monge",
@@ -319,7 +319,7 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Mateo Brenes",
     "Valentina Quesada"
   ],
-  "Te D'Ivoire": [
+  "Côte d’Ivoire": [
     "Koffi Kouassi",
     "Yao Amenan",
     "Brou Kouadio",
@@ -329,19 +329,19 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Croatia": [
     "Luka Horvat",
-    "Lucija Kova",
-    "evi",
-    "Ivan Babi",
-    "Ana Mari",
-    "Marko Juri"
+    "Lucija Kovačević",
+    "Ivan Babić",
+    "Ana Marić",
+    "Marko Jurić",
+    "Ema Novak"
   ],
   "Cuba": [
-    "Alejandro P",
-    "rez",
-    "Beatriz Ben",
-    "tez",
+    "Alejandro Pérez",
+    "Beatriz Benítez",
     "Carlos Mesa",
-    "Diana Fonseca"
+    "Diana Fonseca",
+    "Ernesto Gutiérrez",
+    "Yarisley Silva"
   ],
   "Cyprus": [
     "Andreas Charalambous",
@@ -351,29 +351,29 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Christos Demetriou",
     "Kyriaki Antoniou"
   ],
-  "Czechia": [
-    "Jan Nov",
-    "Eli",
-    "ka Svobodov",
-    "Tom",
-    "Dvo",
-    "la"
+  "Czech Republic": [
+    "Jan Novák",
+    "Eliška Svobodová",
+    "Tomáš Dvořák",
+    "Adéla Černá",
+    "Jakub Procházka",
+    "Anna Kučerová"
   ],
   "Democratic Republic of the Congo": [
     "Christian Kabamba",
     "Grace Mukendi",
-    "Dieudonn",
-    "Ilunga",
+    "Dieudonné Ilunga",
     "Esther Tshilombo",
-    "Patrick Kalala"
+    "Patrick Kalala",
+    "Sarah Mwamba"
   ],
   "Denmark": [
     "Emil Jensen",
     "Freja Nielsen",
-    "Rasmus M",
-    "ller",
+    "Rasmus Møller",
     "Emma Hansen",
-    "Jonas Larsen"
+    "Jonas Larsen",
+    "Ida Andersen"
   ],
   "Djibouti": [
     "Hassan Gouled",
@@ -395,17 +395,17 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Jean Carlos Rosario",
     "Maria Alcantara",
     "Jose Rodriguez",
-    "Stephanie Pe",
+    "Stephanie Peña",
     "Luis Peralta",
     "Pamela Ventura"
   ],
   "Ecuador": [
-    "Mateo Benalc",
-    "zar",
-    "Dom",
-    "nica Lasso",
-    "Joaqu",
-    "n Andrade"
+    "Mateo Benalcázar",
+    "Doménica Lasso",
+    "Joaquín Andrade",
+    "Camila Viteri",
+    "Sebastián Jaramillo",
+    "Lucía Cevallos"
   ],
   "Egypt": [
     "Omar El-Sayed",
@@ -474,18 +474,18 @@ export const directoryParticipantNames: Record<string, string[]> = {
   "Finland": [
     "Eetu Virtanen",
     "Aino Korhonen",
-    "Onni M",
-    "kinen",
+    "Onni Mäkinen",
     "Sofia Nieminen",
-    "Leo Laine"
+    "Leo Laine",
+    "Helmi Heikkinen"
   ],
   "France": [
     "Lucas Dubois",
-    "Chlo",
-    "Laurent",
+    "Chloé Laurent",
     "Julien Moreau",
     "Camille Bernard",
-    "Antoine Petit"
+    "Antoine Petit",
+    "Manon Roux"
   ],
   "Gabon": [
     "Jean-Bernard Mba",
@@ -557,7 +557,7 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Alpha Barry",
     "Fatoumata Bah",
     "Sekou Conde",
-    "Aissatou Tour"
+    "Aissatou Touré"
   ],
   "Guinea-Bissau": [
     "Domingos Ca",
@@ -592,20 +592,20 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Daniela Ruiz"
   ],
   "Hungary": [
-    "Bence Kov",
-    "Anna T",
-    "Szab",
-    "Lili Horv",
-    "Bal",
-    "zs Varga"
+    "Bence Kovács",
+    "Anna Tóth",
+    "Máté Szabó",
+    "Lili Horváth",
+    "Balázs Varga",
+    "Réka Nagy"
   ],
   "Iceland": [
     "Aron Gunnarsson",
-    "Saga J",
-    "nsd",
-    "ttir",
-    "n Magn",
-    "sson"
+    "Saga Jónsdóttir",
+    "Jón Magnússon",
+    "Emma Karlsdóttir",
+    "Viktor Sigurðsson",
+    "Birta Eiríksdóttir"
   ],
   "India": [
     "Aarav Sharma",
@@ -728,12 +728,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Vilaylack Xaiyavong"
   ],
   "Latvia": [
-    "Roberts B",
-    "rzi",
-    "Annija Kalni",
-    "Art",
-    "rs Ozoli",
-    "Paula Jansone"
+    "Roberts Bērziņš",
+    "Annija Kalniņa",
+    "Artūrs Ozoliņš",
+    "Paula Jansone",
+    "Daniels Liepiņš",
+    "Marta Kļaviņa"
   ],
   "Lebanon": [
     "Charbel Khoury",
@@ -769,19 +769,19 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Liechtenstein": [
     "Florian Marxer",
-    "Sarah B",
-    "chel",
+    "Sarah Büchel",
     "Stefan Vogt",
     "Anna Ospelt",
-    "Marco Gassner"
+    "Marco Gassner",
+    "Julia Frick"
   ],
   "Lithuania": [
     "Lukas Kazlauskas",
-    "Liepa Jankauskait",
-    "Jok",
-    "bas Petrauskas",
-    "Gabija Stankevi",
-    "Matas Urbonas"
+    "Liepa Jankauskaitė",
+    "Jokūbas Petrauskas",
+    "Gabija Stankevičiūtė",
+    "Matas Urbonas",
+    "Emile Vasiliauskaitė"
   ],
   "Luxembourg": [
     "Misch Schmit",
@@ -864,12 +864,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Jessica Bundhoo"
   ],
   "Mexico": [
-    "Mateo Hern",
-    "ndez",
-    "Valentina Garc",
-    "Santiago Mart",
-    "nez",
-    "Camila L"
+    "Mateo Hernández",
+    "Valentina García",
+    "Santiago Martínez",
+    "Camila López",
+    "Diego Rodríguez",
+    "Isabella Pérez"
   ],
   "Micronesia": [
     "Junior Christian",
@@ -904,12 +904,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Solongo Purev"
   ],
   "Montenegro": [
-    "Marko Popovi",
-    "Jelena Bulatovi",
-    "Nikola Radulovi",
-    "Milica Vu",
-    "ini",
-    "Vuk Ivanovi"
+    "Marko Popović",
+    "Jelena Bulatović",
+    "Nikola Radulović",
+    "Milica Vučinić",
+    "Vuk Ivanović",
+    "Ivana Marković"
   ],
   "Morocco": [
     "Youssef El-Amrani",
@@ -968,7 +968,7 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Lotte Visser"
   ],
   "New Zealand": [
-    "Liam T",
+    "Liam Tāne",
     "Aroha Te Moana",
     "Finn Smith",
     "Kaia Williams",
@@ -977,11 +977,11 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Nicaragua": [
     "Gabriel Jarquin",
-    "Luc",
-    "a Cuadra",
+    "Lucía Cuadra",
     "Carlos Lacayo",
     "Valeria Chamorro",
-    "Mateo Arg"
+    "Mateo Argüello",
+    "Camila Solórzano"
   ],
   "Niger": [
     "Abdoulaye Mamane",
@@ -1064,20 +1064,20 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Grace Tari"
   ],
   "Paraguay": [
-    "Gustavo Ben",
-    "tez",
-    "Mar",
-    "a Jos",
-    "Galeano",
-    "Fabrizio Insfr"
+    "Gustavo Benítez",
+    "María José Galeano",
+    "Fabrizio Insfrán",
+    "Sofia Recalde",
+    "Mateo Sanabria",
+    "Camila Maidana"
   ],
   "Peru": [
-    "Diego Huam",
+    "Diego Huamán",
     "Valeria Quispe",
     "Mateo Flores",
     "Camila Condori",
     "Luis Mamani",
-    "Luc"
+    "Lucía Mendoza"
   ],
   "Philippines": [
     "Joshua dela Cruz",
@@ -1090,18 +1090,18 @@ export const directoryParticipantNames: Record<string, string[]> = {
   "Poland": [
     "Jakub Kowalski",
     "Zofia Nowak",
-    "Jan Wi",
-    "niewski",
-    "Lena W",
-    "jcik"
+    "Jan Wiśniewski",
+    "Lena Wójcik",
+    "Kacper Kamiński",
+    "Maja Lewandowska"
   ],
   "Portugal": [
     "Afonso Silva",
     "Beatriz Santos",
-    "Gon",
-    "alo Ferreira",
+    "Gonçalo Ferreira",
     "Francisca Oliveira",
-    "o Rodrigues"
+    "João Rodrigues",
+    "Matilde Costa"
   ],
   "Qatar": [
     "Hamad Al-Thani",
@@ -1175,7 +1175,7 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Marco Berardi",
     "Giulia Santi"
   ],
-  "Ncipe": [
+  "São Tomé and Príncipe": [
     "Jose Neves",
     "Maria Trovoada",
     "Carlos Rita",
@@ -1200,12 +1200,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Awa Fall"
   ],
   "Serbia": [
-    "Nikola Jovanovi",
-    "Milica Petrovi",
-    "Luka Markovi",
-    "Ana Djordjevi",
-    "Stefan Ili",
-    "Jovana Stojanovi"
+    "Nikola Jovanović",
+    "Milica Petrović",
+    "Luka Marković",
+    "Ana Djordjević",
+    "Stefan Ilić",
+    "Jovana Stojanović"
   ],
   "Seychelles": [
     "Jean-Luc Morel",
@@ -1232,20 +1232,20 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Nicole Koh"
   ],
   "Slovakia": [
-    "Matej Horv",
-    "Ema Kov",
+    "Matej Horváth",
+    "Ema Kováčová",
     "Jakub Varga",
-    "Sofia T",
-    "thov",
-    "Martin Nagy"
+    "Sofia Tóthová",
+    "Martin Nagy",
+    "Nina Balážová"
   ],
   "Slovenia": [
     "Luka Novak",
     "Zala Horvat",
     "Filip Krajnc",
-    "Ema Zupan",
+    "Ema Zupančič",
     "Nik Golob",
-    "Kaja Kova"
+    "Kaja Kovačič"
   ],
   "Solomon Islands": [
     "John Houenipwela",
@@ -1289,11 +1289,11 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "Spain": [
     "Alejandro Navarro",
-    "Luc",
-    "a Delgado",
+    "Lucía Delgado",
     "Javier Moreno",
     "Paula Romero",
-    "Carlos Torres"
+    "Carlos Torres",
+    "María Molina"
   ],
   "Sri Lanka": [
     "Kusal Perera",
@@ -1387,9 +1387,9 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Kossi Mensah",
     "Afi Lawson",
     "Kodjo Adjavon",
-    "Akp",
-    "Lawson",
-    "Komlan Agbeko"
+    "Akpéné Lawson",
+    "Komlan Agbeko",
+    "Yawavi Tossou"
   ],
   "Tonga": [
     "Viliami Tupou",
@@ -1415,13 +1415,13 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Khaled Trabelsi",
     "Nesrine Bouazizi"
   ],
-  "Rkiye": [
-    "Ahmet Y",
-    "lmaz",
+  "Türkiye": [
+    "Ahmet Yılmaz",
     "Zeynep Demir",
     "Mehmet Kaya",
-    "Elif",
-    "elik"
+    "Elif Çelik",
+    "Mustafa Şahin",
+    "Yağmur Yıldız"
   ],
   "Turkmenistan": [
     "Serdar Berdiyev",
@@ -1456,8 +1456,8 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Mariia Tkachenko"
   ],
   "United Arab Emirates": [
-    "Zayed Al-Maktoum",
-    "Fatima Al-Nuaimi",
+    "Akul Saju",
+    "Saiqua Kazimi",
     "Rashid Al-Ali",
     "Mariam Al-Blooshi",
     "Sultan Al-Shamsi",
@@ -1480,12 +1480,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Olivia Taylor"
   ],
   "Uruguay": [
-    "Joaqu",
-    "n Bentancur",
+    "Joaquín Bentancur",
     "Valentina Varela",
     "Mateo Olivera",
-    "Luc",
-    "a Pereyra"
+    "Lucía Pereyra",
+    "Bruno Cavani",
+    "Sofia Bordaberry"
   ],
   "Uzbekistan": [
     "Alisher Karimov",
@@ -1512,12 +1512,12 @@ export const directoryParticipantNames: Record<string, string[]> = {
     "Teresa Esposito"
   ],
   "Venezuela": [
-    "Gabriel Uzc",
-    "tegui",
-    "Isabella Rond",
-    "Mateo Brice",
+    "Gabriel Uzcátegui",
+    "Isabella Rondón",
+    "Mateo Briceño",
     "Valeria Escalona",
-    "Diego Colmenares"
+    "Diego Colmenares",
+    "Camila Barboza"
   ],
   "Vietnam": [
     "Nguyen Van Minh",
