@@ -8,10 +8,12 @@ const countries = [
 ]
 
 
+const supplementalCountries = ['Antigua and Barbuda', 'Saint Kitts and Nevis', 'Saint Vincent and the Grenadines', 'Comoros', 'Djibouti', 'Eritrea', 'Eswatini', 'Lesotho', 'Malawi', 'Sao Tome and Principe', 'South Sudan', 'Western Sahara', 'Kosovo', 'Congo']
+const allCountries = Array.from(new Set([...countries, ...supplementalCountries]))
 
 export default function MembersPage() {
   const [query, setQuery] = useState('')
-  const filtered = useMemo(() => countries.filter((country) => country.toLowerCase().includes(query.toLowerCase())), [query])
+  const filtered = useMemo(() => allCountries.filter((country) => country.toLowerCase().includes(query.toLowerCase())), [query])
 
   return (
     <main className="members-page min-h-screen bg-[#f5f8fc] text-[#10233f]">
@@ -45,7 +47,7 @@ export default function MembersPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-16">
-        <div className="mb-8 flex items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#4d7196]">Country index</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#10233f]">Browse the registry</h2></div><p className="text-sm text-[#55708e]">Showing {filtered.length} of {countries.length}</p></div>
+        <div className="mb-8 flex items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#4d7196]">Country index</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#10233f]">Browse the registry</h2></div><p className="text-sm text-[#55708e]">Showing {filtered.length} of {allCountries.length}</p></div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((country, index) => <a href={`/members/${country.toLowerCase().replaceAll(' ', '-')}`} key={`${country}-${index}`} className="group flex min-h-[92px] items-center gap-4 rounded-2xl border border-[#d4dfeb] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(35,71,112,.045)] transition hover:-translate-y-0.5 hover:border-[#7ba8c9] hover:shadow-[0_14px_28px_rgba(35,71,112,.1)]"><span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#edf4fb]" aria-hidden="true"><Flag country={country} className="h-7 w-10 rounded object-cover" /></span><span className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-[0.15em] text-[#7290ad]">{String(index + 1).padStart(3, '0')}</span><span className="mt-1 block truncate font-semibold text-[#18395f] group-hover:text-[#0d5b8a]">{country}</span></span><span className="ml-auto text-[#87a0bb] transition group-hover:translate-x-1" aria-hidden="true">→</span></a>)}
         </div>

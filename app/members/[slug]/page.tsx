@@ -27,7 +27,7 @@ const fallbackNames = (country: string, seed: number): [string, string] => {
   const localWomen = ['Anaya', 'Lucía', 'Yuna', 'Mariam', 'Mila', 'Ama', 'Isha', 'Sofia', 'Salma', 'Nino']
   const familyNames = ['Rahman', 'Silva', 'Tanaka', 'Haddad', 'Petrov', 'Mensah', 'Mehta', 'Morgan', 'Bennani', 'Khan']
   const offset = (seed + country.length) % familyNames.length
-  return [`${localMen[seed % localMen.length]} ${familyNames[offset]}`, `${localWomen[(seed + 3) % localWomen.length]} ${familyNames[(offset + 4) % familyNames.length]}`]
+  return [`${localMen[seed % localMen.length]} Rahman`, `${localWomen[(seed + 3) % localWomen.length]} ${familyNames[(offset + 4) % familyNames.length]}`]
 }
 
 const under19NamesFor = (country: string, seed: number): [string, string] => participantNames[country] ?? fallbackNames(country, seed)

@@ -19,7 +19,22 @@ const countryAliases: Record<string, string> = {
   'Venezuela': 'VE',
   'Vietnam': 'VN',
   'Brunei': 'BN',
-  'South Sudan': 'South Sudan',
+  'South Sudan': 'SS',
+  'Antigua and Barbuda': 'AG',
+  'Saint Kitts and Nevis': 'KN',
+  'Saint Vincent and the Grenadines': 'VC',
+  'Comoros': 'KM',
+  'Djibouti': 'DJ',
+  'Eritrea': 'ER',
+  'Eswatini': 'SZ',
+  'Lesotho': 'LS',
+  'Malawi': 'MW',
+  'Sao Tome and Principe': 'ST',
+  'São Tomé and Príncipe': 'ST',
+  'Western Sahara': 'EH',
+  'Congo': 'CG',
+  'Democratic Republic of the Congo': 'CD',
+  'Kosovo': 'XK',
 }
 
 function resolveCountryCode(country: string) {
