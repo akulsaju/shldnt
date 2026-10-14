@@ -10,6 +10,8 @@ type Organization = {
   country: string
   slug: string
   status: string
+  admin_email: string
+  workspace_label: string | null
 }
 
 type Participant = {
@@ -17,11 +19,15 @@ type Participant = {
   name: string
   category: string
   status: string
+  email: string | null
+  nationality: string | null
+  consent_status: string
 }
 
 type Invitation = {
   id: string
   email: string
+  contact_name: string | null
   role: string
   status: string
   created_at: string
@@ -52,6 +58,9 @@ export default function PortalPage() {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [participantName, setParticipantName] = useState('')
   const [participantCategory, setParticipantCategory] = useState('Under-19')
+  const [participantEmail, setParticipantEmail] = useState('')
+  const [participantNationality, setParticipantNationality] = useState('')
+  const [editingParticipantId, setEditingParticipantId] = useState('')
   const [teamName, setTeamName] = useState('')
   const [teamCategory, setTeamCategory] = useState('Open')
   const [requestSubject, setRequestSubject] = useState('')
@@ -70,7 +79,7 @@ export default function PortalPage() {
     const supabase = createClient()
     const [{ data: memberships, error: membershipError }, { data: organizationRows, error: organizationError }] = await Promise.all([
       supabase.from('organization_members').select('organization_id, role').eq('user_id', nextUserId),
-      supabase.from('organizations').select('id, name, country, slug, status').order('country'),
+      supabase.from('organizations').select('id, name, country, slug, status, admin_email, workspace_label').order('country'),
     ])
 
     if (membershipError || organizationError) {
@@ -95,8 +104,8 @@ export default function PortalPage() {
 
     if (nextOrganizationId) {
       const [{ data: participantRows, error: participantError }, { data: invitationRows, error: invitationError }, { data: teamRows, error: teamError }, { data: requestRows, error: requestError }] = await Promise.all([
-        supabase.from('participants').select('id, name, category, status').eq('organization_id', nextOrganizationId).order('created_at'),
-        supabase.from('invitations').select('id, email, role, status, created_at').eq('organization_id', nextOrganizationId).order('created_at', { ascending: false }),
+        supabase.from('participants').select('id, name, category, status, email, nationality, consent_status').eq('organization_id', nextOrganizationId).order('created_at'),
+        supabase.from('invitations').select('id, email, contact_name, role, status, created_at').eq('organization_id', nextOrganizationId).order('created_at', { ascending: false }),
         supabase.from('teams').select('id, name, category, status, coach_name').eq('organization_id', nextOrganizationId).order('created_at'),
         supabase.from('requests').select('id, subject, description, status, created_at').eq('organization_id', nextOrganizationId).order('created_at', { ascending: false }),
       ])
@@ -176,20 +185,59 @@ export default function PortalPage() {
   async function addParticipant(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!participantName.trim() || !organizationId || !userId) return
-    const { error } = await createClient().from('participants').insert({
-      organization_id: organizationId,
+    const values = {
       name: participantName.trim(),
       category: participantCategory,
-      status: 'draft',
-      created_by: userId,
-    })
+      email: participantEmail.trim() || null,
+      nationality: participantNationality.trim() || null,
+    }
+    const query = editingParticipantId
+      ? createClient().from('participants').update(values).eq('id', editingParticipantId).eq('organization_id', organizationId)
+      : createClient().from('participants').insert({ ...values, organization_id: organizationId, status: 'draft', created_by: userId })
+    const { error } = await query
     if (error) {
       setSaved(error.message)
       return
     }
     setParticipantName('')
+    setParticipantEmail('')
+    setParticipantNationality('')
+    setEditingParticipantId('')
     setSaved('Participant saved to Supabase.')
     await loadWorkspace(userId, organizationId)
+  }
+
+  async function removeParticipant(participantId: string) {
+    if (!organizationId || !window.confirm('Archive this participant?')) return
+    const { error } = await createClient().from('participants').update({ status: 'archived' }).eq('id', participantId).eq('organization_id', organizationId)
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setSaved('Participant archived.')
+    await loadWorkspace(userId, organizationId)
+  }
+
+  async function updateTeamStatus(teamId: string, status: string) {
+    const { error } = await createClient().from('teams').update({ status }).eq('id', teamId).eq('organization_id', organizationId)
+    if (error) {
+      setSaved(error.message)
+      return
+    }
+    setSaved(status === 'locked' ? 'Roster locked.' : 'Team status updated.')
+    await loadWorkspace(userId, organizationId)
+  }
+
+  function exportParticipants() {
+    const header = ['Name', 'Category', 'Status', 'Email', 'Nationality', 'Consent status']
+    const rows = participants.map((participant) => [participant.name, participant.category, participant.status, participant.email ?? '', participant.nationality ?? '', participant.consent_status])
+    const csv = [header, ...rows].map((row) => row.map((value) => `"${value.replaceAll('"', '""')}"`).join(',')).join('\n')
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }))
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = `${selectedOrganization?.slug ?? 'participants'}-participants.csv`
+    anchor.click()
+    URL.revokeObjectURL(url)
   }
 
   async function createInvitation(event: React.FormEvent<HTMLFormElement>) {
@@ -198,6 +246,7 @@ export default function PortalPage() {
     const { error } = await createClient().from('invitations').insert({
       organization_id: organizationId,
       email: accountEmail.trim(),
+      contact_name: accountContact.trim(),
       role: 'nha_admin',
       invited_by: userId,
     })
@@ -205,9 +254,25 @@ export default function PortalPage() {
       setSaved(error.message)
       return
     }
+    const emailResponse = await fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: accountEmail.trim(),
+        subject: `NHA Portal invitation for ${selectedOrganization?.country ?? 'your association'}`,
+        replyTo: selectedOrganization?.admin_email,
+        html: `<p>Hello ${accountContact.trim()},</p><p>You have been invited to manage the ${selectedOrganization?.country ?? ''} NHA workspace in the World Hackathon Federation portal.</p><p>Your country workspace administrator address is <strong>${selectedOrganization?.admin_email ?? ''}</strong>.</p><p>Open <a href="${window.location.origin}/portal">the NHA Portal</a>, create or use your Supabase account with this email, and contact the federation team if activation is required.</p>`,
+      }),
+    })
+    if (!emailResponse.ok) {
+      const emailResult = await emailResponse.json().catch(() => null) as { error?: string } | null
+      setSaved(`Invitation recorded, but email was not sent: ${emailResult?.error ?? 'Resend request failed.'}`)
+      await loadWorkspace(userId, organizationId)
+      return
+    }
     setAccountEmail('')
     setAccountContact('')
-    setSaved(`NHA admin invitation recorded for ${selectedOrganization?.country}.`)
+    setSaved(`NHA admin invitation recorded and emailed for ${selectedOrganization?.country}.`)
     await loadWorkspace(userId, organizationId)
   }
 
@@ -269,15 +334,15 @@ export default function PortalPage() {
 
 {active === 'Overview' && <section className="mt-8 grid gap-4 sm:grid-cols-3"><div className="rounded-2xl border border-slate-200 bg-white/80 p-6"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Countries available</p><p className="mt-3 text-3xl font-semibold">{organizations.length}</p></div><div className="rounded-2xl border border-slate-200 bg-white/80 p-6"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Participants</p><p className="mt-3 text-3xl font-semibold">{participants.length}</p></div><div className="rounded-2xl border border-slate-200 bg-white/80 p-6"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Invitations</p><p className="mt-3 text-3xl font-semibold">{invitations.length}</p></div></section>}
 
-{active === 'Participants' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-semibold">Participants</h3><p className="mt-1 text-sm text-slate-500">Create records for {selectedOrganization?.country ?? 'the selected country'}.</p></div><span className="rounded-full bg-[#e7f4ff] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#34537e]">{participants.length} listed</span></div><form onSubmit={addParticipant} className="mt-6 grid gap-3 md:grid-cols-[1fr_150px_auto]"><input aria-label="Participant name" value={participantName} onChange={(event) => setParticipantName(event.target.value)} placeholder="Participant name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select aria-label="Participant category" value={participantCategory} onChange={(event) => setParticipantCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Under-19</option><option>Under-25</option><option>Under-40</option><option>Open</option><option>Coach</option><option>Judge</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Add participant</button></form><ul className="mt-6 grid gap-2">{participants.map((participant) => <li key={participant.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{participant.name}</strong><span className="ml-3 text-slate-500">{participant.category}</span></span><span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-bold uppercase text-amber-700">{participant.status}</span></li>)}{participants.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No participants have been added for this country yet.</li>}</ul></section>}
+{active === 'Participants' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-semibold">Participants</h3><p className="mt-1 text-sm text-slate-500">Create and maintain records for {selectedOrganization?.country ?? 'the selected country'}.</p></div><div className="flex items-center gap-2"><button type="button" onClick={exportParticipants} className="rounded-full border border-slate-300 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-slate-600">Export CSV</button><span className="rounded-full bg-[#e7f4ff] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#34537e]">{participants.length} listed</span></div></div><form onSubmit={addParticipant} className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-4"><input aria-label="Participant name" value={participantName} onChange={(event) => setParticipantName(event.target.value)} placeholder="Participant name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select aria-label="Participant category" value={participantCategory} onChange={(event) => setParticipantCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Under-19</option><option>Under-25</option><option>Under-40</option><option>Open</option><option>Coach</option><option>Judge</option></select><input aria-label="Participant email" type="email" value={participantEmail} onChange={(event) => setParticipantEmail(event.target.value)} placeholder="Email (optional)" className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="Participant nationality" value={participantNationality} onChange={(event) => setParticipantNationality(event.target.value)} placeholder="Nationality (optional)" className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white lg:col-span-4">{editingParticipantId ? 'Save participant' : 'Add participant'}</button></form><ul className="mt-6 grid gap-2">{participants.map((participant) => <li key={participant.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{participant.name}</strong><span className="ml-3 text-slate-500">{participant.category}{participant.email ? ` · ${participant.email}` : ''}</span></span><span className="flex items-center gap-2"><span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-bold uppercase text-amber-700">{participant.status}</span><button type="button" onClick={() => { setEditingParticipantId(participant.id); setParticipantName(participant.name); setParticipantCategory(participant.category); setParticipantEmail(participant.email ?? ''); setParticipantNationality(participant.nationality ?? '') }} className="text-xs font-semibold text-blue-700">Edit</button><button type="button" onClick={() => void removeParticipant(participant.id)} className="text-xs font-semibold text-red-700">Archive</button></span></li>)}{participants.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No participants have been added for this country yet.</li>}</ul></section>}
 
-{active === 'Country teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Invite an NHA administrator</h3><p className="mt-2 text-sm text-slate-500">The invitation is stored against {selectedOrganization?.country ?? 'the selected country'} with server-enforced organization permissions.</p><form onSubmit={createInvitation} className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_auto]"><input aria-label="NHA contact name" value={accountContact} onChange={(event) => setAccountContact(event.target.value)} placeholder="Association contact" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA email" type="email" value={accountEmail} onChange={(event) => setAccountEmail(event.target.value)} placeholder="official@email.org" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Record invitation</button></form><ul className="mt-6 grid gap-2">{invitations.map((invitation) => <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{invitation.email}</strong><span className="ml-3 text-slate-500">{invitation.role}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{invitation.status}</span></li>)}{invitations.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No invitations have been recorded for this country yet.</li>}</ul></section>}
+{active === 'Country teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Country workspace identity</h3><div className="mt-4 rounded-xl bg-blue-50 p-4 text-sm text-blue-900"><strong>{selectedOrganization?.country}</strong> has its own workspace administrator address: <strong>{selectedOrganization?.admin_email}</strong>.</div><p className="mt-4 text-sm text-slate-500">Invite the real person who will use this country workspace. Their Supabase account must use the invited email before membership is assigned.</p><form onSubmit={createInvitation} className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_auto]"><input aria-label="NHA contact name" value={accountContact} onChange={(event) => setAccountContact(event.target.value)} placeholder="Association contact" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><input aria-label="NHA email" type="email" value={accountEmail} onChange={(event) => setAccountEmail(event.target.value)} placeholder={selectedOrganization?.admin_email ?? 'official@email.org'} required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Send workspace invite</button></form><ul className="mt-6 grid gap-2">{invitations.map((invitation) => <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{invitation.contact_name ?? invitation.email}</strong><span className="ml-3 text-slate-500">{invitation.email} · {invitation.role}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{invitation.status}</span></li>)}{invitations.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No invitations have been recorded for this country yet.</li>}</ul></section>}
 
-{active === 'Teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Teams</h3><form onSubmit={createTeam} className="mt-6 grid gap-3 md:grid-cols-[1fr_150px_auto]"><input value={teamName} onChange={(event) => setTeamName(event.target.value)} placeholder="Team name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select value={teamCategory} onChange={(event) => setTeamCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Open</option><option>Under-19</option><option>Under-25</option><option>Under-40</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Create team</button></form><ul className="mt-6 grid gap-2">{teams.map((team) => <li key={team.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{team.name}</strong><span className="ml-3 text-slate-500">{team.category}{team.coach_name ? ` · Coach ${team.coach_name}` : ''}</span></span><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{team.status}</span></li>)}{teams.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No teams have been created for this country yet.</li>}</ul></section>}
+{active === 'Teams' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Teams</h3><form onSubmit={createTeam} className="mt-6 grid gap-3 md:grid-cols-[1fr_150px_auto]"><input value={teamName} onChange={(event) => setTeamName(event.target.value)} placeholder="Team name" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><select value={teamCategory} onChange={(event) => setTeamCategory(event.target.value)} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm"><option>Open</option><option>Under-19</option><option>Under-25</option><option>Under-40</option></select><button className="rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Create team</button></form><ul className="mt-6 grid gap-2">{teams.map((team) => <li key={team.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm"><span><strong>{team.name}</strong><span className="ml-3 text-slate-500">{team.category}{team.coach_name ? ` · Coach ${team.coach_name}` : ''}</span></span><span className="flex items-center gap-3"><span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase text-blue-700">{team.status}</span>{team.status !== 'locked' && <button type="button" onClick={() => void updateTeamStatus(team.id, 'locked')} className="text-xs font-semibold text-blue-700">Lock roster</button>}{team.status === 'locked' && <button type="button" onClick={() => void updateTeamStatus(team.id, 'draft')} className="text-xs font-semibold text-amber-700">Unlock</button>}</span></li>)}{teams.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No teams have been created for this country yet.</li>}</ul></section>}
 
 {active === 'Requests' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Support requests</h3><form onSubmit={createRequest} className="mt-6 grid gap-3"><input value={requestSubject} onChange={(event) => setRequestSubject(event.target.value)} placeholder="Request subject" required className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><textarea value={requestDescription} onChange={(event) => setRequestDescription(event.target.value)} placeholder="Describe the request" required rows={4} className="rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" /><button className="w-fit rounded-xl bg-[#0b192c] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Submit request</button></form><ul className="mt-6 grid gap-2">{requests.map((request) => <li key={request.id} className="rounded-xl border border-slate-200 px-4 py-3 text-sm"><div className="flex justify-between gap-3"><strong>{request.subject}</strong><span className="text-xs uppercase text-blue-700">{request.status}</span></div><p className="mt-2 text-slate-500">{request.description}</p></li>)}{requests.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">No requests have been submitted.</li>}</ul></section>}
 
 {active === 'Notifications' && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">Notifications</h3><ul className="mt-6 grid gap-2">{notifications.map((notification) => <li key={notification.id} className={`rounded-xl border px-4 py-3 text-sm ${notification.read_at ? 'border-slate-200' : 'border-blue-300 bg-blue-50/50'}`}><div className="flex items-start justify-between gap-3"><div><strong>{notification.title}</strong><p className="mt-1 text-slate-500">{notification.body}</p></div>{!notification.read_at && <button onClick={() => void markNotificationRead(notification.id)} className="text-xs font-semibold text-blue-700">Mark read</button>}</div></li>)}{notifications.length === 0 && <li className="rounded-xl border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">You have no notifications.</li>}</ul></section>}
 
-{['Documents', 'Submissions', 'Compliance', 'Travel', 'Reports', 'Settings'].includes(active) && <section className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-6"><h3 className="text-xl font-semibold">{active}</h3><p className="mt-2 text-sm text-slate-500">This area is connected to the Phase 2-5 Supabase data model. Its records are organization-scoped and ready for the corresponding CRUD controls.</p><div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{['Association profile', 'Required documents', 'Approval queue', 'Deadline tracker', 'Audit history', 'Export report'].map((item) => <div key={item} className="rounded-xl border border-slate-200 bg-white px-4 py-4 text-sm"><strong>{item}</strong><span className="mt-2 block text-xs text-slate-500">Country: {selectedOrganization?.country ?? 'unassigned'}</span></div>)}</div></section>}</div></section></div></main>
+{['Documents', 'Submissions', 'Compliance', 'Travel', 'Reports', 'Settings'].includes(active) && <section className="mt-8 rounded-2xl border border-dashed border-slate-300 bg-white/70 p-8"><h3 className="text-xl font-semibold">{active}</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">This section is reserved for the next connected data screen. No fake save controls are shown here; records remain protected by the organization policies until the corresponding form is available.</p></section>}</div></section></div></main>
 }
