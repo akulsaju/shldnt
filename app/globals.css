@@ -286,7 +286,56 @@ main h1, main h2, main h3 { letter-spacing: -.045em; }
 }
 
 body:has(.members-release-screen) {
-  overflow: hidden;
+  overflow: auto;
+}
+
+/* The members directory is available now; keep the former release overlay out of the page flow. */
+.members-release-screen {
+  display: none !important;
+}
+
+.members-release-screen + header {
+  position: sticky;
+  top: 0;
+}
+
+main:has(#country-search) {
+  color: #10233f !important;
+  background: #f7f9ff !important;
+}
+
+main:has(#country-search) h1,
+main:has(#country-search) h2,
+main:has(#country-search) h3 {
+  color: #10233f !important;
+}
+
+main:has(#country-search) p,
+main:has(#country-search) li,
+main:has(#country-search) label {
+  color: #28496e !important;
+}
+
+main:has(#country-search) input {
+  color: #10233f !important;
+  background: #ffffff !important;
+  border-color: #9fb2c9 !important;
+}
+
+main:has(#country-search) input::placeholder {
+  color: #5b7392 !important;
+}
+
+main:has(#country-search) article,
+main:has(#country-search) [role="listitem"] {
+  color: #10233f !important;
+  background: #ffffff !important;
+  border-color: #c5d2e2 !important;
+}
+
+main:has(#country-search) article p,
+main:has(#country-search) [role="listitem"] p {
+  color: #28496e !important;
 }
 
 .members-release-screen {
