@@ -129,6 +129,34 @@
 html { scroll-behavior: smooth; }
 body { background: #071426; }
 
+.reimbursement-shell {
+  background:
+    radial-gradient(circle at 4% 2%, rgba(103,232,249,.16), transparent 24rem),
+    radial-gradient(circle at 96% 20%, rgba(167,139,250,.12), transparent 26rem),
+    linear-gradient(135deg, #f2f8ff 0%, #f8fbff 48%, #f6f3ff 100%);
+}
+
+.reimbursement-shell input:not([type='checkbox']),
+.reimbursement-shell select,
+.reimbursement-shell textarea {
+  width: 100%;
+  border: 1px solid #d8e3f2;
+  border-radius: .85rem;
+  background: rgba(255,255,255,.78);
+  padding: .8rem .9rem;
+  color: #0f1f35;
+  font-size: .875rem;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.reimbursement-shell input:not([type='checkbox'])::placeholder,
+.reimbursement-shell textarea::placeholder { color: #94a3b8; }
+.reimbursement-shell input:not([type='checkbox']):focus,
+.reimbursement-shell select:focus,
+.reimbursement-shell textarea:focus { border-color: #4672b8; background: white; box-shadow: 0 0 0 4px rgba(70,114,184,.12); }
+.reimbursement-shell textarea { resize: vertical; min-height: 7rem; }
+
 .modern-shell,
 body:has(.members-page),
 body:has(.rulebook-page),

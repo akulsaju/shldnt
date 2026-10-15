@@ -75,17 +75,6 @@ const websiteSchema = {
   inLanguage: 'en',
 }
 
-function MaintenanceNotice() {
-  return (
-    <aside className="maintenance-notice" role="status" aria-label="Website maintenance notice">
-      <div className="maintenance-notice__inner">
-        <span className="maintenance-notice__label">Website notice</span>
-        <p>Website currently under maintenance through November 10 due to the qualification process and scheduled website maintenance.</p>
-      </div>
-    </aside>
-  )
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -98,7 +87,6 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>
       <body className="antialiased">
-        <MaintenanceNotice />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

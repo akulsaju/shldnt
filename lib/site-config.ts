@@ -7,7 +7,9 @@ export const siteConfig = {
   name: 'World Hackathon Federation',
   shortName: 'WHF',
   description: 'The World Hackathon Federation sets open, fair, and globally connected standards for competitive hackathons, national associations, and the World Hackathon Championship.',
-  url: configuredSiteUrl.replace(/\/$/, ''),
+  url: configuredSiteUrl.replace(/\/$/, '') === 'http://localhost:3000'
+    ? 'https://worldhackathonfederation.tech'
+    : configuredSiteUrl.replace(/\/$/, ''),
   keywords: [
     'World Hackathon Federation',
     'global hackathon federation',
