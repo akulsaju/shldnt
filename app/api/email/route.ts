@@ -7,6 +7,7 @@ type EmailRequest = {
   subject?: string
   html?: string
   replyTo?: string
+  organizationId?: string
 }
 
 export async function POST(request: Request) {
@@ -32,6 +33,25 @@ export async function POST(request: Request) {
 
   if (!payload.to || !payload.subject || !payload.html) {
     return NextResponse.json({ error: 'to, subject, and html are required.' }, { status: 400 })
+  }
+
+  if (!payload.organizationId) {
+    return NextResponse.json({ error: 'organizationId is required.' }, { status: 400 })
+  }
+
+  const { data: membership, error: membershipError } = await supabase
+    .from('organization_members')
+    .select('organization_id')
+    .eq('organization_id', payload.organizationId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (membershipError) {
+    return NextResponse.json({ error: 'Unable to verify organization access.' }, { status: 500 })
+  }
+
+  if (!membership) {
+    return NextResponse.json({ error: 'You do not have access to this organization.' }, { status: 403 })
   }
 
   const resend = new Resend(apiKey)
