@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 
 const UAE_TIME_ZONE = 'Asia/Dubai'
-const RESULT_HOUR = 15
+const RESULT_HOUR = 14
+const RESULT_MINUTE = 45
 
 function getUaeDateParts(date: Date) {
   const parts = new Intl.DateTimeFormat('en-US', {
@@ -39,7 +40,8 @@ function getTimeUntilResults() {
     current.year,
     current.month - 1,
     current.day,
-    RESULT_HOUR
+    RESULT_HOUR,
+    RESULT_MINUTE
   )
 
   return resultTimeAsUaeWallClock - currentAsUaeWallClock
@@ -99,7 +101,7 @@ export function UaeSaudiBanner() {
           ) : (
             <>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
-                Results at 3:00 PM UAE time
+                Results at 2:45 PM UAE time
               </p>
               <p aria-live="polite" className="mt-1 font-mono text-2xl font-bold tabular-nums text-white sm:text-3xl">
                 {timeUntilResults === null ? '--:--:--' : formatCountdown(timeUntilResults)}
