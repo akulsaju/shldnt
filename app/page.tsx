@@ -1,5 +1,4 @@
 import { SiteHeader } from '@/components/site-header'
-import { UaeSaudiBanner } from '@/components/uae-saudi-banner'
 
 const pillars = [
   ['01', 'Open by design', 'Every sanctioned event publishes its rules, judging model, and participation path before the first commit.'],
@@ -18,7 +17,6 @@ export default function Page() {
     <main className="modern-shell min-h-screen text-[#0b192c]">
       <div className="top-0 z-50 bg-[#071426] shadow-xl shadow-blue-950/30" style={{ position: 'sticky' }}>
         <SiteHeader />
-        <UaeSaudiBanner />
       </div>
 
       <section id="top" className="hero-grid relative overflow-hidden text-white">
