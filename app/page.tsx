@@ -1,8 +1,11 @@
+import { UaeSaudiBanner } from '@/components/uae-saudi-banner'
+
 const reimbursementUrl = '/reimbursement-frame/reimbursement/start/whf'
 
 export default function Page() {
   return (
-    <main className="h-screen w-full overflow-hidden bg-white">
+    <main className="relative h-screen w-full overflow-hidden bg-white">
+      <UaeSaudiBanner />
       <iframe
         src={reimbursementUrl}
         title="WHF reimbursement portal"
