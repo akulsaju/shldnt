@@ -70,9 +70,9 @@ export function UaeSaudiBanner() {
   return (
     <section
       aria-label="UAE versus Saudi Arabia results"
-      className="pointer-events-none absolute inset-x-0 top-0 z-10 px-3 pt-3 sm:px-6 sm:pt-5"
+      className="border-b border-cyan-200/15 bg-gradient-to-r from-[#0b1c35] via-[#102d59] to-[#171a43] px-3 py-3 text-white sm:px-6 sm:py-4"
     >
-      <div className="pointer-events-auto mx-auto flex max-w-5xl flex-col gap-4 rounded-2xl border border-white/20 bg-slate-950/90 px-4 py-4 text-white shadow-2xl backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:px-6">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center justify-center gap-3 sm:justify-start sm:gap-5">
           <div className="flex items-center gap-2">
             <img
@@ -82,7 +82,7 @@ export function UaeSaudiBanner() {
             />
             <span className="text-sm font-semibold sm:text-base">UAE</span>
           </div>
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-white/50">vs</span>
+          <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-200">vs</span>
           <div className="flex items-center gap-2">
             <img
               src="/country-flags-main/svg/sa.svg"
@@ -98,10 +98,10 @@ export function UaeSaudiBanner() {
             <p className="text-lg font-bold text-emerald-300 sm:text-xl">UAE won!</p>
           ) : (
             <>
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
                 Results at 3:00 PM UAE time
               </p>
-              <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-white sm:text-3xl">
+              <p aria-live="polite" className="mt-1 font-mono text-2xl font-bold tabular-nums text-white sm:text-3xl">
                 {timeUntilResults === null ? '--:--:--' : formatCountdown(timeUntilResults)}
               </p>
             </>
