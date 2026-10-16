@@ -7,7 +7,7 @@ const links = [
 
 export function SiteHeader({ label, href = '/portal', action }: { label?: string; href?: string; action?: ReactNode }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-cyan-200/20 bg-gradient-to-r from-[#071426]/95 via-[#102d59]/95 to-[#1d1745]/95 text-white shadow-lg shadow-blue-950/20 backdrop-blur-xl">
+    <header className="border-b border-cyan-200/20 bg-gradient-to-r from-[#071426] via-[#102d59] to-[#1d1745] text-white">
       <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
         <a href="/" className="flex shrink-0 items-center gap-3" aria-label="World Hackathon Federation home">
           <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-[#071426]">W</span>
