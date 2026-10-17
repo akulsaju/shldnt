@@ -23,6 +23,7 @@ const stories = [
     number: '01',
     tone: 'from-cyan-200 via-sky-100 to-indigo-200',
     artwork: 'UAE / SAUDI ARABIA',
+    image: '/news/uae-team-selection.jpg',
   },
   {
     category: 'UAE National Team',
@@ -33,6 +34,7 @@ const stories = [
     number: '02',
     tone: 'from-cyan-200 via-sky-100 to-indigo-200',
     artwork: 'TEAM UAE / 2027',
+    image: '/news/uae-team-group.jpg',
   },
   {
     category: 'Championship',
@@ -43,6 +45,7 @@ const stories = [
     number: '03',
     tone: 'from-violet-200 via-fuchsia-100 to-cyan-100',
     artwork: 'FRANCE / TEAM 2027',
+    image: '/news/france-team.jpg',
   },
   {
     category: 'Community',
@@ -53,6 +56,7 @@ const stories = [
     number: '04',
     tone: 'from-amber-100 via-orange-100 to-rose-200',
     artwork: 'PEOPLE FIRST',
+    image: undefined as string | undefined,
   },
 ]
 
@@ -122,6 +126,8 @@ export default function NewsPage() {
             {stories.map((story) => (
               <article key={story.number} className="group overflow-hidden rounded-3xl border border-white/80 bg-white/70 shadow-sm backdrop-blur-xl">
                 <div className={`relative flex h-52 items-end overflow-hidden bg-gradient-to-br ${story.tone} p-6`}>
+                  {story.image && <img src={story.image} alt="" className="absolute inset-0 size-full object-cover object-top" />}
+                  {story.image && <div className="absolute inset-0 bg-gradient-to-t from-[#071426]/80 via-transparent to-transparent" />}
                   <div className="absolute -right-10 -top-14 size-48 rounded-full border border-[#102d59]/10 shadow-[0_0_0_26px_rgba(16,45,89,.035),0_0_0_52px_rgba(16,45,89,.025)] transition-transform duration-500 group-hover:scale-110" aria-hidden="true" />
                   <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-white/80">{story.artwork}</span>
                   <span className="absolute right-5 top-5 grid size-9 place-items-center rounded-full border border-white/60 bg-white/35 text-[10px] font-bold text-[#18365a] backdrop-blur">{story.number}</span>
