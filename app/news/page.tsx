@@ -15,14 +15,15 @@ export const metadata: Metadata = {
 
 const stories = [
   {
-    category: 'Standards',
+    category: 'UAE National Team',
     date: 'October 2026',
-    title: 'A shared playbook for a more open hackathon scene',
-    description: 'The federation’s common framework gives organizers and participants a clearer starting point—from published rules to transparent judging.',
-    href: '/rulebook',
+    title: 'UAE names its National Under-19 team for 2027',
+    description: 'Abu Dhabi Indian School students Akul Saju and Saiqua Kazimi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
+    href: '/news/uae-under-19-team',
     number: '01',
     tone: 'from-cyan-200 via-sky-100 to-indigo-200',
-    artwork: 'OPEN / FAIR / GLOBAL',
+    artwork: 'TEAM UAE / 2027',
+    image: '/news/uae-team-group.jpg',
   },
   {
     category: 'Championship',
@@ -112,8 +113,10 @@ export default function NewsPage() {
             {stories.map((story) => (
               <article key={story.number} className="group overflow-hidden rounded-3xl border border-white/80 bg-white/70 shadow-sm backdrop-blur-xl">
                 <div className={`relative flex h-52 items-end overflow-hidden bg-gradient-to-br ${story.tone} p-6`}>
+                  {'image' in story && story.image && <img src={story.image} alt="" className="absolute inset-0 size-full object-cover object-center opacity-90 mix-blend-multiply" />}
+                  {'image' in story && story.image && <div className="absolute inset-0 bg-gradient-to-t from-[#102d59]/80 via-[#102d59]/10 to-transparent" />}
                   <div className="absolute -right-10 -top-14 size-48 rounded-full border border-[#102d59]/10 shadow-[0_0_0_26px_rgba(16,45,89,.035),0_0_0_52px_rgba(16,45,89,.025)] transition-transform duration-500 group-hover:scale-110" aria-hidden="true" />
-                  <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-[#18365a]/60">{story.artwork}</span>
+                  <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-white/80">{story.artwork}</span>
                   <span className="absolute right-5 top-5 grid size-9 place-items-center rounded-full border border-white/60 bg-white/35 text-[10px] font-bold text-[#18365a] backdrop-blur">{story.number}</span>
                 </div>
                 <div className="p-6 sm:p-7">
