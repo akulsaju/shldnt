@@ -6,18 +6,10 @@ const teams = {
   UAE: [
     ['Akul Saju', 'Under-19'],
     ['Saiqua Kazimi', 'Under-19'],
-    ['Mariam Al-Blooshi', 'Under-25'],
-    ['Rashid Al-Ali', 'Under-25'],
-    ['Shaikha Al-Kaitoob', 'Under-40'],
-    ['Sultan Al-Shamsi', 'Under-40'],
   ],
   'Saudi Arabia': [
     ['Mohammed Al-Ghamdi', 'Under-19'],
     ['Sarah Al-Otaibi', 'Under-19'],
-    ['Abdullah Al-Shehri', 'Under-25'],
-    ['Reem Al-Zahrani', 'Under-25'],
-    ['Abdulaziz Al-Dosari', 'Under-40'],
-    ['Mona Al-Qahtani', 'Under-40'],
   ],
 } as const
 
@@ -76,7 +68,7 @@ export default function UaeVsSaudiMatchPage() {
             <h2>A result for the UAE community</h2>
             <p>The victory is a proud moment for the UAE hackathon community and its supporters. It reflects the preparation, teamwork, and competitive spirit that participants bring to federation events.</p>
             <h2>Meet the teams</h2>
-            <p>The match brought together twelve participants from the federation directory, with both national teams represented across three competition divisions.</p>
+            <p>The match was contested by the Under-19 teams of both nations, with two participants from the federation directory representing each side.</p>
             <div className="not-prose my-8 grid gap-5 md:grid-cols-2">
               {Object.entries(teams).map(([country, members]) => (
                 <div key={country} className="rounded-2xl border border-white/80 bg-white p-5 shadow-sm">
