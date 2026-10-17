@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteConfig.url}/members`, lastModified: updatedAt, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${siteConfig.url}/news`, lastModified: updatedAt, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${siteConfig.url}/news/uae-vs-saudi-match`, lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${siteConfig.url}/news/uae-under-19-team`, lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${siteConfig.url}/news/france-hackathon-team`, lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${siteConfig.url}/rulebook`, lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.8 },
   ]
 }

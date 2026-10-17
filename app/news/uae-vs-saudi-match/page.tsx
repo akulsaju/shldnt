@@ -2,6 +2,25 @@ import type { Metadata } from 'next'
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, MapPin } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 
+const teams = {
+  UAE: [
+    ['Akul Saju', 'Under-19'],
+    ['Saiqua Kazimi', 'Under-19'],
+    ['Mariam Al-Blooshi', 'Under-25'],
+    ['Rashid Al-Ali', 'Under-25'],
+    ['Shaikha Al-Kaitoob', 'Under-40'],
+    ['Sultan Al-Shamsi', 'Under-40'],
+  ],
+  'Saudi Arabia': [
+    ['Mohammed Al-Ghamdi', 'Under-19'],
+    ['Sarah Al-Otaibi', 'Under-19'],
+    ['Abdullah Al-Shehri', 'Under-25'],
+    ['Reem Al-Zahrani', 'Under-25'],
+    ['Abdulaziz Al-Dosari', 'Under-40'],
+    ['Mona Al-Qahtani', 'Under-40'],
+  ],
+} as const
+
 export const metadata: Metadata = {
   title: 'UAE Defeats Saudi Arabia',
   description: 'The United Arab Emirates defeated Saudi Arabia in the October 16 match.',
@@ -56,6 +75,18 @@ export default function UaeVsSaudiMatchPage() {
             <p>The match began at 8:30 AM and concluded at 2:30 PM UAE time. Both teams competed through a full day of technical challenge, coordination, and problem-solving before the UAE was confirmed as the winner.</p>
             <h2>A result for the UAE community</h2>
             <p>The victory is a proud moment for the UAE hackathon community and its supporters. It reflects the preparation, teamwork, and competitive spirit that participants bring to federation events.</p>
+            <h2>Meet the teams</h2>
+            <p>The match brought together twelve participants from the federation directory, with both national teams represented across three competition divisions.</p>
+            <div className="not-prose my-8 grid gap-5 md:grid-cols-2">
+              {Object.entries(teams).map(([country, members]) => (
+                <div key={country} className="rounded-2xl border border-white/80 bg-white p-5 shadow-sm">
+                  <h3 className="text-lg font-semibold text-[#102d59]">{country}</h3>
+                  <div className="mt-4 space-y-2">
+                    {members.map(([name, division]) => <div key={name} className="flex items-center justify-between gap-3 border-b border-blue-50 pb-2 text-sm last:border-0 last:pb-0"><span className="font-medium text-slate-700">{name}</span><span className="shrink-0 text-[9px] font-black uppercase tracking-[0.12em] text-[#3b5da8]">{division}</span></div>)}
+                  </div>
+                </div>
+              ))}
+            </div>
             <p>The World Hackathon Federation congratulates the UAE team and thanks both teams for contributing to a memorable match.</p>
           </div>
         </div>
