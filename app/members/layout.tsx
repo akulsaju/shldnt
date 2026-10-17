@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: 'National Hackathon Association Directory',
     description: 'Explore country records and national hackathon association profiles in the WHF public registry.',
     url: `${siteConfig.url}/members`,
+    images: [{ url: '/favicon.jpg', width: 600, height: 600, alt: 'World Hackathon Federation logo' }],
   },
 }
 

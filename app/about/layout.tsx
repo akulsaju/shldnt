@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: 'About the World Hackathon Federation',
     description: 'The mission, principles, and global network behind the World Hackathon Federation.',
     url: `${siteConfig.url}/about`,
+    images: [{ url: '/favicon.jpg', width: 600, height: 600, alt: 'World Hackathon Federation logo' }],
   },
 }
 

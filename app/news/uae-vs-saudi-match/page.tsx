@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     title: 'UAE Defeats Saudi Arabia | World Hackathon Federation',
     description: 'The United Arab Emirates defeated Saudi Arabia in the October 16 match.',
     url: '/news/uae-vs-saudi-match',
+    images: [{ url: '/favicon.jpg', width: 600, height: 600, alt: 'World Hackathon Federation logo' }],
   },
 }
 

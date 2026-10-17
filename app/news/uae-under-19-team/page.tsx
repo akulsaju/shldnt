@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'UAE National Under-19 Team Selected | World Hackathon Federation',
     description: 'Akul Saju and Saiqua Kazimi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
     url: '/news/uae-under-19-team',
-    images: ['/news/uae-team-group.jpg'],
+    images: ['/favicon.jpg'],
   },
 }
 

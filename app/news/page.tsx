@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: 'News | World Hackathon Federation',
     description: 'The latest announcements, milestones, and stories from the World Hackathon Federation.',
     url: '/news',
+    images: [{ url: '/favicon.jpg', width: 600, height: 600, alt: 'World Hackathon Federation logo' }],
   },
 }
 

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: 'Official Hackathon Rules and Statutes',
     description: 'The public WHF framework for fair, ethical, and internationally comparable hackathon competition.',
     url: `${siteConfig.url}/rulebook`,
+    images: [{ url: '/favicon.jpg', width: 600, height: 600, alt: 'World Hackathon Federation logo' }],
   },
 }
 
