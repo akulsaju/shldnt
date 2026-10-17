@@ -24,11 +24,13 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
     locale: 'en_US',
+    images: [{ url: '/favicon.jpg', width: 600, height: 600, alt: 'World Hackathon Federation logo' }],
   },
   twitter: {
     card: 'summary',
     title: siteConfig.name,
     description: siteConfig.description,
+    images: ['/favicon.jpg'],
   },
   robots: {
     index: true,

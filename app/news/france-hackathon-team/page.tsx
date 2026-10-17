@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'France Hackathon Team | World Hackathon Federation',
     description: 'Meet the six innovators representing France across the World Hackathon Federation competition divisions.',
     url: '/news/france-hackathon-team',
-    images: ['/news/france-team.jpg'],
+    images: ['/favicon.jpg'],
   },
 }
 
