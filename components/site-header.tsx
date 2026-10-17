@@ -1,5 +1,6 @@
 const links = [
   ['Home', '/'],
+  ['News', '/news'],
   ['Member nations', '/members'],
   ['Rulebook', '/rulebook'],
   ['About', '/about'],
