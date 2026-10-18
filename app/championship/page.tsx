@@ -1,10 +1,15 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, Search, Trophy } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { Flag } from '@/lib/country-flags'
-import { under19PlayersForCountry } from '@/lib/championship-rosters'
+import {
+  divisionMatches,
+  formatResult,
+  resultForDivisionMatch,
+} from '@/lib/championship-results'
+import { championshipDivisions, playersForCountryAndDivision } from '@/lib/championship-rosters'
 import {
   championshipFixtures,
   formatLocalDate,
@@ -39,9 +44,8 @@ function TeamLine({ country }: { country: string }) {
   )
 }
 
-function FixtureCard({ fixture }: { fixture: (typeof championshipFixtures)[number] }) {
+function FixtureCard({ fixture, now }: { fixture: (typeof championshipFixtures)[number]; now: number | null }) {
   const start = localStartTime(fixture)
-  const end = localEndTime(fixture)
   const opponentTimeZone = regionTimeZone(fixture.away)
 
   return (
@@ -50,56 +54,57 @@ function FixtureCard({ fixture }: { fixture: (typeof championshipFixtures)[numbe
         <span className="rounded-full bg-cyan-100 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#173d67]">
           Group {fixture.group}
         </span>
-        {fixture.result ? (
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-800">
-            {fixture.result}
-          </span>
-        ) : (
-          <span className="flex items-center gap-1.5 text-xs text-blue-100/70">
-            <Clock3 size={14} aria-hidden="true" /> 6-hour match
-          </span>
-        )}
+        <span className="flex items-center gap-1.5 text-xs text-blue-100/70">
+          <Clock3 size={14} aria-hidden="true" /> 3 divisions · 6 hours each
+        </span>
       </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
         <TeamLine country={fixture.home} />
         <span className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-cyan-200">vs</span>
         <TeamLine country={fixture.away} />
       </div>
-      <div className="mt-5 grid gap-3 border-t border-white/20 pt-4 text-xs sm:grid-cols-2">
-        <div>
-          <p className="font-semibold text-white">{fixture.home} regional time</p>
-          <p className="mt-1 text-blue-100/75">
-            {formatLocalDate(start, fixture.timeZone)} · {formatLocalTime(start, fixture.timeZone)} – {formatLocalTime(end, fixture.timeZone)}
-          </p>
-        </div>
-        <div>
-          <p className="font-semibold text-white">{fixture.away} regional time</p>
-          <p className="mt-1 text-blue-100/75">
-            {formatLocalDate(start, opponentTimeZone)} · {formatLocalTime(start, opponentTimeZone)} – {formatLocalTime(end, opponentTimeZone)}
-          </p>
-        </div>
-      </div>
       <details className="group mt-5 border-t border-white/20 pt-4">
         <summary className="cursor-pointer list-none text-xs font-semibold text-cyan-200 marker:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200">
-          <span className="group-open:hidden">View U-19 team players</span>
-          <span className="hidden group-open:inline">Hide U-19 team players</span>
+          <span className="group-open:hidden">View team lineups</span>
+          <span className="hidden group-open:inline">Hide team lineups</span>
         </summary>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {[fixture.home, fixture.away].map((country) => {
-            const players = under19PlayersForCountry(country)
+        <div className="mt-4 space-y-4">
+          {championshipDivisions.map((division) => {
+            const divisionStart = new Date(start.getTime() + division.startOffsetHours * 60 * 60 * 1000)
+            const divisionEnd = new Date(divisionStart.getTime() + 6 * 60 * 60 * 1000)
+            const divisionMatch = divisionMatches.find((match) => match.fixture.id === fixture.id && match.division.key === division.key)
+            const result = now !== null && divisionMatch && now >= divisionMatch.endsAt
+              ? resultForDivisionMatch(divisionMatch)
+              : null
             return (
-              <section key={country} aria-label={`${country} Under-19 team`} className="rounded-xl border border-white/15 bg-[#071f40]/70 p-4">
-                <h3 className="flex items-center gap-2 text-xs font-bold text-white">
-                  <Flag country={country} className="h-4 w-6 rounded object-cover" />
-                  {country} · Under-19
-                </h3>
-                {players.length > 0 ? (
-                  <ul className="mt-3 space-y-2 text-sm text-blue-50">
-                    {players.map((player) => <li key={player}>{player}</li>)}
-                  </ul>
-                ) : (
-                  <p className="mt-3 text-xs text-blue-100/70">U-19 roster not published yet.</p>
-                )}
+              <section key={division.key} className="rounded-xl border border-white/15 bg-[#071f40]/70 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-sm font-bold text-white">{division.label}</h3>
+                  {result ? (
+                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-800">{formatResult(result)} · {result.winner} won</span>
+                  ) : (
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-200">{now !== null && divisionMatch && now >= divisionMatch.startsAt ? 'Live · results pending' : '6-hour match'}</span>
+                  )}
+                </div>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {[
+                    { country: fixture.home, timeZone: fixture.timeZone },
+                    { country: fixture.away, timeZone: opponentTimeZone },
+                  ].map(({ country, timeZone }) => (
+                    <div key={country}>
+                      <p className="flex items-center gap-2 text-xs font-semibold text-white">
+                        <Flag country={country} className="h-4 w-6 rounded object-cover" />
+                        {country} local time
+                      </p>
+                      <p className="mt-1 text-xs text-blue-100/75">
+                        {formatLocalDate(divisionStart, timeZone)} · {formatLocalTime(divisionStart, timeZone)} – {formatLocalTime(divisionEnd, timeZone)}
+                      </p>
+                      <ul aria-label={`${country} ${division.label} team`} className="mt-3 space-y-1 text-sm text-blue-50">
+                        {playersForCountryAndDivision(country, division.key).map((player) => <li key={player}>{player}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </section>
             )
           })}
@@ -113,6 +118,14 @@ export default function ChampionshipPage() {
   const [selectedDate, setSelectedDate] = useState('2026-10-18')
   const [visibleMonth, setVisibleMonth] = useState(new Date(Date.UTC(2026, 9, 1)))
   const [countrySearch, setCountrySearch] = useState('')
+  const [now, setNow] = useState<number | null>(null)
+
+  useEffect(() => {
+    const update = () => setNow(Date.now())
+    update()
+    const interval = window.setInterval(update, 1000)
+    return () => window.clearInterval(interval)
+  }, [])
 
   const fixturesByDate = useMemo(() => {
     const grouped = new Map<string, typeof championshipFixtures>()
@@ -148,7 +161,7 @@ export default function ChampionshipPage() {
             </div>
             <div className="grid grid-cols-2 gap-3 sm:min-w-[300px]">
               <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4"><p className="text-3xl font-semibold">191</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-100/65">Countries</p></div>
-              <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4"><p className="text-3xl font-semibold">{championshipFixtures.length}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-100/65">Qualifying matches</p></div>
+              <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4"><p className="text-3xl font-semibold">{championshipFixtures.length * championshipDivisions.length}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-100/65">Division fixtures</p></div>
             </div>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-3 rounded-2xl border border-cyan-200/20 bg-cyan-100/[0.08] px-4 py-3 text-sm text-cyan-50">
@@ -241,7 +254,7 @@ export default function ChampionshipPage() {
           </div>
 
           <div className="mt-5 space-y-3">
-            {selectedFixtures.map((fixture) => <FixtureCard key={fixture.id} fixture={fixture} />)}
+            {selectedFixtures.map((fixture) => <FixtureCard key={fixture.id} fixture={fixture} now={now} />)}
             {selectedFixtures.length === 0 && (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
                 <p className="font-semibold text-slate-700">{selectedDate === selectionDate ? 'The 64 qualifiers are selected' : 'No matching fixtures'}</p>
