@@ -40,32 +40,49 @@ function MatchBanner({ match, now }: { match: DivisionMatch; now: number }) {
   return (
     <section
       aria-label={isLive ? 'Live championship match' : 'Championship match update'}
-      className="border-b border-cyan-200/15 bg-gradient-to-r from-[#0b1c35] via-[#102d59] to-[#171a43] px-4 py-4 text-white sm:px-6"
+      className="championship-live-banner border-b border-cyan-200/15 px-4 py-5 text-white sm:px-6"
     >
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="championship-banner-panel mx-auto grid max-w-7xl gap-5 rounded-2xl border px-5 py-5 sm:grid-cols-[1fr_auto] sm:items-center sm:px-7">
         <div className="min-w-0">
-          <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-200">
-            {isLive ? <span className="size-2 animate-pulse rounded-full bg-emerald-300" /> : <Clock3 size={13} aria-hidden="true" />}
-            {isLive ? 'Live now' : isComplete ? 'Latest result' : 'Up next'}
-            <span className="text-blue-100/55">· {match.division.label} · Group {match.fixture.group}</span>
-          </p>
-          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span className="flex items-center gap-2 text-sm font-semibold"><Flag country={match.fixture.home} className="h-5 w-8 rounded object-cover" />{match.fixture.home}</span>
-            <span className="text-xs font-black uppercase tracking-widest text-cyan-200">vs</span>
-            <span className="flex items-center gap-2 text-sm font-semibold"><Flag country={match.fixture.away} className="h-5 w-8 rounded object-cover" />{match.fixture.away}</span>
-            {result && <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-sm font-bold text-emerald-200">{formatResult(result)} · {result.winner} won</span>}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className={`championship-banner-status inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] ${isLive ? 'is-live' : isComplete ? 'is-complete' : 'is-up-next'}`}>
+              {isLive ? <span className="size-2 animate-pulse rounded-full bg-emerald-300" /> : isComplete ? <Trophy size={12} aria-hidden="true" /> : <Clock3 size={12} aria-hidden="true" />}
+              {isLive ? 'Live now' : isComplete ? 'Latest result' : 'Up next'}
+            </span>
+            <span className="championship-banner-meta text-[11px] font-semibold uppercase tracking-[0.13em]">
+              {match.division.label} <span aria-hidden="true">·</span> Group {match.fixture.group}
+            </span>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
+            <span className="championship-banner-team flex items-center gap-2.5 text-base font-bold sm:text-lg">
+              <Flag country={match.fixture.home} className="h-7 w-10 rounded object-cover shadow-md" />
+              {match.fixture.home}
+            </span>
+            {result ? (
+              <span className="championship-banner-score rounded-lg px-3 py-1.5 font-mono text-lg font-extrabold tabular-nums">
+                {formatResult(result)}
+              </span>
+            ) : (
+              <span className="championship-banner-versus text-[10px] font-black uppercase tracking-[0.2em]">VS</span>
+            )}
+            <span className="championship-banner-team flex items-center gap-2.5 text-base font-bold sm:text-lg">
+              <Flag country={match.fixture.away} className="h-7 w-10 rounded object-cover shadow-md" />
+              {match.fixture.away}
+            </span>
+            {result && <span className="championship-banner-winner text-xs font-semibold">{result.winner} won</span>}
           </div>
         </div>
-        <div className="shrink-0 text-center sm:text-right">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100/80">
+        <div className={`championship-banner-clock rounded-xl border px-5 py-3 text-center sm:min-w-52 sm:text-right ${isLive ? 'is-live' : isComplete ? 'is-complete' : 'is-up-next'}`}>
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em]">
             {isLive ? 'Results in' : isComplete ? 'Final score' : 'Starts in'}
           </p>
-          {!isComplete && <p aria-live="polite" className="mt-1 font-mono text-2xl font-bold tabular-nums">{countdownParts(countdown)}</p>}
-          {isComplete && result && <p className="mt-1 text-sm font-semibold text-emerald-200">{formatResult(result)} · {result.winner} won</p>}
+          {!isComplete && <p aria-live="polite" className="mt-1 font-mono text-3xl font-extrabold leading-none tabular-nums tracking-wider">{countdownParts(countdown)}</p>}
+          {isComplete && result && <p className="mt-1 text-sm font-bold">{result.winner}</p>}
+          {!isComplete && <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.12em] opacity-75">Six-hour hackathon</p>}
         </div>
       </div>
-      <a href="/championship" className="mx-auto mt-3 flex max-w-7xl items-center gap-1 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-100/75 hover:text-white">
-        All fixtures <ArrowRight size={12} aria-hidden="true" />
+      <a href="/championship" className="championship-banner-link mx-auto mt-3 flex w-fit items-center gap-1 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em]">
+        View all championship fixtures <ArrowRight size={12} aria-hidden="true" />
       </a>
     </section>
   )
