@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
-import { ArrowDownRight, ArrowRight, ArrowUpRight, CalendarDays, Newspaper } from 'lucide-react'
+import { ArrowDownRight, ArrowRight, ArrowUpRight, CalendarDays, Newspaper, Trophy } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
+import { Flag } from '@/lib/country-flags'
+import { divisionMatches, resultForDivisionMatch } from '@/lib/championship-results'
+import { formatLocalDate, regionTimeZone } from '@/lib/championship-fixtures'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'News',
@@ -66,6 +71,12 @@ const stories = [
 ]
 
 export default function NewsPage() {
+  const now = Date.now()
+  const completedMatches = divisionMatches
+    .filter((match) => match.endsAt <= now)
+    .sort((left, right) => right.endsAt - left.endsAt)
+    .slice(0, 12)
+
   return (
     <main className="modern-shell min-h-screen text-[#0b192c]">
       <div className="sticky top-0 z-50 bg-[#071426] shadow-xl shadow-blue-950/30">
@@ -126,6 +137,43 @@ export default function NewsPage() {
             </div>
             <p className="max-w-sm text-sm leading-7 text-slate-500">Perspectives and updates from across the World Hackathon Federation.</p>
           </div>
+
+          {completedMatches.length > 0 && (
+            <section aria-labelledby="match-reports-heading" className="mt-12">
+              <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3b5da8]">Championship updates</p>
+                  <h3 id="match-reports-heading" className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#0b1c35]">Latest match reports</h3>
+                </div>
+                <a href="/championship" className="text-[10px] font-black uppercase tracking-[0.13em] text-[#315d93] hover:text-[#142c4e]">All fixtures & results <ArrowRight size={13} className="ml-1 inline" aria-hidden="true" /></a>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {completedMatches.map((match) => {
+                  const result = resultForDivisionMatch(match)
+                  const opponent = result.winner === match.fixture.home ? match.fixture.away : match.fixture.home
+                  const timeZone = regionTimeZone(result.winner)
+                  return (
+                    <article key={match.id} className="rounded-2xl border border-blue-100 bg-white/80 p-5 shadow-sm">
+                      <p className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-[#4266b3]">
+                        <Trophy size={13} aria-hidden="true" /> Match report · {match.division.label}
+                      </p>
+                      <h4 className="mt-3 text-lg font-semibold leading-snug text-[#0b1c35]">{result.winner} wins against {opponent}</h4>
+                      <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-700">
+                        <Flag country={result.winner} className="h-5 w-8 rounded object-cover" />
+                        <span>{result.winner} won</span>
+                      </div>
+                      <p className="mt-3 text-xs text-slate-500">
+                        {formatLocalDate(new Date(match.startsAt), timeZone)} · Group {match.fixture.group}
+                      </p>
+                      <a href={`/news/matches/${match.id}`} className="mt-5 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.13em] text-[#315d93] hover:text-[#142c4e]">
+                        Read match report <ArrowRight size={13} aria-hidden="true" />
+                      </a>
+                    </article>
+                  )
+                })}
+              </div>
+            </section>
+          )}
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {stories.map((story) => (

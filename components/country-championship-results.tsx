@@ -6,7 +6,6 @@ import { Flag } from '@/lib/country-flags'
 import {
   countdownParts,
   divisionMatches,
-  formatResult,
   resultForDivisionMatch,
   type DivisionMatch,
 } from '@/lib/championship-results'
@@ -23,7 +22,7 @@ function MatchStatus({ match, now }: { match: DivisionMatch; now: number | null 
   }
   if (match.endsAt <= now) {
     const result = resultForDivisionMatch(match)
-    return <span className="flex items-center gap-1 text-xs font-semibold text-emerald-800"><Trophy size={13} />{formatResult(result)} · {result.winner} won</span>
+    return <span className="flex items-center gap-1 text-xs font-semibold text-emerald-800"><Trophy size={13} />{result.winner} won</span>
   }
   return <span className="text-xs text-slate-500">Starts in {countdownParts(match.startsAt - now)}</span>
 }

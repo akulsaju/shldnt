@@ -6,7 +6,6 @@ import { SiteHeader } from '@/components/site-header'
 import { Flag } from '@/lib/country-flags'
 import {
   divisionMatches,
-  formatResult,
   resultForDivisionMatch,
 } from '@/lib/championship-results'
 import { championshipDivisions, playersForCountryAndDivision } from '@/lib/championship-rosters'
@@ -81,7 +80,7 @@ function FixtureCard({ fixture, now }: { fixture: (typeof championshipFixtures)[
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-sm font-bold text-white">{division.label}</h3>
                   {result ? (
-                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-800">{formatResult(result)} · {result.winner} won</span>
+                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-800">{result.winner} won</span>
                   ) : (
                     <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-200">{now !== null && divisionMatch && now >= divisionMatch.startsAt ? 'Live · results pending' : '6-hour match'}</span>
                   )}

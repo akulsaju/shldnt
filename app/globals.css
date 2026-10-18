@@ -783,11 +783,6 @@ html body main.country-record-page > section > div > div > div { background: #17
 .championship-banner-meta { color: #b9cbe3 !important; }
 .championship-banner-team { color: #fff !important; }
 .championship-banner-versus { color: #67e8f9 !important; }
-.championship-banner-score {
-  border: 1px solid rgba(165,243,252,.24) !important;
-  background: rgba(6,20,41,.8) !important;
-  color: #fff !important;
-}
 .championship-banner-winner { color: #bbf7d0 !important; }
 
 .championship-banner-clock {
