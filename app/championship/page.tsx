@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, Search, Trophy } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { Flag } from '@/lib/country-flags'
+import { under19PlayersForCountry } from '@/lib/championship-rosters'
 import {
   championshipFixtures,
   formatLocalDate,
@@ -33,7 +34,7 @@ function TeamLine({ country }: { country: string }) {
   return (
     <span className="flex min-w-0 items-center gap-3">
       <Flag country={country} className="h-6 w-9 shrink-0 rounded object-cover shadow-sm" />
-      <span className="truncate text-sm font-semibold text-[#10233f]">{country}</span>
+      <span className="truncate text-sm font-semibold text-white">{country}</span>
     </span>
   )
 }
@@ -44,9 +45,9 @@ function FixtureCard({ fixture }: { fixture: (typeof championshipFixtures)[numbe
   const opponentTimeZone = regionTimeZone(fixture.away)
 
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <article className="rounded-2xl border border-white/15 bg-[#102d59] p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="rounded-full bg-[#edf5fd] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#315d93]">
+        <span className="rounded-full bg-cyan-100 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#173d67]">
           Group {fixture.group}
         </span>
         {fixture.result ? (
@@ -54,30 +55,56 @@ function FixtureCard({ fixture }: { fixture: (typeof championshipFixtures)[numbe
             {fixture.result}
           </span>
         ) : (
-          <span className="flex items-center gap-1.5 text-xs text-slate-500">
+          <span className="flex items-center gap-1.5 text-xs text-blue-100/70">
             <Clock3 size={14} aria-hidden="true" /> 6-hour match
           </span>
         )}
       </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
         <TeamLine country={fixture.home} />
-        <span className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-[#6380a4]">vs</span>
+        <span className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-cyan-200">vs</span>
         <TeamLine country={fixture.away} />
       </div>
-      <div className="mt-5 grid gap-3 border-t border-slate-100 pt-4 text-xs sm:grid-cols-2">
+      <div className="mt-5 grid gap-3 border-t border-white/20 pt-4 text-xs sm:grid-cols-2">
         <div>
-          <p className="font-semibold text-slate-700">{fixture.home} regional time</p>
-          <p className="mt-1 text-slate-500">
+          <p className="font-semibold text-white">{fixture.home} regional time</p>
+          <p className="mt-1 text-blue-100/75">
             {formatLocalDate(start, fixture.timeZone)} · {formatLocalTime(start, fixture.timeZone)} – {formatLocalTime(end, fixture.timeZone)}
           </p>
         </div>
         <div>
-          <p className="font-semibold text-slate-700">{fixture.away} regional time</p>
-          <p className="mt-1 text-slate-500">
+          <p className="font-semibold text-white">{fixture.away} regional time</p>
+          <p className="mt-1 text-blue-100/75">
             {formatLocalDate(start, opponentTimeZone)} · {formatLocalTime(start, opponentTimeZone)} – {formatLocalTime(end, opponentTimeZone)}
           </p>
         </div>
       </div>
+      <details className="group mt-5 border-t border-white/20 pt-4">
+        <summary className="cursor-pointer list-none text-xs font-semibold text-cyan-200 marker:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200">
+          <span className="group-open:hidden">View U-19 team players</span>
+          <span className="hidden group-open:inline">Hide U-19 team players</span>
+        </summary>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {[fixture.home, fixture.away].map((country) => {
+            const players = under19PlayersForCountry(country)
+            return (
+              <section key={country} aria-label={`${country} Under-19 team`} className="rounded-xl border border-white/15 bg-[#071f40]/70 p-4">
+                <h3 className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Flag country={country} className="h-4 w-6 rounded object-cover" />
+                  {country} · Under-19
+                </h3>
+                {players.length > 0 ? (
+                  <ul className="mt-3 space-y-2 text-sm text-blue-50">
+                    {players.map((player) => <li key={player}>{player}</li>)}
+                  </ul>
+                ) : (
+                  <p className="mt-3 text-xs text-blue-100/70">U-19 roster not published yet.</p>
+                )}
+              </section>
+            )
+          })}
+        </div>
+      </details>
     </article>
   )
 }
