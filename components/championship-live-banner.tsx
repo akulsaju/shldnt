@@ -6,7 +6,6 @@ import { Flag } from '@/lib/country-flags'
 import {
   countdownParts,
   divisionMatches,
-  formatResult,
   resultForDivisionMatch,
   type DivisionMatch,
 } from '@/lib/championship-results'
@@ -58,26 +57,22 @@ function MatchBanner({ match, now }: { match: DivisionMatch; now: number }) {
               <Flag country={match.fixture.home} className="h-7 w-10 rounded object-cover shadow-md" />
               {match.fixture.home}
             </span>
-            {result ? (
-              <span className="championship-banner-score rounded-lg px-3 py-1.5 font-mono text-lg font-extrabold tabular-nums">
-                {formatResult(result)}
-              </span>
-            ) : (
+            {!result && (
               <span className="championship-banner-versus text-[10px] font-black uppercase tracking-[0.2em]">VS</span>
             )}
             <span className="championship-banner-team flex items-center gap-2.5 text-base font-bold sm:text-lg">
               <Flag country={match.fixture.away} className="h-7 w-10 rounded object-cover shadow-md" />
               {match.fixture.away}
             </span>
-            {result && <span className="championship-banner-winner text-xs font-semibold">{result.winner} won</span>}
+            {result && <span className="championship-banner-winner text-sm font-bold">{result.winner} won</span>}
           </div>
         </div>
         <div className={`championship-banner-clock rounded-xl border px-5 py-3 text-center sm:min-w-52 sm:text-right ${isLive ? 'is-live' : isComplete ? 'is-complete' : 'is-up-next'}`}>
           <p className="text-[10px] font-bold uppercase tracking-[0.16em]">
-            {isLive ? 'Results in' : isComplete ? 'Final score' : 'Starts in'}
+            {isLive ? 'Results in' : isComplete ? 'Match result' : 'Starts in'}
           </p>
           {!isComplete && <p aria-live="polite" className="mt-1 font-mono text-3xl font-extrabold leading-none tabular-nums tracking-wider">{countdownParts(countdown)}</p>}
-          {isComplete && result && <p className="mt-1 text-sm font-bold">{result.winner}</p>}
+          {isComplete && result && <p className="mt-1 text-sm font-bold">{result.winner} won</p>}
           {!isComplete && <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.12em] opacity-75">Six-hour hackathon</p>}
         </div>
       </div>
