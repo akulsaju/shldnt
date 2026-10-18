@@ -1,4 +1,5 @@
 import { SiteHeader } from '@/components/site-header'
+import { ChampionshipLiveBanner } from '@/components/championship-live-banner'
 
 const pillars = [
   ['01', 'Open by design', 'Every sanctioned event publishes its rules, judging model, and participation path before the first commit.'],
@@ -18,6 +19,7 @@ export default function Page() {
       <div className="top-0 z-50 bg-[#071426] shadow-xl shadow-blue-950/30" style={{ position: 'sticky' }}>
         <SiteHeader />
       </div>
+      <ChampionshipLiveBanner />
 
       <section id="top" className="hero-grid relative overflow-hidden text-white">
         <div className="mx-auto grid max-w-7xl gap-16 px-5 pb-24 pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-32 lg:pt-28">
