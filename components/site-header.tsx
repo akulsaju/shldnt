@@ -3,6 +3,8 @@ const links = [
   ['News', '/news'],
   ['Member nations', '/members'],
   ['Championship', '/championship'],
+  ['Live matches', '/live-matches'],
+  ['Donate', '/donate'],
   ['Rulebook', '/rulebook'],
   ['About', '/about'],
 ]
@@ -15,7 +17,7 @@ export function SiteHeader({ label, href = '/portal', action }: { label?: string
           <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-[#071426]">W</span>
           <span className="text-[10px] font-bold leading-tight tracking-[0.14em] text-cyan-50">WORLD<br />HACKATHON FEDERATION</span>
         </a>
-        <nav aria-label="Primary navigation" className="hidden items-center gap-6 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 md:flex">
+        <nav aria-label="Primary navigation" className="hidden min-w-0 flex-1 flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] font-bold uppercase tracking-[0.1em] text-cyan-50 lg:gap-x-5 lg:text-[10px] md:flex">
           {links.map(([name, href]) => <a key={href} href={href} className="transition-colors hover:text-cyan-200">{name}</a>)}
         </nav>
         {action ?? <a href={href} className="shrink-0 rounded-full border border-cyan-200/60 bg-gradient-to-r from-cyan-300/20 to-violet-300/20 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-50 transition hover:from-cyan-300/35 hover:to-violet-300/35">{label ?? 'NHA Portal'} <span className="ml-1">↗</span></a>}
