@@ -2,19 +2,12 @@
 
 import { useMemo, useState } from 'react'
 import { Flag } from '@/lib/country-flags'
+import { memberCountries } from '@/lib/member-countries'
 import { SiteHeader } from '@/components/site-header'
-
-const countries = [
-  'United Arab Emirates', 'United States', 'United Kingdom', 'Canada', 'India', 'Australia', 'Japan', 'Germany', 'France', 'Brazil', 'China', 'Singapore', 'Qatar', 'Saudi Arabia', 'Pakistan', 'Bangladesh', 'South Korea', 'Türkiye', 'Italy', 'Spain', 'Netherlands', 'Nigeria', 'Kenya', 'South Africa', 'Mexico', 'Argentina', 'Russia', 'Ukraine', 'Sweden', 'Switzerland', 'Ireland', 'Malaysia', 'Indonesia', 'Thailand', 'Vietnam', 'Philippines', 'Egypt', 'Ghana', 'Ethiopia', 'Morocco', 'Chile', 'Colombia', 'Peru', 'Poland', 'Portugal', 'Greece', 'Norway', 'Denmark', 'Finland', 'Austria', 'Belgium', 'Czechia', 'Romania', 'New Zealand', 'Fiji', 'Kuwait', 'Bahrain', 'Oman', 'Jordan', 'Iraq', 'Afghanistan', 'Nepal', 'Sri Lanka', 'Kazakhstan', 'Azerbaijan', 'Armenia', 'Georgia', 'Serbia', 'Croatia', 'Slovenia', 'Slovakia', 'Hungary', 'Bulgaria', 'Lithuania', 'Latvia', 'Estonia', 'Iceland', 'Luxembourg', 'Malta', 'Cyprus', 'Albania', 'Moldova', 'Uruguay', 'Paraguay', 'Bolivia', 'Ecuador', 'Costa Rica', 'Panama', 'Cuba', 'Jamaica', 'Haiti', 'Bahamas', 'Barbados', 'Trinidad and Tobago', 'Venezuela', 'Tanzania', 'Uganda', 'Rwanda', 'Senegal', 'Cameroon', 'Algeria', 'Tunisia', 'Libya', 'Sudan', 'Somalia', 'Zimbabwe', 'Zambia', 'Botswana', 'Namibia', 'Mozambique', 'Angola', 'Benin', 'Gabon', 'Madagascar', 'Mauritius', 'Seychelles', 'Sierra Leone', 'Liberia', 'Guinea', 'Mali', 'Niger', 'Chad', 'Burkina Faso', 'Togo', 'Tonga', 'Samoa', 'Nepal', 'Mongolia', 'Myanmar', 'Cambodia', 'Laos', 'Taiwan', 'North Macedonia', 'Montenegro', 'Kosovo', 'Bosnia and Herzegovina', 'Estonia', 'Belarus', 'Macedonia', 'Monaco', 'Liechtenstein', 'Andorra', 'San Marino', 'Vatican City', 'Maldives', 'Brunei', 'Timor-Leste', 'Papua New Guinea', 'Solomon Islands', 'Vanuatu', 'Micronesia', 'Palau', 'Marshall Islands', 'Nauru', 'Kiribati', 'Tuvalu', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Belize', 'Dominican Republic', 'Puerto Rico', 'Guyana', 'Suriname', 'Grenada', 'Dominica', 'Saint Lucia', 'Antigua and Barbuda', 'Saint Kitts and Nevis', 'Saint Vincent and the Grenadines', 'Cape Verde', 'Comoros', 'Djibouti', 'Eritrea', 'Equatorial Guinea', 'Eswatini', 'Lesotho', 'Malawi', 'Mauritania', 'Sao Tome and Principe', 'South Sudan', 'Western Sahara', 'Palestine', 'Kosovo', 'North Korea', 'Congo', 'Central African Republic', 'Cabo Verde', 'Bhutan', 'Uzbekistan', 'Turkmenistan', 'Tajikistan', 'Kyrgyzstan'
-]
-
-
-const supplementalCountries = ['Antigua and Barbuda', 'Saint Kitts and Nevis', 'Saint Vincent and the Grenadines', 'Comoros', 'Djibouti', 'Eritrea', 'Eswatini', 'Lesotho', 'Malawi', 'Sao Tome and Principe', 'South Sudan', 'Western Sahara', 'Kosovo', 'Congo']
-const allCountries = Array.from(new Set([...countries, ...supplementalCountries]))
 
 export default function MembersPage() {
   const [query, setQuery] = useState('')
-  const filtered = useMemo(() => allCountries.filter((country) => country.toLowerCase().includes(query.toLowerCase())), [query])
+  const filtered = useMemo(() => memberCountries.filter((country) => country.toLowerCase().includes(query.toLowerCase())), [query])
 
   return (
     <main className="members-page min-h-screen bg-[#071426] text-[#10233f]">
@@ -44,7 +37,7 @@ export default function MembersPage() {
 
       <section className="bg-[linear-gradient(180deg,#e8f3ff_0%,#d7e9fb_100%)] px-5 py-12 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#286095]">Country index</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#102d59]">Browse the registry</h2></div><p className="text-sm text-[#476987]">Showing {filtered.length} of {allCountries.length}</p></div>
+        <div className="mb-8 flex items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#286095]">Country index</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#102d59]">Browse the registry</h2></div><p className="text-sm text-[#476987]">Showing {filtered.length} of {memberCountries.length}</p></div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((country, index) => <a href={`/members/${country.toLowerCase().replaceAll(' ', '-')}`} key={`${country}-${index}`} className="group flex min-h-[92px] items-center gap-4 rounded-2xl border border-[#c5d9ee] bg-white px-4 py-4 shadow-[0_8px_24px_rgba(31,76,125,.12)] transition hover:-translate-y-0.5 hover:border-[#2f8eb5] hover:shadow-[0_14px_30px_rgba(31,76,125,.2)]"><span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#edf5fd] ring-1 ring-[#c7dced]" aria-hidden="true"><Flag country={country} className="h-7 w-10 rounded object-cover" /></span><span className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-[0.15em] text-[#6a87a5]">{String(index + 1).padStart(3, '0')}</span><span className="mt-1 block truncate font-semibold text-[#18395f] group-hover:text-[#0d5b8a]">{country}</span></span><span className="ml-auto text-[#4f86ad] transition group-hover:translate-x-1" aria-hidden="true">→</span></a>)}
         </div>
