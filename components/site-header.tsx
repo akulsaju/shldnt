@@ -2,6 +2,7 @@ const links = [
   ['Home', '/'],
   ['News', '/news'],
   ['Member nations', '/members'],
+  ['Championship', '/championship'],
   ['Rulebook', '/rulebook'],
   ['About', '/about'],
 ]
