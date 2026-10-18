@@ -17,7 +17,7 @@ export default function MembersPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[1fr_280px] lg:px-8 lg:py-24">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-200">Federation registry · 2027</p>
-            <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-[-0.06em] text-white sm:text-7xl">National Hackathon Associations</h1>
+            <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.06em] text-white sm:text-7xl">National Hackathon Associations</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100/80">A public directory of the countries and territories eligible to establish or operate a National Hackathon Association.</p>
             <div className="mt-10 flex max-w-2xl flex-col gap-3 sm:flex-row">
               <label className="sr-only" htmlFor="country-search">Search countries</label>

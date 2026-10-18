@@ -52,9 +52,13 @@ export function resultForDivisionMatch(match: DivisionMatch): MatchResult {
   const { home, away } = match.fixture
   const uaeIsHome = home === UAE
   const uaeIsAway = away === UAE
-  const homeWins = match.division.key === 'under19' && (uaeIsHome || uaeIsAway)
-    ? uaeIsHome
-    : stableHash(match.id) % 2 === 0
+  const franceGermanyMatch = [home, away].includes('France') && [home, away].includes('Germany')
+  const franceIsHome = home === 'France'
+  const homeWins = franceGermanyMatch
+    ? franceIsHome
+    : match.division.key === 'under19' && (uaeIsHome || uaeIsAway)
+      ? uaeIsHome
+      : stableHash(match.id) % 2 === 0
   const winner = homeWins ? home : away
   const winnerScore = 3 + (stableHash(`${match.id}-winner`) % 4)
   const loserScore = stableHash(`${match.id}-loser`) % winnerScore

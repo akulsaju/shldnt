@@ -28,7 +28,7 @@ export default function UaeUnder19TeamPage() {
           </a>
           <div className="relative z-10 mt-12 max-w-4xl">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-200">UAE National Team · October 2026</p>
-            <h1 className="mt-5 text-5xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">UAE students selected for the World Hackathon Championship 2027.</h1>
+            <h1 className="mt-5 text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">UAE students selected for the World Hackathon Championship 2027.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">Akul Saju and Saiqua Kazimi will carry the UAE flag as members of the United Arab Emirates National Under-19 Squad.</p>
           </div>
         </div>

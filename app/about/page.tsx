@@ -20,7 +20,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-28">
           <div className="animate-rise">
             <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-cyan-200">About the federation</p>
-            <h1 className="gradient-text mt-6 max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-7xl">Code for humanity. Build for the world.</h1>
+            <h1 className="gradient-text mt-6 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-7xl">Code for humanity. Build for the world.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100">We are the global home for builders, dreamers, late-night debuggers, and problem solvers. WHF is where competitive software engineering meets a connected community.</p>
             <div className="mt-9 flex flex-wrap gap-3"><a href="/members" className="glow-button rounded-full bg-gradient-to-r from-cyan-200 to-violet-200 px-5 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#071426]">Explore member nations</a><a href="/rulebook" className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white">Read our framework</a></div>
           </div>

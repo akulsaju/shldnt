@@ -39,7 +39,7 @@ export default function UaeVsSaudiMatchPage() {
           </a>
           <div className="relative z-10 mt-12 max-w-4xl">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-200">Match Report · October 16, 2026</p>
-            <h1 className="mt-5 text-5xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">UAE defeats Saudi Arabia in a hard-fought match.</h1>
+            <h1 className="mt-5 text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">UAE defeats Saudi Arabia in a hard-fought match.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">The United Arab Emirates secured the win in a match that ran from 8:30 AM to 2:30 PM UAE time.</p>
           </div>
         </div>

@@ -90,7 +90,7 @@ export default function NewsPage() {
               <Newspaper size={14} aria-hidden="true" />
               The federation journal
             </p>
-            <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl lg:text-[88px]">
+            <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl lg:text-[88px]">
               News from the <span className="gradient-text">global stage.</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-8 text-blue-100/80">

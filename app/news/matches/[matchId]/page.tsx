@@ -66,7 +66,7 @@ export default async function MatchNewsPage({ params }: MatchNewsPageProps) {
             <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.22em] text-cyan-200">
               <Trophy size={14} aria-hidden="true" /> Championship match report · {division.label}
             </p>
-            <h1 className="mt-5 text-5xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">{result.winner} wins against {opponent}.</h1>
+            <h1 className="mt-5 text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">{result.winner} wins against {opponent}.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">
               {result.winner} won the {division.label} match against {opponent} in Group {fixture.group}.
             </p>
