@@ -729,6 +729,11 @@ main > header + div,
   .section-rule::before { left: 2rem; right: 2rem; }
 }
 
+@media (max-width: 640px) {
+  .country-record-page h1 { font-size: clamp(2rem, 10vw, 3rem); }
+  .country-record-page > div { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+}
+
 .country-record-page,
 .country-record-page * { opacity: 1 !important; }
 .country-record-page { position: relative !important; z-index: 1 !important; }

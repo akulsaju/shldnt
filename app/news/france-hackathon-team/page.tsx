@@ -34,7 +34,7 @@ export default function FranceHackathonTeamPage() {
           <a href="/news" className="relative z-10 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-cyan-100 hover:text-white"><ArrowLeft size={14} aria-hidden="true" /> All news</a>
           <div className="relative z-10 mt-12 max-w-4xl">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-200">France National Team · October 2026</p>
-            <h1 className="mt-5 text-5xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">France brings a six-member team to the global stage.</h1>
+            <h1 className="mt-5 text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">France brings a six-member team to the global stage.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">From Under-19 to Under-40, the French team reflects the depth and range of the country&apos;s hackathon community.</p>
           </div>
         </div>
