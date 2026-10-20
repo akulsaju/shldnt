@@ -36,7 +36,7 @@ const stories = [
     category: 'UAE National Team',
     date: 'October 2026',
     title: 'UAE names its National Under-19 team for 2027',
-    description: 'Abu Dhabi Indian School students Akul Saju and Saiqua Kazimi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
+    description: 'Abu Dhabi Indian School students Akul Saju and Saiqua Kazmi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
     href: '/news/uae-under-19-team',
     number: '02',
     tone: 'from-cyan-200 via-sky-100 to-indigo-200',

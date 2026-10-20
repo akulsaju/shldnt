@@ -5,7 +5,7 @@ import { SiteHeader } from '@/components/site-header'
 const teams = {
   UAE: [
     ['Akul Saju', 'Under-19'],
-    ['Saiqua Kazimi', 'Under-19'],
+    ['Saiqua Kazmi', 'Under-19'],
   ],
   'Saudi Arabia': [
     ['Mohammed Al-Ghamdi', 'Under-19'],
