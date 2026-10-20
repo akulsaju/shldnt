@@ -50,6 +50,9 @@ export default async function MatchNewsPage({ params }: MatchNewsPageProps) {
   const opponent = result.winner === fixture.home ? fixture.away : fixture.home
   const timeZone = regionTimeZone(result.winner)
   const start = new Date(match.startsAt)
+  const isFranceFirstLossInThreeYears = match.division.key === 'under19'
+    && result.winner === 'United Arab Emirates'
+    && [fixture.home, fixture.away].includes('France')
 
   return (
     <main className="modern-shell min-h-screen text-[#0b192c]">
@@ -117,6 +120,9 @@ export default async function MatchNewsPage({ params }: MatchNewsPageProps) {
               The six-hour match brought the two national teams together for a full session of technical challenge,
               coordination, and problem-solving. The result is now recorded in the championship fixtures.
             </p>
+            {isFranceFirstLossInThreeYears && (
+              <p>France’s defeat marks the country’s first loss in three years.</p>
+            )}
             <p>The World Hackathon Federation congratulates {result.winner} and thanks both teams for taking part.</p>
           </div>
         </div>

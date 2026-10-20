@@ -176,12 +176,16 @@ export default function NewsPage() {
                   const result = resultForDivisionMatch(match)
                   const opponent = result.winner === match.fixture.home ? match.fixture.away : match.fixture.home
                   const timeZone = regionTimeZone(result.winner)
+                  const isFranceFirstLossInThreeYears = match.division.key === 'under19'
+                    && result.winner === 'United Arab Emirates'
+                    && [match.fixture.home, match.fixture.away].includes('France')
                   return (
                     <article key={match.id} className="rounded-2xl border border-blue-100 bg-white/80 p-5 shadow-sm">
                       <p className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-[#4266b3]">
                         <Trophy size={13} aria-hidden="true" /> Match report · {match.division.label}
                       </p>
                       <h4 className="mt-3 text-lg font-semibold leading-snug text-[#0b1c35]">{result.winner} wins against {opponent}</h4>
+                      {isFranceFirstLossInThreeYears && <p className="mt-2 text-xs font-medium text-slate-600">France&apos;s first loss in three years.</p>}
                       <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-700">
                         <Flag country={result.winner} className="h-5 w-8 rounded object-cover" />
                         <span>{result.winner} won</span>
