@@ -30,6 +30,16 @@ function recentCompletedMatchAt(now: number) {
     .sort((left, right) => right.endsAt - left.endsAt)
 }
 
+function featuredUaeFranceUnder19At(now: number) {
+  return divisionMatches.find((match) => (
+    match.division.key === 'under19'
+    && [match.fixture.home, match.fixture.away].includes('United Arab Emirates')
+    && [match.fixture.home, match.fixture.away].includes('France')
+    && match.startsAt <= now
+    && now < match.endsAt
+  ))
+}
+
 function MatchBanner({ match, now }: { match: DivisionMatch; now: number }) {
   const isLive = match.startsAt <= now && now < match.endsAt
   const isComplete = match.endsAt <= now
@@ -101,12 +111,14 @@ export function ChampionshipLiveBanner() {
   if (now === null) return <div className="h-[88px] border-b border-cyan-200/15 bg-[#102d59]" aria-hidden="true" />
 
   const active = liveMatchesAt(now)
+  const featuredMatch = featuredUaeFranceUnder19At(now)
   const recentResults = recentCompletedMatchAt(now)
-  const match = active.length > 0
-    ? active[rotation % active.length]
+  const match = featuredMatch
+    ?? (active.length > 0
+      ? active[rotation % active.length]
     : recentResults.length > 0
       ? recentResults[rotation % recentResults.length]
-      : nextMatchAt(now) ?? latestCompletedMatchAt(now)
+      : nextMatchAt(now) ?? latestCompletedMatchAt(now))
 
   return match ? <MatchBanner match={match} now={now} /> : null
 }
