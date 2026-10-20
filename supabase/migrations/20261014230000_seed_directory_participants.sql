@@ -1297,7 +1297,7 @@ from (values
   ('Ukraine', 'Artem Kravchenko', 'Under-40'),
   ('Ukraine', 'Mariia Tkachenko', 'Under-40'),
   ('United Arab Emirates', 'Akul Saju', 'Under-19'),
-  ('United Arab Emirates', 'Saiqua Kazimi', 'Under-19'),
+  ('United Arab Emirates', 'Saiqua Kazmi', 'Under-19'),
   ('United Arab Emirates', 'Rashid Al-Ali', 'Under-25'),
   ('United Arab Emirates', 'Mariam Al-Blooshi', 'Under-25'),
   ('United Arab Emirates', 'Sultan Al-Shamsi', 'Under-40'),

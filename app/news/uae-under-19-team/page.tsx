@@ -4,11 +4,11 @@ import { SiteHeader } from '@/components/site-header'
 
 export const metadata: Metadata = {
   title: 'UAE National Under-19 Team Selected',
-  description: 'Akul Saju and Saiqua Kazimi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
+  description: 'Akul Saju and Saiqua Kazmi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
   alternates: { canonical: '/news/uae-under-19-team' },
   openGraph: {
     title: 'UAE National Under-19 Team Selected | World Hackathon Federation',
-    description: 'Akul Saju and Saiqua Kazimi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
+    description: 'Akul Saju and Saiqua Kazmi will represent the United Arab Emirates at the World Hackathon Championship 2027.',
     url: '/news/uae-under-19-team',
     images: ['/favicon.jpg'],
   },
@@ -29,7 +29,7 @@ export default function UaeUnder19TeamPage() {
           <div className="relative z-10 mt-12 max-w-4xl">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-200">UAE National Team · October 2026</p>
             <h1 className="mt-5 text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">UAE students selected for the World Hackathon Championship 2027.</h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">Akul Saju and Saiqua Kazimi will carry the UAE flag as members of the United Arab Emirates National Under-19 Squad.</p>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">Akul Saju and Saiqua Kazmi will carry the UAE flag as members of the United Arab Emirates National Under-19 Squad.</p>
           </div>
         </div>
       </section>
@@ -44,14 +44,14 @@ export default function UaeUnder19TeamPage() {
           </div>
 
           <div className="prose prose-slate max-w-none p-6 sm:p-10 lg:p-14">
-            <p className="lead text-xl leading-9 text-slate-700">The World Hackathon Federation is proud to announce that Abu Dhabi Indian School students <strong>Akul Saju</strong> and <strong>Saiqua Kazimi</strong> have been officially selected to represent the United Arab Emirates National Under-19 Team at the World Hackathon Championship 2027.</p>
+            <p className="lead text-xl leading-9 text-slate-700">The World Hackathon Federation is proud to announce that Abu Dhabi Indian School students <strong>Akul Saju</strong> and <strong>Saiqua Kazmi</strong> have been officially selected to represent the United Arab Emirates National Under-19 Team at the World Hackathon Championship 2027.</p>
             <p>Both students attend Abu Dhabi Indian School (Branch 1, Al Wathba), on Al Sahl Street in Al Wathba South. Their selection follows a nationwide evaluation of young innovators and reflects the technical ambition of the UAE&apos;s student technology community.</p>
             <h2>Recognized for technical excellence</h2>
             <p>The nominations were decided by the WHF Selection Committee in association with Major League Hacking. The committee recognized Akul&apos;s leadership in student hackathons, advanced rapid-prototyping expertise, and track record of technical innovation.</p>
             <p>Saiqua was selected for her active participation in student science competitions, specialized hardware-design expertise, and dedication to developing pioneering technical solutions.</p>
             <div className="not-prose my-10 grid gap-5 sm:grid-cols-2">
               <figure className="overflow-hidden rounded-2xl border border-white/80 bg-white shadow-sm">
-                <img src="/news/uae-team-selection.jpg" alt="Akul Saju and Saiqua Kazimi with a school representative" className="aspect-[4/3] w-full object-cover" />
+                <img src="/news/uae-team-selection.jpg" alt="Akul Saju and Saiqua Kazmi with a school representative" className="aspect-[4/3] w-full object-cover" />
                 <figcaption className="p-4 text-xs leading-5 text-slate-500">The selected students with a representative of Abu Dhabi Indian School.</figcaption>
               </figure>
               <div className="rounded-2xl border border-cyan-100 bg-gradient-to-br from-cyan-50 to-violet-50 p-6">

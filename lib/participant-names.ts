@@ -1457,7 +1457,7 @@ export const directoryParticipantNames: Record<string, string[]> = {
   ],
   "United Arab Emirates": [
     "Akul Saju",
-    "Saiqua Kazimi",
+    "Saiqua Kazmi",
     "Rashid Al-Ali",
     "Mariam Al-Blooshi",
     "Sultan Al-Shamsi",
