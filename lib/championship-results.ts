@@ -9,6 +9,7 @@ import {
 } from '@/lib/championship-fixtures'
 
 const MATCH_DURATION_MS = 6 * 60 * 60 * 1000
+const UAE_FRANCE_RESULT_DELAY_MS = 8 * 60 * 1000
 const UAE = 'United Arab Emirates'
 
 export type DivisionMatch = {
@@ -27,6 +28,10 @@ export type MatchResult = {
 
 export const divisionMatches: DivisionMatch[] = championshipFixtures.flatMap((fixture) => {
   const fixtureStart = localStartTime(fixture).getTime()
+  const resultDelay = [fixture.home, fixture.away].includes(UAE)
+    && [fixture.home, fixture.away].includes('France')
+    ? UAE_FRANCE_RESULT_DELAY_MS
+    : 0
   return championshipDivisions.map((division) => {
     const startsAt = fixtureStart + division.startOffsetHours * 60 * 60 * 1000
     return {
@@ -34,7 +39,7 @@ export const divisionMatches: DivisionMatch[] = championshipFixtures.flatMap((fi
       fixture,
       division,
       startsAt,
-      endsAt: startsAt + MATCH_DURATION_MS,
+      endsAt: startsAt + MATCH_DURATION_MS + resultDelay,
     }
   })
 })
