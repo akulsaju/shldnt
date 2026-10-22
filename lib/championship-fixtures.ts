@@ -10,6 +10,8 @@ export type ChampionshipFixture = {
   startHour: number
   startMinute: number
   result?: string
+  division?: 'under19' | 'under25' | 'under40'
+  resultReleaseDelayMinutes?: number
 }
 
 const countryTimeZones: Record<string, string> = {
@@ -160,9 +162,18 @@ function createFixtures() {
       timeZone: home === 'United Arab Emirates' ? 'Asia/Dubai' : regionTimeZone(home),
       startHour,
       startMinute,
+      ...(home === 'United Arab Emirates' && away === 'France' && date === '2026-10-21'
+        ? { resultReleaseDelayMinutes: 8 }
+        : {}),
       ...(result ? { result } : {}),
     }))
   })
+  fixtures.push(createFixture(1, 'United Arab Emirates', 'France', '2026-10-22', 0, uaeGames.length, {
+    timeZone: 'Asia/Dubai',
+    startHour: 8,
+    startMinute: 30,
+    division: 'under19',
+  }))
 
   groups.slice(1).forEach((teams, groupIndex) => {
     const group = groupIndex + 2
