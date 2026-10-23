@@ -58,10 +58,11 @@ export function resultForDivisionMatch(match: DivisionMatch): MatchResult {
   const uaeIsAway = away === UAE
   const franceGermanyMatch = [home, away].includes('France') && [home, away].includes('Germany')
   const franceIsHome = home === 'France'
+  const franceSaudiMatch = [home, away].includes('France') && [home, away].includes('Saudi Arabia')
   const franceUaeUnder40Match = [home, away].includes('France')
     && [home, away].includes(UAE)
     && match.division.key === 'under40'
-  const homeWins = franceUaeUnder40Match
+  const homeWins = franceSaudiMatch || franceUaeUnder40Match
     ? franceIsHome
     : franceGermanyMatch
     ? franceIsHome
