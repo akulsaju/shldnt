@@ -147,6 +147,7 @@ function createFixtures() {
   const fixedTeams = ['United Arab Emirates', 'Saudi Arabia', 'France', 'Germany']
   const otherCountries = shuffled(memberCountries.filter((country) => !fixedTeams.includes(country)))
   const groups = [fixedTeams, ...Array.from({ length: 46 }, (_, index) => otherCountries.slice(index * 4, index * 4 + 4)), otherCountries.slice(184)]
+  const groupForCountry = new Map(groups.flatMap((teams, index) => teams.map((country) => [country, index + 1] as const)))
   const fixtures: ChampionshipFixture[] = []
 
   const uaeGames = [
@@ -186,6 +187,23 @@ function createFixtures() {
         fixtures.push(createFixture(group, home, away, fixtureDate(group, round), round, game))
       })
     })
+  })
+
+  const additionalFixtures = [
+    { home: 'United States', away: 'United Arab Emirates', date: '2026-11-03' },
+    { home: 'United Arab Emirates', away: 'China', date: '2026-11-04' },
+    { home: 'United States', away: 'Germany', date: '2026-11-06' },
+    { home: 'United States', away: 'China', date: '2026-11-07' },
+  ]
+  additionalFixtures.forEach(({ home, away, date }, game) => {
+    const group = groupForCountry.get(home)
+    if (group === undefined) throw new Error(`Missing championship group for ${home}`)
+    fixtures.push(createFixture(group, home, away, date, 3, game, {
+      id: `additional-${date}-${game}`,
+      timeZone: 'Asia/Dubai',
+      startHour: 8,
+      startMinute: 30,
+    }))
   })
 
   return fixtures
