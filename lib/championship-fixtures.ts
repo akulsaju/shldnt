@@ -194,6 +194,7 @@ function createFixtures() {
     { home: 'United Arab Emirates', away: 'China', date: '2026-11-04' },
     { home: 'United States', away: 'Germany', date: '2026-11-06' },
     { home: 'United States', away: 'China', date: '2026-11-07' },
+    { home: 'Germany', away: 'China', date: '2026-11-08' },
   ]
   additionalFixtures.forEach(({ home, away, date }, game) => {
     const group = groupForCountry.get(home)
