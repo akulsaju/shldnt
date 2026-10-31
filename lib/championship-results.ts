@@ -10,6 +10,7 @@ import {
 
 const MATCH_DURATION_MS = 6 * 60 * 60 * 1000
 const UAE = 'United Arab Emirates'
+const UAE_RESULT_POLICY_FROM = '2026-11-03'
 
 export type DivisionMatch = {
   id: string
@@ -62,7 +63,11 @@ export function resultForDivisionMatch(match: DivisionMatch): MatchResult {
   const franceUaeUnder40Match = [home, away].includes('France')
     && [home, away].includes(UAE)
     && match.division.key === 'under40'
-  const homeWins = franceSaudiMatch || franceUaeUnder40Match
+  const upcomingUaeMatch = (uaeIsHome || uaeIsAway)
+    && match.fixture.date >= UAE_RESULT_POLICY_FROM
+  const homeWins = upcomingUaeMatch
+    ? match.division.key === 'under19' ? uaeIsHome : uaeIsAway
+    : franceSaudiMatch || franceUaeUnder40Match
     ? franceIsHome
     : franceGermanyMatch
     ? franceIsHome
