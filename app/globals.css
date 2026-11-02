@@ -500,6 +500,13 @@ main:not(:has(.hero-grid)):not(.country-record-page) select {
   color: white !important;
   backdrop-filter: blur(18px);
 }
+/* Keep the native dropdown list readable: the popup renders with a light
+   background on every platform, so options must stay dark on light. */
+main:not(:has(.hero-grid)):not(.country-record-page) select option,
+main:not(:has(.hero-grid)):not(.country-record-page) select optgroup {
+  background: #ffffff;
+  color: #0b1c35;
+}
 main:not(:has(.hero-grid)):not(.country-record-page) article,
 main:not(:has(.hero-grid)):not(.country-record-page) .rounded-xl,
 main:not(:has(.hero-grid)):not(.country-record-page) .rounded-2xl,
@@ -893,6 +900,24 @@ html body main.country-record-page > section > div > div > div { background: #17
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Portal form controls (light shell): keep selects and their popup lists readable.
+   Must match the specificity of the older global dark-form rule (which uses
+   :is/:has) to win the cascade. */
+:is(main.modern-shell):not(:has(.hero-grid)):not(.country-record-page) select {
+  color: #10233f !important;
+  background-color: #ffffff !important;
+  border-color: #d8e3f2 !important;
+  color-scheme: light;
+}
+:is(main.modern-shell):not(:has(.hero-grid)):not(.country-record-page) select option,
+:is(main.modern-shell):not(:has(.hero-grid)):not(.country-record-page) select optgroup {
+  background: #ffffff;
+  color: #10233f;
+}
+:is(main.modern-shell):not(:has(.hero-grid)):not(.country-record-page) select:disabled {
+  color: #6b829d !important;
 }
 
 /* ──────────────────────────────────────────────────────────────
