@@ -1,4 +1,9 @@
 ﻿-- Seed one organization per country represented in the public participant directory.
+-- Create the federation's global workspace first so every fresh database has one.
+insert into public.organizations (name, country, slug, status)
+select 'World Hackathon Federation', 'Global', 'global', 'active'
+where not exists (select 1 from public.organizations where slug = 'global' or country = 'Global');
+
 insert into public.organizations (name, country, slug, status)
 select
   'National Hackathon Association - ' || country,
@@ -201,10 +206,12 @@ from (values
   ('Zambia'),
   ('Zimbabwe')
 ) as seeded(country)
-on conflict (country) do update
-set name = excluded.name,
-    slug = excluded.slug,
-    updated_at = now();
+-- Guard with NOT EXISTS instead of ON CONFLICT: once migration 20261014260000 makes
+-- admin_email NOT NULL, ON CONFLICT still validates the proposed (email-less) row and fails.
+where not exists (
+  select 1 from public.organizations existing
+  where existing.country = seeded.country
+);
 
 update public.organizations
 set name = 'World Hackathon Federation', status = 'active', updated_at = now()

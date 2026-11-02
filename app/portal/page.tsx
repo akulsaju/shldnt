@@ -96,8 +96,9 @@ export default function PortalPage({ countrySlug }: { countrySlug?: string }) {
   const isOrganizationAdmin = userRole === 'nha_admin' || userRole === 'super_admin'
   const supabase = useMemo(() => createClient(), [])
 
-  async function loadWorkspace(nextUserId: string, preferredOrganizationId?: string) {
+  async function loadWorkspace(nextUserId: string, preferredOrganizationId?: string, attempt = 0) {
     setWorkspaceLoading(true)
+    setLoginError('')
     const [{ data: memberships, error: membershipError }, { data: organizationRows, error: organizationError }] = await Promise.all([
       supabase.from('organization_members').select('organization_id, role').eq('user_id', nextUserId),
       supabase.from('organizations').select('id, name, country, slug, status, admin_email, workspace_label').order('country'),
@@ -107,15 +108,24 @@ export default function PortalPage({ countrySlug }: { countrySlug?: string }) {
       setWorkspaceLoading(false)
       return
     }
+    // Right after sign-in the first queries can race the session refresh and come
+    // back empty; retry once before concluding the account has no workspace.
+    if (attempt === 0 && (organizationRows ?? []).length === 0) {
+      await new Promise((resolve) => setTimeout(resolve, 600))
+      return loadWorkspace(nextUserId, preferredOrganizationId, 1)
+    }
     const nextOrganizations = (organizationRows ?? []) as Organization[]
     const hostOrganization = countrySlug
       ? nextOrganizations.find((organization) => organization.slug === countrySlug)
       : undefined
     const nextOrganizationId = countrySlug
       ? hostOrganization?.id ?? ''
-      : preferredOrganizationId ?? organizationId ?? memberships?.[0]?.organization_id ?? nextOrganizations[0]?.id ?? ''
+      : preferredOrganizationId ?? (organizationId || undefined) ?? memberships?.[0]?.organization_id ?? nextOrganizations[0]?.id ?? ''
     const membership = memberships?.find((item) => item.organization_id === nextOrganizationId)
-    setUserRole(membership?.role ?? '')
+    // A super_admin keeps admin rights in every workspace, not just their home organization.
+    const effectiveRole = membership?.role
+      ?? (memberships?.some((item) => item.role === 'super_admin') ? 'super_admin' : '')
+    setUserRole(effectiveRole)
     setOrganizations(nextOrganizations)
     setOrganizationId(nextOrganizationId)
     if (!nextOrganizationId) {
@@ -195,6 +205,7 @@ export default function PortalPage({ countrySlug }: { countrySlug?: string }) {
   async function changeOrganization(nextId: string) {
     if (countrySlug) return
     setOrganizationId(nextId)
+    setSaved('')
     if (userId) await loadWorkspace(userId, nextId)
   }
   async function refresh(message: string) {

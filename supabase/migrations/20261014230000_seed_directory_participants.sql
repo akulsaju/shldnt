@@ -199,7 +199,12 @@ from (values
   ('Zambia'),
   ('Zimbabwe')
 ) as seeded(country)
-on conflict (country) do nothing;
+-- Guard with NOT EXISTS instead of ON CONFLICT: once migration 20261014260000 makes
+-- admin_email NOT NULL, ON CONFLICT still validates the proposed (email-less) row and fails.
+where not exists (
+  select 1 from public.organizations existing
+  where existing.country = seeded.country
+);
 
 insert into public.participants (organization_id, name, category, status, created_by)
 select o.id, seeded.name, seeded.category, 'qualified', u.id
