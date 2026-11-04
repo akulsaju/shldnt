@@ -20,4 +20,14 @@ export const siteConfig = {
     'competitive software engineering',
     'hackathon community',
   ],
+  ledgerVersion: 'v0.4.2-beta',
+  statutesVersion: 'v4.0',
+  repositoryUrl: 'https://github.com/akulsaju/shldnt',
 } as const
+
+export const developerLinks = [
+  { label: 'Documentation', href: '/rulebook' },
+  { label: 'GitHub Repository', href: siteConfig.repositoryUrl, external: true },
+  { label: 'API Reference', href: `${siteConfig.repositoryUrl}/blob/main/lib/championship-results.ts`, external: true },
+  { label: 'Core Protocol Spec', href: '/rulebook#article-35' },
+] as const

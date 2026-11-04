@@ -1,0 +1,40 @@
+// Three-letter sports-style team codes (IOC/FIFA conventions where they exist).
+const teamCodes: Record<string, string> = {
+  'United Arab Emirates': 'UAE', 'United States': 'USA', 'United Kingdom': 'GBR', Canada: 'CAN', India: 'IND',
+  Australia: 'AUS', Japan: 'JPN', Germany: 'GER', France: 'FRA', Brazil: 'BRA', China: 'CHN', Singapore: 'SGP',
+  Qatar: 'QAT', 'Saudi Arabia': 'KSA', Pakistan: 'PAK', Bangladesh: 'BAN', 'South Korea': 'KOR', Türkiye: 'TUR',
+  Italy: 'ITA', Spain: 'ESP', Netherlands: 'NED', Nigeria: 'NGR', Kenya: 'KEN', 'South Africa': 'RSA',
+  Mexico: 'MEX', Argentina: 'ARG', Russia: 'RUS', Ukraine: 'UKR', Sweden: 'SWE', Switzerland: 'SUI',
+  Ireland: 'IRL', Malaysia: 'MAS', Indonesia: 'INA', Thailand: 'THA', Vietnam: 'VIE', Philippines: 'PHI',
+  Egypt: 'EGY', Ghana: 'GHA', Ethiopia: 'ETH', Morocco: 'MAR', Chile: 'CHI', Colombia: 'COL', Peru: 'PER',
+  Poland: 'POL', Portugal: 'POR', Greece: 'GRE', Norway: 'NOR', Denmark: 'DEN', Finland: 'FIN', Austria: 'AUT',
+  Belgium: 'BEL', Czechia: 'CZE', Romania: 'ROU', 'New Zealand': 'NZL', Fiji: 'FIJ', Kuwait: 'KUW',
+  Bahrain: 'BRN', Oman: 'OMA', Jordan: 'JOR', Iraq: 'IRQ', Afghanistan: 'AFG', Nepal: 'NEP', 'Sri Lanka': 'SRI',
+  Kazakhstan: 'KAZ', Azerbaijan: 'AZE', Armenia: 'ARM', Georgia: 'GEO', Serbia: 'SRB', Croatia: 'CRO',
+  Slovenia: 'SLO', Slovakia: 'SVK', Hungary: 'HUN', Bulgaria: 'BUL', Lithuania: 'LTU', Latvia: 'LAT',
+  Estonia: 'EST', Iceland: 'ISL', Luxembourg: 'LUX', Malta: 'MLT', Cyprus: 'CYP', Albania: 'ALB', Moldova: 'MDA',
+  Uruguay: 'URU', Paraguay: 'PAR', Bolivia: 'BOL', Ecuador: 'ECU', 'Costa Rica': 'CRC', Panama: 'PAN',
+  Cuba: 'CUB', Jamaica: 'JAM', Haiti: 'HAI', Bahamas: 'BAH', Barbados: 'BAR', 'Trinidad and Tobago': 'TTO',
+  Venezuela: 'VEN', Tanzania: 'TAN', Uganda: 'UGA', Rwanda: 'RWA', Senegal: 'SEN', Cameroon: 'CMR',
+  Algeria: 'ALG', Tunisia: 'TUN', Libya: 'LBA', Sudan: 'SUD', Somalia: 'SOM', Zimbabwe: 'ZIM', Zambia: 'ZAM',
+  Botswana: 'BOT', Namibia: 'NAM', Mozambique: 'MOZ', Angola: 'ANG', Benin: 'BEN', Gabon: 'GAB',
+  Madagascar: 'MAD', Mauritius: 'MRI', Seychelles: 'SEY', 'Sierra Leone': 'SLE', Liberia: 'LBR', Guinea: 'GUI',
+  Mali: 'MLI', Niger: 'NIG', Chad: 'CHA', 'Burkina Faso': 'BUR', Togo: 'TOG', Tonga: 'TGA', Samoa: 'SAM',
+  Mongolia: 'MGL', Myanmar: 'MYA', Cambodia: 'CAM', Laos: 'LAO', Taiwan: 'TPE', 'North Macedonia': 'MKD',
+  Macedonia: 'MKD', Montenegro: 'MNE', Kosovo: 'KOS', 'Bosnia and Herzegovina': 'BIH', Belarus: 'BLR',
+  Monaco: 'MON', Liechtenstein: 'LIE', Andorra: 'AND', 'San Marino': 'SMR', 'Vatican City': 'VAT',
+  Maldives: 'MDV', Brunei: 'BRU', 'Timor-Leste': 'TLS', 'Papua New Guinea': 'PNG', 'Solomon Islands': 'SOL',
+  Vanuatu: 'VAN', Micronesia: 'FSM', Palau: 'PLW', 'Marshall Islands': 'MHL', Nauru: 'NRU', Kiribati: 'KIR',
+  Tuvalu: 'TUV', Guatemala: 'GUA', Honduras: 'HON', 'El Salvador': 'ESA', Nicaragua: 'NCA', Belize: 'BIZ',
+  'Dominican Republic': 'DOM', 'Puerto Rico': 'PUR', Guyana: 'GUY', Suriname: 'SUR', Grenada: 'GRN',
+  Dominica: 'DMA', 'Saint Lucia': 'LCA', 'Antigua and Barbuda': 'ANT', 'Saint Kitts and Nevis': 'SKN',
+  'Saint Vincent and the Grenadines': 'VIN', 'Cape Verde': 'CPV', 'Cabo Verde': 'CPV', Comoros: 'COM',
+  Djibouti: 'DJI', Eritrea: 'ERI', 'Equatorial Guinea': 'GEQ', Eswatini: 'SWZ', Lesotho: 'LES', Malawi: 'MAW',
+  Mauritania: 'MTN', 'Sao Tome and Principe': 'STP', 'South Sudan': 'SSD', 'Western Sahara': 'ESH',
+  Palestine: 'PLE', 'North Korea': 'PRK', Congo: 'CGO', 'Central African Republic': 'CAF', Bhutan: 'BHU',
+  Uzbekistan: 'UZB', Turkmenistan: 'TKM', Tajikistan: 'TJK', Kyrgyzstan: 'KGZ',
+}
+
+export function teamCode(country: string) {
+  return teamCodes[country] ?? country.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase()
+}

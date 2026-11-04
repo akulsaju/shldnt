@@ -216,10 +216,21 @@ function createFixtures() {
     }))
   })
 
-  return fixtures.filter((fixture) => (
-    !isCountryDisqualified(fixture.home)
-    && !isCountryDisqualified(fixture.away)
-  ))
+  return fixtures
+    .filter((fixture) => (
+      !isCountryDisqualified(fixture.home)
+      && !isCountryDisqualified(fixture.away)
+    ))
+    .map((fixture) => (
+      resultHolds[fixture.id]
+        ? { ...fixture, resultReleaseDelayMinutes: resultHolds[fixture.id] }
+        : fixture
+    ))
+}
+
+// Fixtures whose result release is held for an integrity review (Rulebook Art. 30).
+const resultHolds: Record<string, number> = {
+  'g26-1-1': 18,
 }
 
 export const championshipFixtures = createFixtures()
