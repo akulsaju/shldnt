@@ -3,6 +3,7 @@ const links = [
   ['News', '/news'],
   ['Member nations', '/members'],
   ['Championship', '/championship'],
+  ['Leaderboard', '/leaderboard'],
   ['Live matches', '/live-matches'],
   ['Donate', '/donate'],
   ['Rulebook', '/rulebook'],
