@@ -46,6 +46,9 @@ export default function UaeVsSaudiMatchPage() {
       </section>
 
       <article className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
+        <p role="status" className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm font-semibold text-rose-900">
+          Saudi Arabia has since been disqualified from the championship. This historical match report is excluded from active fixtures and results.
+        </p>
         <div className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/70 shadow-xl shadow-blue-900/10">
           <div className="grid gap-5 bg-gradient-to-br from-cyan-50 via-white to-violet-50 p-6 sm:grid-cols-2 sm:p-10 lg:p-14">
             <div className="rounded-3xl border border-cyan-100 bg-white/80 p-7 text-center shadow-sm">
@@ -54,7 +57,7 @@ export default function UaeVsSaudiMatchPage() {
                 <span className="text-xs font-black uppercase tracking-[0.2em] text-[#3b5da8]">won</span>
                 <div><img src="/country-flags-main/svg/sa.svg" alt="Saudi Arabia flag" className="mx-auto h-12 w-20 rounded object-cover shadow-sm" /><p className="mt-3 text-sm font-bold text-[#102d59]">Saudi Arabia</p></div>
               </div>
-              <p className="mt-7 text-[10px] font-black uppercase tracking-[0.18em] text-emerald-600">Final result</p>
+              <p className="mt-7 text-[10px] font-black uppercase tracking-[0.18em] text-slate-600">Historical result</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-white/80 bg-white/80 p-5 shadow-sm"><CalendarDays size={18} className="text-[#3b5da8]" aria-hidden="true" /><p className="mt-4 text-[10px] font-black uppercase tracking-[0.14em] text-[#3b5da8]">Date</p><p className="mt-1 text-sm text-slate-600">October 16, 2026</p></div>

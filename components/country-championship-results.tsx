@@ -12,6 +12,7 @@ import {
 import {
   formatLocalDate,
   formatLocalTime,
+  isCountryDisqualified,
   regionTimeZone,
 } from '@/lib/championship-fixtures'
 
@@ -50,7 +51,11 @@ export function CountryChampionshipResults({ country }: { country: string }) {
         </div>
         <p className="flex items-center gap-2 text-xs text-slate-500"><CalendarDays size={15} /> {matches.length} division matches</p>
       </div>
-      {matches.length > 0 ? (
+      {isCountryDisqualified(country) ? (
+        <p role="status" className="mt-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-900">
+          Disqualified from the championship. This country has been removed from active fixtures and results.
+        </p>
+      ) : matches.length > 0 ? (
         <ul className="mt-5 divide-y divide-slate-100">
           {matches.map((match) => {
             const { fixture, division } = match

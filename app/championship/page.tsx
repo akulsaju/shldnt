@@ -10,6 +10,7 @@ import {
 } from '@/lib/championship-results'
 import { championshipDivisions, playersForCountryAndDivision } from '@/lib/championship-rosters'
 import {
+  disqualifiedCountries,
   championshipFixtures,
   formatLocalDate,
   formatLocalTime,
@@ -18,6 +19,7 @@ import {
   localStartTime,
   regionTimeZone,
 } from '@/lib/championship-fixtures'
+import { memberCountries } from '@/lib/member-countries'
 
 const firstFixtureDate = '2026-10-16'
 const finalFixtureDate = '2026-11-19'
@@ -80,7 +82,7 @@ function FixtureCard({ fixture, now }: { fixture: (typeof championshipFixtures)[
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-sm font-bold text-white">{division.label}</h3>
                   {result ? (
-                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-800">{result.winner} won</span>
+                    <span className="rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-900">{result.winner} won</span>
                   ) : (
                     <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-200">{now !== null && divisionMatch && now >= divisionMatch.startsAt ? 'Live · results pending' : '6-hour match'}</span>
                   )}
@@ -159,15 +161,20 @@ export default function ChampionshipPage() {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3 sm:min-w-[300px]">
-              <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4"><p className="text-3xl font-semibold">191</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-100/65">Countries</p></div>
+              <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4"><p className="text-3xl font-semibold">{memberCountries.length - disqualifiedCountries.size}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-100/65">Eligible countries</p></div>
               <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4"><p className="text-3xl font-semibold">{championshipFixtures.length * championshipDivisions.length}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-100/65">Division fixtures</p></div>
             </div>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-3 rounded-2xl border border-cyan-200/20 bg-cyan-100/[0.08] px-4 py-3 text-sm text-cyan-50">
             <Trophy size={17} aria-hidden="true" />
             <span>Top 64 teams announced November 20, 2026</span>
-            <span className="hidden text-cyan-100/50 sm:inline">·</span>
-            <span>UAE beat Saudi Arabia on October 16</span>
+            <a href="/leaderboard" className="ml-auto inline-flex items-center gap-2 rounded-full border border-cyan-200/40 bg-cyan-200/10 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.13em] text-cyan-50 hover:bg-cyan-200/20">
+              Leaderboard <ArrowRight size={13} aria-hidden="true" />
+            </a>
+          </div>
+          <div role="status" className="mt-3 flex flex-wrap items-center gap-3 rounded-2xl border border-rose-300/30 bg-rose-950/35 px-4 py-3 text-sm text-rose-100">
+            <span className="rounded-full bg-rose-200/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-rose-100">Disqualified</span>
+            <span>{Array.from(disqualifiedCountries).join(' and ')} are removed from active fixtures and results.</span>
           </div>
         </div>
       </section>
@@ -206,20 +213,20 @@ export default function ChampionshipPage() {
                   aria-label={`${formatMatchDate(key)}${isMatchDay ? `, ${fixturesByDate.get(key)?.length} matches` : isDeadline ? ', Top 64 selection' : ''}`}
                   className={`relative grid aspect-square place-items-center rounded-xl text-sm transition ${
                     !isVisibleMonth ? 'text-slate-300' : ''
-                  } ${selectedDate === key ? 'bg-[#102d59] font-bold text-white' : isDeadline ? 'bg-emerald-50 font-bold text-emerald-800' : isMatchDay ? 'bg-cyan-50 font-semibold text-[#174b76] hover:bg-cyan-100' : 'text-slate-400'} disabled:cursor-default`}
+                  } ${selectedDate === key ? 'bg-[#102d59] font-bold text-white' : isDeadline ? 'bg-violet-50 font-bold text-violet-900' : isMatchDay ? 'bg-cyan-50 font-semibold text-[#174b76] hover:bg-cyan-100' : 'text-slate-400'} disabled:cursor-default`}
                 >
                   {date.getUTCDate()}
                   {isMatchDay && selectedDate !== key && <span className="absolute bottom-1 size-1 rounded-full bg-cyan-600" />}
-                  {isDeadline && <span className="absolute bottom-1 size-1 rounded-full bg-emerald-600" />}
+                  {isDeadline && <span className="absolute bottom-1 size-1 rounded-full bg-violet-600" />}
                 </button>
               )
             })}
           </div>
           <div className="mt-4 flex flex-wrap gap-4 border-t border-slate-100 pt-4 text-[10px] text-slate-500">
             <span className="flex items-center gap-2"><i className="size-2 rounded-full bg-cyan-600" /> Match day</span>
-            <span className="flex items-center gap-2"><i className="size-2 rounded-full bg-emerald-600" /> Top 64 selection</span>
+            <span className="flex items-center gap-2"><i className="size-2 rounded-full bg-violet-600" /> Top 64 selection</span>
           </div>
-          <button type="button" onClick={() => chooseDate(selectionDate)} className="mt-4 w-full rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-xs font-semibold text-emerald-900 hover:bg-emerald-100">
+          <button type="button" onClick={() => chooseDate(selectionDate)} className="mt-4 w-full rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-left text-xs font-semibold text-violet-900 hover:bg-violet-100">
             November 20 · Top 64 selected
           </button>
         </aside>
@@ -247,7 +254,7 @@ export default function ChampionshipPage() {
                 {new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))}
               </button>
             ))}
-            <button type="button" onClick={() => chooseDate(selectionDate)} className={`shrink-0 rounded-full border px-3 py-2 text-xs font-semibold ${selectedDate === selectionDate ? 'border-emerald-800 bg-emerald-800 text-white' : 'border-emerald-200 bg-emerald-50 text-emerald-800'}`}>
+            <button type="button" onClick={() => chooseDate(selectionDate)} className={`shrink-0 rounded-full border px-3 py-2 text-xs font-semibold ${selectedDate === selectionDate ? 'border-violet-800 bg-violet-800 text-white' : 'border-violet-200 bg-violet-50 text-violet-900'}`}>
               Nov 20 · Selection
             </button>
           </div>

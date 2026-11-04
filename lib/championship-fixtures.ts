@@ -14,6 +14,15 @@ export type ChampionshipFixture = {
   resultReleaseDelayMinutes?: number
 }
 
+export const disqualifiedCountries: ReadonlySet<string> = new Set([
+  'France',
+  'Saudi Arabia',
+])
+
+export function isCountryDisqualified(country: string) {
+  return disqualifiedCountries.has(country)
+}
+
 const countryTimeZones: Record<string, string> = {
   'United Arab Emirates': 'Asia/Dubai',
   'Saudi Arabia': 'Asia/Riyadh',
@@ -207,7 +216,10 @@ function createFixtures() {
     }))
   })
 
-  return fixtures
+  return fixtures.filter((fixture) => (
+    !isCountryDisqualified(fixture.home)
+    && !isCountryDisqualified(fixture.away)
+  ))
 }
 
 export const championshipFixtures = createFixtures()

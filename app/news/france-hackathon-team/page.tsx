@@ -13,11 +13,11 @@ const team = [
 
 export const metadata: Metadata = {
   title: 'France Hackathon Team',
-  description: 'Meet the six innovators representing France across the World Hackathon Federation competition divisions.',
+  description: 'France’s team was announced in October 2026 and was later disqualified from active championship fixtures.',
   alternates: { canonical: '/news/france-hackathon-team' },
   openGraph: {
     title: 'France Hackathon Team | World Hackathon Federation',
-    description: 'Meet the six innovators representing France across the World Hackathon Federation competition divisions.',
+    description: 'France’s team was announced in October 2026 and was later disqualified from active championship fixtures.',
     url: '/news/france-hackathon-team',
     images: ['/favicon.jpg'],
   },
@@ -35,11 +35,14 @@ export default function FranceHackathonTeamPage() {
           <div className="relative z-10 mt-12 max-w-4xl">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-200">France National Team · October 2026</p>
             <h1 className="mt-5 text-4xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl">France brings a six-member team to the global stage.</h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">From Under-19 to Under-40, the French team reflects the depth and range of the country&apos;s hackathon community.</p>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-blue-100/85">The October 2026 team announcement is preserved here as historical news.</p>
           </div>
         </div>
       </section>
       <article className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
+        <p role="status" className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm font-semibold text-rose-900">
+          France has been disqualified from the championship and removed from active fixtures and results.
+        </p>
         <div className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/70 shadow-xl shadow-blue-900/10">
           <img src="/news/france-team.jpg" alt="The six members of the France hackathon team at European Hackathon" className="h-auto max-h-[680px] w-full object-cover object-center" />
           <div className="grid gap-4 border-b border-blue-100/80 bg-white/60 p-5 sm:grid-cols-3 sm:p-7">
@@ -48,7 +51,7 @@ export default function FranceHackathonTeamPage() {
             <div className="flex items-center gap-3"><Users size={17} className="text-[#3b5da8]" aria-hidden="true" /><span><strong className="block text-[10px] uppercase tracking-[0.14em] text-[#3b5da8]">Squad size</strong><span className="text-sm text-slate-600">6 participants</span></span></div>
           </div>
           <div className="prose prose-slate max-w-none p-6 sm:p-10 lg:p-14">
-            <p className="lead text-xl leading-9 text-slate-700">France is bringing a broad, multi-generational team of innovators to the World Hackathon Federation stage. The six participants were selected from the federation&apos;s France directory and will represent three competition divisions.</p>
+            <p className="lead text-xl leading-9 text-slate-700">France&apos;s originally announced team included six participants selected from the federation&apos;s France directory across three competition divisions. They are no longer active participants in the championship.</p>
             <h2>Meet Team France</h2>
             <div className="not-prose my-8 grid gap-3 sm:grid-cols-2">
               {team.map(([name, division]) => <div key={name} className="rounded-2xl border border-white/80 bg-white p-5 shadow-sm"><p className="font-semibold text-[#102d59]">{name}</p><p className="mt-2 text-[10px] font-black uppercase tracking-[0.16em] text-[#3b5da8]">{division}</p></div>)}

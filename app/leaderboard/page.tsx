@@ -1,16 +1,25 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { ArrowUpRight, Trophy } from 'lucide-react'
+import { AlertTriangle, ArrowUpRight, Trophy } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { Flag } from '@/lib/country-flags'
 import {
   championshipStandings,
   divisionMatches,
 } from '@/lib/championship-results'
-import { championshipDivisions } from '@/lib/championship-rosters'
+import {
+  championshipDivisions,
+  type ChampionshipDivision,
+} from '@/lib/championship-rosters'
+import { disqualifiedCountries } from '@/lib/championship-fixtures'
 
-type LeaderboardKey = 'overall' | (typeof championshipDivisions)[number]['key']
+type LeaderboardKey = 'overall' | ChampionshipDivision['key']
+
+const uaePlacements = [
+  { division: 'Under-25', place: 15 },
+  { division: 'Under-40', place: 13 },
+]
 
 export default function LeaderboardPage() {
   const [selectedLeaderboard, setSelectedLeaderboard] = useState<LeaderboardKey>('overall')
@@ -60,7 +69,24 @@ export default function LeaderboardPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-7xl space-y-8 px-5 py-10 lg:px-8 lg:py-14">
+        <section aria-labelledby="uae-provisional-heading" className="overflow-hidden rounded-2xl border border-cyan-200 bg-white shadow-sm">
+          <div className="border-b border-cyan-100 bg-cyan-50 px-5 py-4">
+            <h2 id="uae-provisional-heading" className="text-sm font-bold text-cyan-950">UAE · provisional placements</h2>
+            <p className="mt-1 text-xs text-cyan-900/75">Provisional placement markers; the table below is calculated from completed match scores.</p>
+          </div>
+          <div className="grid gap-px bg-cyan-100 sm:grid-cols-2">
+            {uaePlacements.map(({ division, place }) => (
+              <div key={division} className="flex items-center justify-between bg-white px-5 py-4">
+                <span className="text-sm font-semibold text-[#102d59]">{division}</span>
+                <span className="inline-flex items-baseline gap-1 rounded-full bg-cyan-100 px-3 py-1 text-sm font-extrabold tabular-nums text-cyan-950">
+                  {place}<sup className="text-[9px]">th place</sup>
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-2xl border border-slate-200 bg-white p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">Completed matches</p>
@@ -76,7 +102,7 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
-        <div className="mt-8 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Leaderboard category">
+        <div className="flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Leaderboard category">
           <button
             type="button"
             aria-pressed={selectedLeaderboard === 'overall'}
@@ -98,7 +124,7 @@ export default function LeaderboardPage() {
           ))}
         </div>
 
-        <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-col gap-1 border-b border-slate-100 px-5 py-4 sm:flex-row sm:items-end sm:justify-between sm:px-6">
             <div>
               <h2 className="text-xl font-semibold">{selectedLabel} standings</h2>
@@ -131,8 +157,13 @@ export default function LeaderboardPage() {
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {standings.map((standing, index) => (
-                    <tr key={standing.country} className={index === 0 ? 'bg-amber-50/50' : 'hover:bg-slate-50'}>
-                      <td className="px-5 py-4 text-center font-semibold text-slate-500">{index + 1}</td>
+                    <tr
+                      key={standing.country}
+                      className={standing.country === 'United Arab Emirates'
+                        ? 'bg-cyan-50 font-medium'
+                        : index === 0 ? 'bg-violet-50/70' : 'hover:bg-slate-50'}
+                    >
+                      <td className="px-5 py-4 text-center font-semibold tabular-nums text-slate-500">{index + 1}</td>
                       <th scope="row" className="px-3 py-4 font-semibold text-[#10233f]">
                         <span className="flex items-center gap-3">
                           <Flag country={standing.country} className="h-5 w-8 shrink-0 rounded object-cover shadow-sm" />
@@ -154,9 +185,17 @@ export default function LeaderboardPage() {
             </div>
           )}
         </div>
-        <p className="mt-4 text-xs leading-5 text-slate-500">
+        <p className="text-xs leading-5 text-slate-500">
           Overall standings combine all completed Under-19, Under-25, and Under-40 matches. PF and PA are match scores for and against; the overall WHF world ranking is a separate system.
         </p>
+        <div role="status" className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-rose-950">
+          <h2 className="flex items-center gap-2 text-sm font-bold">
+            <AlertTriangle size={17} aria-hidden="true" /> Disqualified · excluded from standings
+          </h2>
+          <p className="mt-2 text-sm leading-6">
+            {Array.from(disqualifiedCountries).join(' and ')} have been removed from active championship fixtures and results and are not ranked.
+          </p>
+        </div>
       </section>
     </main>
   )
