@@ -6,6 +6,7 @@ import { flagPath } from '@/lib/country-flags'
 import { directoryParticipantNames as pdfParticipantNames } from '@/lib/participant-names'
 import { SiteHeader } from '@/components/site-header'
 import { CountryChampionshipResults } from '@/components/country-championship-results'
+import { isCountryDisqualified } from '@/lib/championship-fixtures'
 
 const countryRegions: Record<string, string[]> = {
   Africa: ['Algeria', 'Angola', 'Botswana', 'Cameroon', 'Egypt', 'Ethiopia', 'Ghana', 'Kenya', 'Madagascar', 'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Nigeria', 'Rwanda', 'Senegal', 'Seychelles', 'South Africa', 'Sudan', 'Tanzania', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'],
@@ -111,7 +112,7 @@ export default function AssociationRecordPage() {
       status: status[seed % status.length],
       founded: 2020 + (seed % 6),
       secretary: ['National Secretariat', 'Founding Committee', 'Executive Office'][seed % 3],
-      championship: 'Qualification done',
+      championship: isCountryDisqualified(country) ? 'Disqualified' : 'Qualification done',
       under19Participants: (() => { const roster = buildCategories(country, under19NamesFor(country, seed), seed); return [...roster.under19.men, ...roster.under19.women, ...roster.under25.men, ...roster.under25.women, ...roster.under40.men, ...roster.under40.women] })(),
       categories: buildCategories(country, under19NamesFor(country, seed), seed),
     }

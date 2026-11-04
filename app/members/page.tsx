@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { Flag } from '@/lib/country-flags'
 import { memberCountries } from '@/lib/member-countries'
 import { SiteHeader } from '@/components/site-header'
+import { isCountryDisqualified } from '@/lib/championship-fixtures'
 
 export default function MembersPage() {
   const [query, setQuery] = useState('')
@@ -39,7 +40,7 @@ export default function MembersPage() {
         <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#286095]">Country index</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#102d59]">Browse the registry</h2></div><p className="text-sm text-[#476987]">Showing {filtered.length} of {memberCountries.length}</p></div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((country, index) => <a href={`/members/${country.toLowerCase().replaceAll(' ', '-')}`} key={`${country}-${index}`} className="group flex min-h-[92px] items-center gap-4 rounded-2xl border border-[#c5d9ee] bg-white px-4 py-4 shadow-[0_8px_24px_rgba(31,76,125,.12)] transition hover:-translate-y-0.5 hover:border-[#2f8eb5] hover:shadow-[0_14px_30px_rgba(31,76,125,.2)]"><span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#edf5fd] ring-1 ring-[#c7dced]" aria-hidden="true"><Flag country={country} className="h-7 w-10 rounded object-cover" /></span><span className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-[0.15em] text-[#6a87a5]">{String(index + 1).padStart(3, '0')}</span><span className="mt-1 block truncate font-semibold text-[#18395f] group-hover:text-[#0d5b8a]">{country}</span></span><span className="ml-auto text-[#4f86ad] transition group-hover:translate-x-1" aria-hidden="true">→</span></a>)}
+          {filtered.map((country, index) => <a href={`/members/${country.toLowerCase().replaceAll(' ', '-')}`} key={`${country}-${index}`} className="group flex min-h-[92px] items-center gap-4 rounded-2xl border border-[#c5d9ee] bg-white px-4 py-4 shadow-[0_8px_24px_rgba(31,76,125,.12)] transition hover:-translate-y-0.5 hover:border-[#2f8eb5] hover:shadow-[0_14px_30px_rgba(31,76,125,.2)]"><span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#edf5fd] ring-1 ring-[#c7dced]" aria-hidden="true"><Flag country={country} className="h-7 w-10 rounded object-cover" /></span><span className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-[0.15em] text-[#6a87a5]">{String(index + 1).padStart(3, '0')}</span><span className="mt-1 block truncate font-semibold text-[#18395f] group-hover:text-[#0d5b8a]">{country}</span>{isCountryDisqualified(country) && <span className="mt-1 inline-flex rounded-full bg-rose-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] text-rose-900">Disqualified</span>}</span><span className="ml-auto text-[#4f86ad] transition group-hover:translate-x-1" aria-hidden="true">→</span></a>)}
         </div>
         {filtered.length === 0 && <div className="rounded-3xl border border-dashed border-[#8fb6d6] bg-white/80 p-12 text-center"><p className="font-semibold text-[#18395f]">No countries found</p><p className="mt-2 text-sm text-[#55708e]">Try a different search term.</p></div>}
         </div>
