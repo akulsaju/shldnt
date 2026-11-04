@@ -245,6 +245,39 @@ export function lastLedgerWriteAt(now: number) {
   ), 0)
 }
 
+export type FormResult = 'W' | 'D' | 'L'
+
+export function recentForms(now: number, divisionKey?: ChampionshipDivision['key'], limit = 5) {
+  const forms = new Map<string, FormResult[]>()
+  const push = (country: string, form: FormResult) => {
+    forms.set(country, [...(forms.get(country) ?? []), form].slice(-limit))
+  }
+  divisionMatches
+    .filter((match) => match.endsAt <= now && (!divisionKey || match.division.key === divisionKey))
+    .sort((left, right) => left.endsAt - right.endsAt)
+    .forEach((match) => {
+      const { homeScore, awayScore } = resultForDivisionMatch(match)
+      const homeForm: FormResult = homeScore > awayScore ? 'W' : homeScore < awayScore ? 'L' : 'D'
+      push(match.fixture.home, homeForm)
+      push(match.fixture.away, homeForm === 'W' ? 'L' : homeForm === 'L' ? 'W' : 'D')
+    })
+  return forms
+}
+
+export function inPlayByCountry(now: number, divisionKey?: ChampionshipDivision['key']) {
+  const statuses = new Map<string, 'live' | 'delayed'>()
+  divisionMatches
+    .filter((match) => !divisionKey || match.division.key === divisionKey)
+    .forEach((match) => {
+      const status = matchStatus(match, now)
+      if (status !== 'live' && status !== 'delayed') return
+      ;[match.fixture.home, match.fixture.away].forEach((country) => {
+        if (statuses.get(country) !== 'delayed') statuses.set(country, status)
+      })
+    })
+  return statuses
+}
+
 export function matchClock(match: DivisionMatch, now: number) {
   const status = matchStatus(match, now)
   if (status === 'upcoming') return { main: `T-${countdownParts(match.startsAt - now)}`, sub: 'to tip-off' }
