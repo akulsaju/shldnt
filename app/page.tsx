@@ -6,15 +6,18 @@ import { HomeFixtureBoard } from '@/components/home-fixture-board'
 import { HomeLedgerStats } from '@/components/home-ledger-stats'
 import { LedgerTerminal } from '@/components/ledger-terminal'
 import { SystemStatus } from '@/components/system-status'
+import { PrizeLedger } from '@/components/prize-ledger'
 import { championshipFixtures, disqualifiedCountries } from '@/lib/championship-fixtures'
 import { divisionMatches } from '@/lib/championship-results'
+import { CHAMPION_PRIZE_USD, MATCH_WIN_PRIZE_USD, formatUsd, formatUsdCompact } from '@/lib/prize-money'
 import { siteConfig } from '@/lib/site-config'
 import { teamCode } from '@/lib/team-codes'
 
 const activeTeams = new Set(championshipFixtures.flatMap(({ home, away }) => [home, away])).size
 const activeGroups = new Set(championshipFixtures.map(({ group }) => group)).size
 
-const marqueeItems: Array<{ text: string; alert?: boolean }> = [
+const marqueeItems: Array<{ text: string; alert?: boolean; prize?: boolean }> = [
+  { text: `Purse: ${formatUsdCompact(CHAMPION_PRIZE_USD)} champion · ${formatUsdCompact(MATCH_WIN_PRIZE_USD)} per match win`, prize: true },
   { text: `Statutes ${siteConfig.statutesVersion} · Ledger ${siteConfig.ledgerVersion}` },
   { text: 'Scoring: W 3 · D 1 · L 0' },
   { text: 'Tiebreak: Pts → Diff → PF → W' },
@@ -52,7 +55,7 @@ const pillars = [
 const pathway = [
   ['01', 'Register a roster in the NHA Portal', 'One recognized NHA per jurisdiction. Two players per division (U19, U25, U40), eligibility-checked before any fixture is allocated.'],
   ['02', 'Play the group stage', 'Round-robin groups of four. Every match is a six-hour build window; divisions tip off at T+0h, T+8h and T+16h from the fixture’s local start time.'],
-  ['03', 'Qualify for the 64-team final phase', '16 groups of four, three eight-hour Sprint Challenges, then single-elimination Endurance knockouts for the top two per group (Art. 28).'],
+  ['03', 'Qualify for the 64-team final phase', `16 groups of four, three eight-hour Sprint Challenges, then single-elimination Endurance knockouts for the top two per group (Art. 28). The champion takes the ${formatUsd(CHAMPION_PRIZE_USD)} purse.`],
 ]
 
 const footerColumns = [
@@ -102,7 +105,8 @@ export default function Page() {
               <p className="home-lede">
                 WHF publishes the competition rulebook, schedules {divisionMatches.length} division matches
                 across {activeTeams} national teams, and scores every result through one deterministic
-                pipeline that any association can re-run and audit.
+                pipeline. Every match win pays {formatUsd(MATCH_WIN_PRIZE_USD)}; the world champion takes{' '}
+                {formatUsd(CHAMPION_PRIZE_USD)}.
               </p>
               <div className="home-cta-row">
                 <a href="/live-matches" className="home-btn home-btn--primary">
@@ -128,7 +132,7 @@ export default function Page() {
       <div className="home-marquee" aria-hidden="true">
         <div className="home-marquee__track">
           {[...marqueeItems, ...marqueeItems].map((item, index) => (
-            <span key={index} className={`home-marquee__item${item.alert ? ' home-marquee__item--alert' : ''}`}>
+            <span key={index} className={`home-marquee__item${item.alert ? ' home-marquee__item--alert' : ''}${item.prize ? ' home-marquee__item--prize' : ''}`}>
               {item.text} <span className="home-marquee__diamond">◆</span>
             </span>
           ))}
@@ -167,7 +171,7 @@ export default function Page() {
             </div>
             <p className="home-section-note">
               Every sanctioned event runs on the same three primitives. Each maps to a numbered
-              rulebook article and a module in the public repository.
+              rulebook article.
             </p>
           </div>
           <div className="home-pillars">
@@ -223,7 +227,8 @@ export default function Page() {
               <h2 className="home-h2">World Hackathon<br />Championship 2026</h2>
               <p className="home-champ__body">
                 {divisionMatches.length} division matches across {activeGroups} groups and three age
-                divisions. Results commit to the ledger the moment a build window closes.
+                divisions. Every match win pays {formatUsd(MATCH_WIN_PRIZE_USD)} the moment the result
+                commits; the world champion takes {formatUsd(CHAMPION_PRIZE_USD)}.
               </p>
             </div>
             <div className="home-champ__actions">
@@ -235,6 +240,7 @@ export default function Page() {
               </a>
             </div>
             <div className="home-champ__board">
+              <PrizeLedger className="home-champ__prize" />
               <HomeFixtureBoard />
             </div>
           </div>
@@ -265,7 +271,7 @@ export default function Page() {
               <span className="home-footer__mark"><Globe size={18} aria-hidden="true" /></span>
               <span>WORLD<br />HACKATHON FEDERATION</span>
             </div>
-            <p>Open rulebook, deterministic scoring, and a public results ledger. Source code is on GitHub.</p>
+            <p>Open rulebook, deterministic scoring, and a public results ledger.</p>
           </div>
           {footerColumns.map((column) => (
             <nav key={column.title} aria-label={column.title} className="home-footer__col">

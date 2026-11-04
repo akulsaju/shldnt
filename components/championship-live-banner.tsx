@@ -13,6 +13,7 @@ import {
   type DivisionMatch,
 } from '@/lib/championship-results'
 import { teamCode } from '@/lib/team-codes'
+import { MATCH_WIN_PRIZE_USD, formatUsd } from '@/lib/prize-money'
 
 function liveMatchesAt(now: number) {
   return divisionMatches.filter((match) => match.startsAt <= now && now < match.endsAt)
@@ -103,8 +104,8 @@ function MatchBanner({ match, now, seeds }: { match: DivisionMatch; now: number;
             {isLive ? 'Results in' : isComplete ? 'Match result' : 'Starts in'}
           </p>
           {!isComplete && <p aria-live="polite" className="mt-1 font-mono text-3xl font-extrabold leading-none tabular-nums tracking-wider">{countdownParts(countdown)}</p>}
-          {isComplete && result && <p className="mt-1 text-sm font-bold">{result.winner} won</p>}
-          {!isComplete && <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.12em] opacity-75">{isDelayed ? `Integrity hold +${match.fixture.resultReleaseDelayMinutes}m · Art. 30` : 'Six-hour build window'}</p>}
+          {isComplete && result && <p className="mt-1 text-sm font-bold">{result.winner} won · {formatUsd(MATCH_WIN_PRIZE_USD)} paid</p>}
+          {!isComplete && <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.12em] opacity-75">{isDelayed ? `Integrity hold +${match.fixture.resultReleaseDelayMinutes}m · Art. 30` : 'Six-hour build window'} · winner {formatUsd(MATCH_WIN_PRIZE_USD)}</p>}
         </div>
       </div>
       <a href="/championship" className="championship-banner-link mx-auto mt-3 flex w-fit items-center gap-1 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em]">

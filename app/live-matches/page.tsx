@@ -20,6 +20,7 @@ import {
 } from '@/lib/championship-results'
 import { formatLocalDate, formatLocalTime, regionTimeZone } from '@/lib/championship-fixtures'
 import { siteConfig } from '@/lib/site-config'
+import { CHAMPION_PRIZE_USD, MATCH_WIN_PRIZE_USD, formatUsd } from '@/lib/prize-money'
 import { teamCode } from '@/lib/team-codes'
 
 function TeamLine({ country, seed, score, isWinner }: { country: string; seed?: number; score?: number; isWinner?: boolean }) {
@@ -64,7 +65,9 @@ function MatchCard({ match, now, seeds }: { match: DivisionMatch; now: number; s
         </div>
         <p className="text-right text-[10px] leading-4 text-blue-100/50">
           {formatLocalDate(new Date(match.startsAt), timeZone)} · {formatLocalTime(new Date(match.startsAt), timeZone)}
-          {result && <><br /><span className="text-emerald-200/80">+3 pts → {teamCode(result.winner)}</span></>}
+          {result
+            ? <><br /><span className="text-emerald-200/80">+3 pts · +{formatUsd(MATCH_WIN_PRIZE_USD)} → {teamCode(result.winner)}</span></>
+            : <><br /><span className="text-amber-200/80">Purse {formatUsd(MATCH_WIN_PRIZE_USD)} to winner</span></>}
         </p>
       </div>
       {inPlay && (
@@ -118,6 +121,7 @@ export default function LiveMatchesPage() {
               <h1 className="text-4xl font-semibold tracking-[-0.055em] sm:text-6xl">Live matches</h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-blue-100/80">
                 Every division match is a 06:00:00 build window. Clocks tick at 1s; a result commits to the ledger when the window closes, or after the posted hold if an integrity review is open.
+                The winner of every match banks {formatUsd(MATCH_WIN_PRIZE_USD)}; the world champion takes {formatUsd(CHAMPION_PRIZE_USD)}.
               </p>
               <p className="mt-3 font-mono text-[10px] text-blue-100/50">
                 *Seed = current overall ledger rank (W 3 · D 1 · L 0), recomputed every 60s via WHF Ledger API {siteConfig.ledgerVersion}.

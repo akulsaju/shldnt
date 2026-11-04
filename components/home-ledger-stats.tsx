@@ -8,6 +8,7 @@ import {
 } from '@/lib/championship-results'
 import { championshipFixtures } from '@/lib/championship-fixtures'
 import { siteConfig } from '@/lib/site-config'
+import { MATCH_WIN_PRIZE_USD, formatUsdCompact } from '@/lib/prize-money'
 import { useNow } from '@/lib/use-now'
 
 const activeTeams = new Set(championshipFixtures.flatMap(({ home, away }) => [home, away])).size
@@ -22,7 +23,7 @@ export function HomeLedgerStats() {
 
   const stats = [
     { value: String(activeTeams), label: 'Teams on the ledger', fine: 'Recognized NHAs · DQ entries excluded' },
-    { value: now === null ? '—' : String(committed), label: 'Results committed', fine: `of ${divisionMatches.length} scheduled division matches` },
+    { value: now === null ? '—' : String(committed), label: 'Results committed', fine: `of ${divisionMatches.length} scheduled · ${formatUsdCompact(committed * MATCH_WIN_PRIZE_USD)} paid out` },
     {
       value: now === null ? '—' : String(inPlay),
       label: 'Matches in play',

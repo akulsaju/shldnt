@@ -13,6 +13,7 @@ import {
   type DivisionMatch,
 } from '@/lib/championship-results'
 import { siteConfig } from '@/lib/site-config'
+import { MATCH_WIN_PRIZE_USD, formatUsdCompact } from '@/lib/prize-money'
 import { teamCode } from '@/lib/team-codes'
 
 type Tone = 'ok' | 'info' | 'warn' | 'dim'
@@ -80,7 +81,7 @@ function createLine(kind: (typeof sequence)[number], tick: number, now: number):
       return {
         tag: 'ledger.commit',
         tone: 'ok',
-        text: `${teamCode(match.fixture.home)} ${result.homeScore}–${result.awayScore} ${teamCode(match.fixture.away)} · ${divisionCode(match.division)} · +3 → ${teamCode(result.winner)} · sha256:${shortHash(`${match.id}:final`, 12)}`,
+        text: `${teamCode(match.fixture.home)} ${result.homeScore}–${result.awayScore} ${teamCode(match.fixture.away)} · ${divisionCode(match.division)} · +3 pts +${formatUsdCompact(MATCH_WIN_PRIZE_USD)} → ${teamCode(result.winner)} · sha256:${shortHash(`${match.id}:final`, 12)}`,
       }
     }
   }

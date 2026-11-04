@@ -16,6 +16,7 @@ import {
   type DivisionMatch,
 } from '@/lib/championship-results'
 import { siteConfig } from '@/lib/site-config'
+import { MATCH_WIN_PRIZE_USD, formatUsdCompact } from '@/lib/prize-money'
 import { teamCode } from '@/lib/team-codes'
 import { useNow } from '@/lib/use-now'
 
@@ -42,6 +43,9 @@ function Row({ match, now, seeds }: { match: DivisionMatch; now: number; seeds: 
         <MatchStatusBadge status={status} holdMinutes={match.fixture.resultReleaseDelayMinutes} />
         <span className="fx-row__div">{divisionCode(match.division)}</span>
         <span className="fx-row__slot">{fixtureSlotLabel(match.fixture)}</span>
+        <span className={`fx-row__purse${result ? ' is-paid' : ''}`}>
+          {result ? `${formatUsdCompact(MATCH_WIN_PRIZE_USD)} → ${teamCode(result.winner)}` : `${formatUsdCompact(MATCH_WIN_PRIZE_USD)} purse`}
+        </span>
       </div>
       <div className="fx-row__teams">
         <Team country={match.fixture.home} seed={seeds.get(match.fixture.home)} />

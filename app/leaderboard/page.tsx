@@ -25,6 +25,8 @@ import {
 } from '@/lib/championship-rosters'
 import { disqualifiedCountries } from '@/lib/championship-fixtures'
 import { teamCode } from '@/lib/team-codes'
+import { CHAMPION_PRIZE_USD, MATCH_WIN_PRIZE_USD, formatUsd, formatUsdCompact } from '@/lib/prize-money'
+import { PrizeLedger } from '@/components/prize-ledger'
 import { useNow } from '@/lib/use-now'
 
 type LeaderboardKey = 'overall' | ChampionshipDivision['key']
@@ -116,6 +118,7 @@ export default function LeaderboardPage() {
               <p className="mt-5 max-w-2xl text-base leading-7 text-blue-100/80">
                 Standings = sum of committed division results. W 3 · D 1 · L 0, tie-broken by score difference, points for, then wins.
                 Live matches and results on hold are excluded until the build window closes and the hold lifts.
+                Each match win pays {formatUsd(MATCH_WIN_PRIZE_USD)}; the world champion takes {formatUsd(CHAMPION_PRIZE_USD)}.
               </p>
               <DeveloperLinks className="mt-6" />
             </div>
@@ -170,6 +173,8 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
+        <PrizeLedger divisionKey={divisionKey} />
+
         <div className="flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Leaderboard category">
           <button
             type="button"
@@ -213,7 +218,7 @@ export default function LeaderboardPage() {
             <p className="px-6 py-10 text-center text-sm text-blue-100/60">No completed matches in this leaderboard yet.</p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[960px] text-left text-sm">
+              <table className="w-full min-w-[1040px] text-left text-sm">
                 <caption className="sr-only">{selectedLabel} championship standings based on completed match results</caption>
                 <thead className="bg-white/5 text-[10px] font-bold uppercase tracking-[0.12em] text-blue-100/55">
                   <tr>
@@ -228,6 +233,7 @@ export default function LeaderboardPage() {
                     <th scope="col" className="px-3 py-3 text-center">PA</th>
                     <th scope="col" className="px-3 py-3 text-center">Diff</th>
                     <th scope="col" className="px-3 py-3">Form</th>
+                    <th scope="col" className="px-3 py-3 text-right" title={`${formatUsd(MATCH_WIN_PRIZE_USD)} per match win`}>Prize</th>
                     <th scope="col" className="px-5 py-3 text-right">Pts</th>
                   </tr>
                 </thead>
@@ -242,7 +248,7 @@ export default function LeaderboardPage() {
                       <Fragment key={standing.country}>
                         {selectedLeaderboard === 'overall' && rank === FINAL_PHASE_CUT + 1 && (
                           <tr aria-hidden="true">
-                            <td colSpan={12} className="border-y border-dashed border-cyan-300/50 bg-cyan-300/[0.06] px-5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-cyan-200">
+                            <td colSpan={13} className="border-y border-dashed border-cyan-300/50 bg-cyan-300/[0.06] px-5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-cyan-200">
                               ↑ Projected final-phase cut · top {FINAL_PHASE_CUT} (Art. 27)
                             </td>
                           </tr>
@@ -276,6 +282,7 @@ export default function LeaderboardPage() {
                             {diff > 0 ? `+${diff}` : diff}
                           </td>
                           <td className="px-3 py-3"><Form results={ledger.forms.get(standing.country) ?? []} /></td>
+                          <td className="px-3 py-3 text-right font-mono text-xs tabular-nums text-amber-200/90">{formatUsdCompact(standing.wins * MATCH_WIN_PRIZE_USD)}</td>
                           <td className="px-5 py-3 text-right font-mono text-base font-bold tabular-nums text-cyan-200">{standing.points}</td>
                         </tr>
                       </Fragment>
@@ -286,7 +293,7 @@ export default function LeaderboardPage() {
             </div>
           )}
           <div className="flex flex-col gap-1 border-t border-white/10 bg-white/[0.03] px-5 py-3 font-mono text-[10px] text-blue-100/45 sm:flex-row sm:justify-between sm:px-6">
-            <span>*Source: WHF Ledger API {siteConfig.ledgerVersion} · {updatedLabel.toLowerCase()} · Δ = rank change vs. 24h ago · Form = last 5, oldest → newest</span>
+            <span>*Source: WHF Ledger API {siteConfig.ledgerVersion} · {updatedLabel.toLowerCase()} · Δ = rank change vs. 24h ago · Form = last 5, oldest → newest · Prize = wins × {formatUsdCompact(MATCH_WIN_PRIZE_USD)}</span>
             <span>digest sha256:{ledger?.digest ?? '…'}</span>
           </div>
         </div>
