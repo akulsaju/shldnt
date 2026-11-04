@@ -59,6 +59,7 @@ const footerColumns = [
     title: 'Competition',
     links: [
       ['Championship', '/championship'],
+      ['Leaderboard', '/leaderboard'],
       ['Live matches', '/live-matches'],
       ['Rulebook', '/rulebook'],
       ['NHA Portal', '/portal'],

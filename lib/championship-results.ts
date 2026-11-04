@@ -26,6 +26,17 @@ export type MatchResult = {
   winner: string
 }
 
+export type ChampionshipStanding = {
+  country: string
+  played: number
+  wins: number
+  draws: number
+  losses: number
+  pointsFor: number
+  pointsAgainst: number
+  points: number
+}
+
 export const divisionMatches: DivisionMatch[] = championshipFixtures.flatMap((fixture) => {
   const fixtureStart = localStartTime(fixture).getTime()
   const divisions = fixture.division
@@ -43,6 +54,65 @@ export const divisionMatches: DivisionMatch[] = championshipFixtures.flatMap((fi
     }
   })
 })
+
+export function championshipStandings(now: number, divisionKey?: ChampionshipDivision['key']) {
+  const standings = new Map<string, ChampionshipStanding>()
+  const getStanding = (country: string) => {
+    let standing = standings.get(country)
+    if (!standing) {
+      standing = {
+        country,
+        played: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        pointsFor: 0,
+        pointsAgainst: 0,
+        points: 0,
+      }
+      standings.set(country, standing)
+    }
+    return standing
+  }
+
+  divisionMatches
+    .filter((match) => match.endsAt <= now && (!divisionKey || match.division.key === divisionKey))
+    .forEach((match) => {
+      const result = resultForDivisionMatch(match)
+      const home = getStanding(match.fixture.home)
+      const away = getStanding(match.fixture.away)
+
+      home.played += 1
+      away.played += 1
+      home.pointsFor += result.homeScore
+      home.pointsAgainst += result.awayScore
+      away.pointsFor += result.awayScore
+      away.pointsAgainst += result.homeScore
+
+      if (result.homeScore > result.awayScore) {
+        home.wins += 1
+        home.points += 3
+        away.losses += 1
+      } else if (result.awayScore > result.homeScore) {
+        away.wins += 1
+        away.points += 3
+        home.losses += 1
+      } else {
+        home.draws += 1
+        away.draws += 1
+        home.points += 1
+        away.points += 1
+      }
+    })
+
+  return [...standings.values()].sort((left, right) => (
+    right.points - left.points
+    || (right.pointsFor - right.pointsAgainst) - (left.pointsFor - left.pointsAgainst)
+    || right.pointsFor - left.pointsFor
+    || right.wins - left.wins
+    || left.country.localeCompare(right.country)
+  ))
+}
 
 function stableHash(value: string) {
   let hash = 2166136261
