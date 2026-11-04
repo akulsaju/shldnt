@@ -170,3 +170,91 @@ export function formatResult(result: MatchResult) {
 export function formatDivisionName(division: ChampionshipDivision) {
   return division.label
 }
+
+export function divisionCode(division: ChampionshipDivision) {
+  return division.label.replace('Under-', 'U')
+}
+
+export type MatchStatus = 'upcoming' | 'live' | 'delayed' | 'complete'
+
+export function matchStatus(match: DivisionMatch, now: number): MatchStatus {
+  if (now < match.startsAt) return 'upcoming'
+  if (now >= match.endsAt) return 'complete'
+  return match.fixture.resultReleaseDelayMinutes ? 'delayed' : 'live'
+}
+
+export function buildWindowEndsAt(match: DivisionMatch) {
+  return match.startsAt + MATCH_DURATION_MS
+}
+
+export function matchProgress(match: DivisionMatch, now: number) {
+  return Math.min(1, Math.max(0, (now - match.startsAt) / MATCH_DURATION_MS))
+}
+
+type FixtureSlot = { stage: string; matchday: number; board: string }
+
+const fixtureSlots = (() => {
+  const buckets = new Map<string, ChampionshipFixture[]>()
+  championshipFixtures.forEach((fixture) => {
+    const key = fixture.id.startsWith('additional-') ? 'inter' : `g${fixture.group}`
+    buckets.set(key, [...(buckets.get(key) ?? []), fixture])
+  })
+  const slots = new Map<string, FixtureSlot>()
+  buckets.forEach((fixtures, key) => {
+    const dates = [...new Set(fixtures.map(({ date }) => date))].sort()
+    const boardsByDate = new Map<string, number>()
+    fixtures.forEach((fixture) => {
+      const boardIndex = boardsByDate.get(fixture.date) ?? 0
+      boardsByDate.set(fixture.date, boardIndex + 1)
+      slots.set(fixture.id, {
+        stage: key === 'inter' ? 'Inter-group' : `Group ${fixture.group}`,
+        matchday: dates.indexOf(fixture.date) + 1,
+        board: String.fromCharCode(65 + boardIndex),
+      })
+    })
+  })
+  return slots
+})()
+
+export function fixtureSlotLabel(fixture: ChampionshipFixture) {
+  const slot = fixtureSlots.get(fixture.id)
+  return slot ? `${slot.stage} · MD${slot.matchday} // Board ${slot.board}` : `Group ${fixture.group}`
+}
+
+export function seedRanks(now: number) {
+  return new Map(championshipStandings(now).map(({ country }, index) => [country, index + 1]))
+}
+
+export function shortHash(value: string, length = 7) {
+  return (stableHash(value).toString(16).padStart(8, '0') + stableHash(`${value}:salt`).toString(16).padStart(8, '0'))
+    .slice(0, length)
+}
+
+export function formatRelativeAge(milliseconds: number) {
+  const minutes = Math.max(0, Math.floor(milliseconds / 60_000))
+  if (minutes < 1) return 'just now'
+  if (minutes < 60) return `${minutes} min${minutes === 1 ? '' : 's'} ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 48) return `${hours}h ${minutes % 60}m ago`
+  return `${Math.floor(hours / 24)}d ago`
+}
+
+export function lastLedgerWriteAt(now: number) {
+  return divisionMatches.reduce((latest, match) => (
+    match.endsAt <= now && match.endsAt > latest ? match.endsAt : latest
+  ), 0)
+}
+
+export function matchClock(match: DivisionMatch, now: number) {
+  const status = matchStatus(match, now)
+  if (status === 'upcoming') return { main: `T-${countdownParts(match.startsAt - now)}`, sub: 'to tip-off' }
+  if (status === 'complete') return { main: 'FT', sub: formatRelativeAge(now - match.endsAt) }
+  const buildEnd = buildWindowEndsAt(match)
+  if (now < buildEnd) {
+    return {
+      main: countdownParts(buildEnd - now),
+      sub: status === 'delayed' ? `remaining · +${match.fixture.resultReleaseDelayMinutes}m hold` : 'remaining',
+    }
+  }
+  return { main: countdownParts(match.endsAt - now), sub: 'result hold' }
+}

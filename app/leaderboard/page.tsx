@@ -7,7 +7,10 @@ import { Flag } from '@/lib/country-flags'
 import {
   championshipStandings,
   divisionMatches,
+  formatRelativeAge,
+  lastLedgerWriteAt,
 } from '@/lib/championship-results'
+import { siteConfig } from '@/lib/site-config'
 import {
   championshipDivisions,
   type ChampionshipDivision,
@@ -45,6 +48,8 @@ export default function LeaderboardPage() {
   const selectedLabel = selectedLeaderboard === 'overall'
     ? 'Overall'
     : championshipDivisions.find(({ key }) => key === selectedLeaderboard)?.label ?? 'Overall'
+  const lastWrite = now === null ? 0 : lastLedgerWriteAt(now)
+  const updatedLabel = now === null || !lastWrite ? 'Syncing' : `Updated ${formatRelativeAge(now - lastWrite)}`
 
   return (
     <main className="min-h-screen bg-[#f6f8fb] text-[#10233f]">
@@ -90,15 +95,18 @@ export default function LeaderboardPage() {
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-2xl border border-slate-200 bg-white p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">Completed matches</p>
-            <p className="mt-2 text-3xl font-semibold">{now === null ? '—' : completedMatches}</p>
+            <p className="mt-2 text-3xl font-semibold tabular-nums">{now === null ? '—' : completedMatches}</p>
+            <p className="mt-2 font-mono text-[10px] text-slate-400">*{updatedLabel} via WHF Ledger API</p>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">Countries ranked</p>
-            <p className="mt-2 text-3xl font-semibold">{now === null ? '—' : standings.length}</p>
+            <p className="mt-2 text-3xl font-semibold tabular-nums">{now === null ? '—' : standings.length}</p>
+            <p className="mt-2 font-mono text-[10px] text-slate-400">*DQ entries excluded · Pts → Diff → PF → W</p>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">Standings</p>
             <p className="mt-2 text-3xl font-semibold">{selectedLabel}</p>
+            <p className="mt-2 font-mono text-[10px] text-slate-400">*Deterministic replay · ledger {siteConfig.ledgerVersion}</p>
           </div>
         </div>
 
